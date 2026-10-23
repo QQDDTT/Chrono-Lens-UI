@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>MODULE 02 · 晨·昏 | 自然光影大厅 · 相册清单 - Chrono-Lens</title>
+  <meta name="description" content="Chrono-Lens 晨·昏 自然光影大厅：以时间为维度的廿四时光相摄影影集清单，收录实拍高山远眺母版、阿尔卑斯圣湖与静谧庭院枯山水。" />
+
+  <!-- 移动端全屏与安全区适配 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="晨·昏 影集" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#f7f6f2" />
+
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="./favicon.svg" />
+  <link rel="manifest" href="./manifest.json" />
+  <script src="./assets/soundscape.js"></script>
+
+  <!-- 艺术字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       Chrono-Lens 子模块 02 · 晨·昏 二级独立风格大厅与相册清单设计规范 (Level 2 Salon)
+       - 遵行三级立体策展空间拓扑结构（Level 2: Themed Exhibition Hall / Salon）
+       - 美学基调：晨曦玉白 (#f7f6f2) 配合 35° 莫奈印象派动态光柱与微漫反射微光
+       - 彻底贯彻《感官释放与极致留白宪章》：Icon-Only 纯微图符微纽、极致留白
+       - 围绕“时间与廿四光相”展开的独特视觉索引：日晷黄道环、色温光谱带、多时相微呼吸画框
+       ========================================================================== */
+    :root {
+      --bg-base: #f7f6f2;
+      --bg-inner: #ffffff;
+      --bg-outer: #eae7de;
+      --text-main: #181c24;
+      --text-sub: rgba(24, 28, 36, 0.65);
+      --text-muted: rgba(24, 28, 36, 0.38);
+      --accent-gold: #c89c48;
+      --accent-gold-soft: rgba(200, 156, 72, 0.14);
+      --glass-bg: rgba(255, 255, 255, 0.72);
+      --glass-border: rgba(200, 156, 72, 0.22);
+      --card-mat-bg: #ffffff;
+      --card-border: rgba(35, 39, 46, 0.08);
+      --card-hover-border: rgba(200, 156, 72, 0.45);
+      --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+      --font-serif: "Noto Serif SC", "Songti SC", "SimSun", serif;
+      --font-en: "Cinzel", "Times New Roman", serif;
+      --font-mono: "Space Mono", monospace;
+      --safe-top: env(safe-area-inset-top, 16px);
+      --safe-bottom: env(safe-area-inset-bottom, 20px);
+      --safe-left: env(safe-area-inset-left, 16px);
+      --safe-right: env(safe-area-inset-right, 16px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    *:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--accent-gold), 0 0 16px var(--accent-gold-soft);
+      border-radius: 4px;
+    }
+
+    /* 优雅微晶毛玻璃素白画廊滚动条 */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(24, 28, 36, 0.16);
+      border-radius: 9999px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(200, 156, 72, 0.45);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(24, 28, 36, 0.16) transparent;
+      background-color: var(--bg-base);
+      background-image: 
+        radial-gradient(circle at 50% 12%, var(--bg-inner) 0%, var(--bg-base) 55%, var(--bg-outer) 100%);
+      color: var(--text-main);
+      font-family: var(--font-serif);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    /* 标签与按键防折行 */
+    .hud-pill, .hud-icon-btn, .salon-card, .time-tag, .kelvin-badge {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+       全新背景美学：【廿四时相 · 天光流染大厅 (Chrono-Atmospheric Sky System)】
+       1. 实体微漫反射艺术纸质画布 (Museum Alabaster Canvas)
+       2. 廿四时相动态色温天光晕染 (Breathing Diurnal Auroral Orbs)
+       3. 莫奈双重立体丁达尔斜射光束 (Dual Volumetric Beams)
+       4. 展台地面空间遮蔽阴影 (Ground Ambient Pedestal)
+       ========================================================================== */
+    .chrono-ambient-system {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+      contain: layout style paint;
+    }
+
+    /* 1. 当代艺术馆实体棉纸微纤维质感纹理 (Pure SVG Noise, 0.028 极柔和微透明) */
+    .ambient-paper-texture {
+      position: absolute;
+      inset: 0;
+      opacity: 0.32;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
+    /* 2. 廿四时相高斯色温光团 (Auroral Chromatic Orbs) */
+    .chromatic-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(130px);
+      -webkit-filter: blur(130px);
+      pointer-events: none;
+      will-change: transform, opacity;
+      /* 核心：3.0 秒超柔和呼吸交融曲线，无阶跃跳动 */
+      transition: opacity 3.0s cubic-bezier(0.4, 0, 0.2, 1), transform 3.0s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 晨曦朝霞光团：微金粉橙 (06:00 DAWN) */
+    .orb-dawn {
+      top: -10%;
+      left: -8%;
+      width: 720px;
+      height: 720px;
+      background: radial-gradient(circle, rgba(246, 182, 118, 0.24) 0%, rgba(246, 182, 118, 0) 70%);
+      opacity: 0;
+      transform: translate3d(0, 0, 0) scale(0.9);
+    }
+
+    /* 正午天顶光团：通透皓白微金 (12:00 ZENITH) */
+    .orb-noon {
+      top: -15%;
+      left: 20%;
+      width: 880px;
+      height: 750px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.65) 0%, rgba(255, 245, 220, 0.22) 40%, rgba(255, 255, 255, 0) 72%);
+      opacity: 1; /* 默认正午 */
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    /* 日暮熔金光团：沉郁暖赭晚霞 (18:00 DUSK) */
+    .orb-dusk {
+      top: 15%;
+      right: -10%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(226, 112, 54, 0.22) 0%, rgba(200, 80, 40, 0.10) 45%, rgba(226, 112, 54, 0) 70%);
+      opacity: 0;
+      transform: translate3d(0, 0, 0) scale(0.9);
+    }
+
+    /* 冷夜星汉光团：深邃蓝调月华 (24:00 LUNAR) */
+    .orb-night {
+      top: 0%;
+      left: 10%;
+      width: 900px;
+      height: 900px;
+      background: radial-gradient(circle, rgba(62, 82, 130, 0.16) 0%, rgba(40, 52, 85, 0.08) 50%, rgba(62, 82, 130, 0) 70%);
+      opacity: 0;
+      transform: translate3d(0, 0, 0) scale(0.85);
+    }
+
+    /* 3. 莫奈双重立体穿透体积光束 (Dual Volumetric Beams) */
+    .volumetric-shaft-group {
+      position: absolute;
+      top: -30%;
+      left: -5%;
+      width: 160%;
+      height: 160%;
+      pointer-events: none;
+      transform: rotate(-33deg);
+      opacity: 0.75;
+      animation: ambientLightBreathe 22s infinite ease-in-out alternate;
+    }
+    @keyframes ambientLightBreathe {
+      0%   { transform: rotate(-34deg) translateY(0px); opacity: 0.65; }
+      50%  { transform: rotate(-32.5deg) translateY(-14px); opacity: 0.85; }
+      100% { transform: rotate(-34deg) translateY(0px); opacity: 0.65; }
+    }
+
+    .volumetric-beam {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      pointer-events: none;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0) 100%);
+    }
+    /* 主光柱：较宽、温润微金 */
+    .beam-primary {
+      left: 22%;
+      width: 320px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 240, 210, 0.18) 45%, rgba(255, 255, 255, 0) 100%);
+      filter: blur(12px);
+    }
+    /* 次级伴随光柱：细长清透 */
+    .beam-secondary {
+      left: 48%;
+      width: 140px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 250, 235, 0.12) 50%, rgba(255, 255, 255, 0) 100%);
+      filter: blur(8px);
+    }
+
+    /* 4. 展台地面微漫反射与空间阴影基底 (Floor Ambient Occlusion) */
+    .ambient-floor-pedestal {
+      position: absolute;
+      bottom: 2%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(850px, 92vw);
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(24, 28, 36, 0.045) 0%, rgba(200, 156, 72, 0.025) 40%, rgba(0, 0, 0, 0) 72%);
+      filter: blur(16px);
+      pointer-events: none;
+    }
+
+    /* 页面入场空间反向舒展动画 */
+    .spatial-unfold-container {
+      position: relative;
+      z-index: 2;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: calc(var(--safe-top) + 14px) max(16px, var(--safe-right)) calc(var(--safe-bottom) + 18px) max(16px, var(--safe-left));
+      animation: spatialUnfold 1.1s var(--ease-cinematic) forwards;
+    }
+
+    @keyframes spatialUnfold {
+      0% {
+        opacity: 0;
+        transform: scale(0.97) translateY(16px);
+        filter: blur(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    /* 四角极简悬浮微气泡 (Ghost Glyphs - 纯图符去文字化) */
+    .corner-nav-cluster {
+      position: fixed;
+      top: calc(var(--safe-top) + 16px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 50;
+    }
+    .corner-nav-left { left: calc(var(--safe-left) + 16px); }
+    .corner-nav-right { right: calc(var(--safe-right) + 16px); }
+
+    .glyph-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      transition: all 0.4s var(--ease-cinematic);
+      position: relative;
+    }
+    .glyph-btn:hover {
+      transform: translateY(-2px) scale(1.06);
+      border-color: var(--accent-gold);
+      box-shadow: 0 8px 24px rgba(200, 156, 72, 0.22);
+    }
+    .glyph-btn:active {
+      transform: scale(0.95);
+    }
+    .glyph-btn svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* 声景呼吸微光点 */
+    .sound-active-dot {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      box-shadow: 0 0 8px var(--accent-gold);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .glyph-btn.is-active .sound-active-dot {
+      opacity: 1;
+      animation: soundPulse 2s infinite ease-in-out;
+    }
+    @keyframes soundPulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.4); opacity: 1; }
+    }
+
+    /* ==========================================================================
+       顶部时空天球仪表岛与策展题记 (Curatorial Chrono-Dial)
+       ========================================================================== */
+    .curator-header-island {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 720px;
+      margin-top: 24px;
+      margin-bottom: 28px;
+    }
+
+    /* 日晷天球微图腾与时间徽标 */
+    .sundial-badge-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 16px;
+      border-radius: 24px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+      margin-bottom: 16px;
+    }
+    .sundial-mini-glyph {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1px dashed var(--accent-gold);
+      position: relative;
+      animation: rotateSundial 60s linear infinite;
+    }
+    @keyframes rotateSundial {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .sundial-mini-glyph::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 8px;
+      width: 2px;
+      height: 7px;
+      background: var(--accent-gold);
+      border-radius: 1px;
+    }
+    .badge-module-label {
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+    .badge-sep {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+    .badge-diurnal-state {
+      font-family: var(--font-serif);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--text-sub);
+    }
+
+    .curator-main-title {
+      font-family: var(--font-serif);
+      font-size: clamp(24px, 3.8vw, 34px);
+      font-weight: 300;
+      letter-spacing: 0.24em;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .curator-sub-title-en {
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 16px;
+    }
+    .curator-preface-prose {
+      font-size: 13px;
+      line-height: 1.9;
+      color: var(--text-sub);
+      letter-spacing: 0.08em;
+      max-width: 580px;
+    }
+
+    /* ==========================================================================
+       相册陈列：廿四时空悬浮展台 · 环轨透视画廊 (Celestial Spatial Podium & Orbit Gallery)
+       - 彻底告别传统平铺网格，同屏聚焦单一核心视觉主体，两侧空间景深环绕
+       - 纯 CSS 3D 立体透视与电影级 1.2s 柔和平滑空间位移
+       ========================================================================== */
+    .celestial-podium-stage {
+      position: relative;
+      width: 100%;
+      max-width: 1060px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 6px;
+      margin-bottom: 28px;
+      perspective: 1600px;
+      user-select: none;
+    }
+
+    /* 左右极简悬浮光感导轨微气泡 (Ghost Glyphs - 去文字化) */
+    .orbit-nav-btn {
+      position: absolute;
+      top: 45%;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+      transition: all 0.4s var(--ease-cinematic);
+      z-index: 30;
+      opacity: 0.85;
+    }
+    .orbit-nav-btn:hover {
+      opacity: 1;
+      transform: scale(1.1);
+      border-color: var(--accent-gold);
+      box-shadow: 0 6px 24px rgba(200, 156, 72, 0.25);
+    }
+    .orbit-nav-btn:active {
+      transform: scale(0.92);
+    }
+    .orbit-nav-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .nav-prev { left: -8px; }
+    .nav-next { right: -8px; }
+
+    /* 3D 环轨画廊视窗容器 */
+    .orbit-track-viewport {
+      position: relative;
+      width: 100%;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+      margin-bottom: 24px;
+    }
+
+    /* 单个 3D 悬浮影集卡片 */
+    .album-orbit-card {
+      position: absolute;
+      width: min(720px, 88vw);
+      background: var(--card-mat-bg);
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.03),
+        0 20px 50px -10px rgba(0, 0, 0, 0.06),
+        0 40px 90px -20px rgba(200, 156, 72, 0.12);
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transform-style: preserve-3d;
+      /* 核心：1.2 秒电影级平缓空间位移与透明度渐变，绝无跳跃生硬切换 */
+      transition: 
+        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.6s ease;
+      will-change: transform, opacity, filter;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 状态类：当前居中聚焦 (Active) */
+    .album-orbit-card.pos-active {
+      transform: translate3d(0, 0, 0) scale(1) rotateY(0deg);
+      opacity: 1;
+      filter: blur(0px);
+      z-index: 10;
+      pointer-events: auto;
+    }
+    .album-orbit-card.pos-active:hover {
+      box-shadow: 
+        0 8px 30px rgba(0, 0, 0, 0.06),
+        0 30px 80px -10px rgba(200, 156, 72, 0.26);
+    }
+
+    /* 状态类：左翼景深 (Prev) */
+    .album-orbit-card.pos-prev {
+      transform: translate3d(-54%, -8px, -220px) scale(0.82) rotateY(22deg);
+      opacity: 0.42;
+      filter: blur(2px) saturate(85%);
+      z-index: 5;
+      pointer-events: auto;
+    }
+    .album-orbit-card.pos-prev:hover {
+      opacity: 0.72;
+      filter: blur(0.5px);
+      transform: translate3d(-50%, -10px, -160px) scale(0.85) rotateY(16deg);
+    }
+
+    /* 状态类：右翼景深 (Next) */
+    .album-orbit-card.pos-next {
+      transform: translate3d(54%, -8px, -220px) scale(0.82) rotateY(-22deg);
+      opacity: 0.42;
+      filter: blur(2px) saturate(85%);
+      z-index: 5;
+      pointer-events: auto;
+    }
+    .album-orbit-card.pos-next:hover {
+      opacity: 0.72;
+      filter: blur(0.5px);
+      transform: translate3d(50%, -10px, -160px) scale(0.85) rotateY(-16deg);
+    }
+
+    /* 状态类：深空隐藏 (Hidden) */
+    .album-orbit-card.pos-hidden {
+      transform: translate3d(0, 0, -400px) scale(0.6);
+      opacity: 0;
+      filter: blur(10px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* 实拍母版专属微光角标 */
+    .master-badge-corner {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      z-index: 10;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: rgba(18, 22, 30, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(226, 185, 104, 0.4);
+      color: #ffd885;
+      font-family: var(--font-en);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+    .master-sparkle {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #ffd885;
+      box-shadow: 0 0 6px #ffd885;
+      animation: soundPulse 1.8s infinite ease-in-out;
+    }
+
+    /* 封面装裱画框 (Aspect 16:9) 与四时相交互视窗 */
+    .card-canvas-viewport {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #0d1017;
+      overflow: hidden;
+    }
+    /* 核心：四时相极柔和 2.4s 平滑交叉溶解渐变 (Dissolve Transition) */
+    .card-diurnal-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 2.4s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: opacity;
+    }
+    .layer-dawn  { opacity: 0; }
+    .layer-noon  { opacity: 1; }
+    .layer-dusk  { opacity: 0; }
+    .layer-night { opacity: 0; }
+
+    /* 悬停微时相指示胶囊 (融入画框，零额外空间占用) */
+    .card-diurnal-stepper {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 4px 10px;
+      border-radius: 18px;
+      background: rgba(14, 18, 26, 0.72);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      pointer-events: auto;
+    }
+    .stepper-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.88);
+      text-transform: uppercase;
+      margin-right: 3px;
+      transition: color 0.4s ease;
+      white-space: nowrap;
+    }
+    .stepper-pip {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.28);
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .stepper-pip:hover {
+      background: rgba(255, 255, 255, 0.75);
+      transform: scale(1.25);
+    }
+    .stepper-pip.active {
+      transform: scale(1.45);
+    }
+    .stepper-pip.pip-dawn.active  { background: #d87c48; box-shadow: 0 0 10px #d87c48; }
+    .stepper-pip.pip-noon.active  { background: #ffd885; box-shadow: 0 0 10px #ffd885; }
+    .stepper-pip.pip-dusk.active  { background: #e27036; box-shadow: 0 0 10px #e27036; }
+    .stepper-pip.pip-night.active { background: #60a5fa; box-shadow: 0 0 10px #60a5fa; }
+
+    /* 极轻极奢：星轨微光流导轨 (高度仅 3px，承载 8s 倒计时光流与点击切换特效) */
+    .celestial-horizon-gauge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: min(260px, 68vw);
+      height: 18px;
+      margin-top: 10px;
+      pointer-events: auto;
+      z-index: 20;
+    }
+    .gauge-track {
+      flex: 1;
+      height: 2.5px;
+      border-radius: 999px;
+      background: rgba(24, 28, 36, 0.08);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .gauge-track:hover {
+      height: 4px;
+      background: rgba(200, 156, 72, 0.25);
+    }
+    .gauge-glow-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #c89c48, #ffd885);
+      box-shadow: 0 0 8px rgba(200, 156, 72, 0.7);
+      border-radius: 999px;
+      transition: width 0.1s linear;
+    }
+
+    /* 卡片下半部艺术文学题记区 */
+    .card-curation-zone {
+      padding: 20px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: var(--card-mat-bg);
+      border-top: 1px solid rgba(0, 0, 0, 0.04);
+    }
+    .card-meta-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--accent-gold);
+    }
+    .card-coord-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .card-album-title {
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      color: var(--text-main);
+      transition: color 0.3s;
+    }
+    .album-orbit-card.pos-active:hover .card-album-title {
+      color: var(--accent-gold);
+    }
+
+    .card-album-prose {
+      font-size: 12px;
+      line-height: 1.8;
+      color: var(--text-sub);
+      letter-spacing: 0.06em;
+    }
+
+    .card-footer-tags {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .micro-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      padding: 2px 7px;
+      border-radius: 10px;
+      background: rgba(24, 28, 36, 0.04);
+      color: var(--text-muted);
+      border: 1px solid rgba(24, 28, 36, 0.08);
+    }
+    .micro-tag-highlight {
+      background: var(--accent-gold-soft);
+      color: #9c7328;
+      border-color: rgba(200, 156, 72, 0.3);
+    }
+
+    /* 底部极简归真题脚 */
+    .salon-bottom-bar {
+      margin-top: 16px;
+      text-align: center;
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* 时空折叠转场遮罩层 */
+    .portal-transition-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(circle at center, rgba(255, 235, 195, 0.8) 0%, #f7f6f2 70%);
+      transition: opacity 0.4s var(--ease-cinematic);
+    }
+    .portal-transition-layer.is-active {
+      opacity: 1;
+    }
+
+    /* 响应式调整：严格限制在移动端一屏之内，践行感官释放与极致留白 */
+    @media (max-width: 768px) {
+      html, body {
+        overflow: hidden !important;
+        height: 100dvh;
+        max-height: 100dvh;
+      }
+      .spatial-unfold-container {
+        height: 100dvh;
+        max-height: 100dvh;
+        overflow: hidden;
+        justify-content: space-between;
+        padding: calc(var(--safe-top) + 8px) 14px calc(var(--safe-bottom) + 8px) 14px;
+      }
+      /* 废除小作文，释放留白空间 */
+      .curator-preface-prose {
+        display: none !important;
+      }
+      .curator-header-island {
+        margin-top: 14px;
+        margin-bottom: 8px;
+      }
+      .sundial-badge-group {
+        padding: 4px 12px;
+        margin-bottom: 6px;
+        transform: scale(0.92);
+      }
+      .curator-main-title {
+        font-size: 21px;
+        letter-spacing: 0.2em;
+        margin-bottom: 2px;
+      }
+      .curator-sub-title-en {
+        font-size: 9px;
+        letter-spacing: 0.18em;
+        margin-bottom: 8px;
+      }
+      /* 3D 展台自适应屏幕高度 */
+      .celestial-podium-stage {
+        margin-top: 0;
+        margin-bottom: 8px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 0;
+      }
+      .orbit-track-viewport {
+        min-height: unset;
+        height: auto;
+        margin-bottom: 0;
+      }
+      .nav-prev { left: -4px; width: 36px; height: 36px; }
+      .nav-next { right: -4px; width: 36px; height: 36px; }
+      .album-orbit-card {
+        width: min(340px, 86vw);
+      }
+      .album-orbit-card.pos-prev {
+        transform: translate3d(-34%, -4px, -140px) scale(0.78) rotateY(16deg);
+      }
+      .album-orbit-card.pos-next {
+        transform: translate3d(34%, -4px, -140px) scale(0.78) rotateY(-16deg);
+      }
+      .card-curation-zone {
+        padding: 10px 14px 12px;
+        gap: 4px;
+      }
+      .card-meta-line {
+        font-size: 10px;
+      }
+      .card-album-title {
+        font-size: 15px;
+      }
+      .card-album-prose {
+        font-size: 11px;
+        line-height: 1.45;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .card-footer-tags {
+        margin-top: 3px;
+        gap: 5px;
+        flex-wrap: nowrap;
+        overflow: hidden;
+      }
+      .micro-tag {
+        font-size: 8.5px;
+        padding: 1px 5px;
+        white-space: nowrap;
+      }
+      .salon-bottom-bar {
+        margin-top: 4px;
+        font-size: 9px;
+        letter-spacing: 0.16em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 廿四时相动态漫射天光场域 (Chrono-Atmospheric Sky System) -->
+  <div class="chrono-ambient-system" id="ambientSky">
+    <!-- 实体棉纸展厅微质感遮罩 -->
+    <div class="ambient-paper-texture"></div>
+    <!-- 廿四时相动态色温天光晕染光团 (3.0s 柔和呼吸) -->
+    <div class="chromatic-orb orb-dawn" id="orbDawn"></div>
+    <div class="chromatic-orb orb-noon" id="orbNoon"></div>
+    <div class="chromatic-orb orb-dusk" id="orbDusk"></div>
+    <div class="chromatic-orb orb-night" id="orbNight"></div>
+    <!-- 莫奈双重立体丁达尔体积光束 -->
+    <div class="volumetric-shaft-group">
+      <div class="volumetric-beam beam-primary"></div>
+      <div class="volumetric-beam beam-secondary"></div>
+    </div>
+    <!-- 展台地面微漫反射与空间阴影基底 -->
+    <div class="ambient-floor-pedestal"></div>
+  </div>
+
+  <!-- 时空折叠跃迁层 -->
+  <div class="portal-transition-layer" id="portalLayer"></div>
+
+  <div class="spatial-unfold-container">
+
+    <!-- 左上角极简微气泡：返回第一级主展馆 (Level 1: Grand Hall Gateway) -->
+    <div class="corner-nav-cluster corner-nav-left">
+      <button class="glyph-btn" id="btnBackToGrandHall" title="返回主展馆" aria-label="返回主展馆">
+        <svg viewBox="0 0 24 24">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <!-- 右上角极简微气泡：声景开关 (Zero-Text Icon) -->
+    <div class="corner-nav-cluster corner-nav-right">
+      <button class="glyph-btn" id="btnSoundscape" title="声景" aria-label="声景">
+        <span class="sound-active-dot" id="soundActiveDot"></span>
+        <svg viewBox="0 0 24 24">
+          <path d="M9 18V5l12-2v13"></path>
+          <circle cx="6" cy="18" r="3"></circle>
+          <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+      </button>
+    </div>
+
+    <!-- 顶部时空天球仪表岛与策展题记 -->
+    <header class="curator-header-island">
+      <div class="sundial-badge-group">
+        <div class="sundial-mini-glyph"></div>
+        <span class="badge-module-label">MODULE 02 · 晨·昏</span>
+        <span class="badge-sep">/</span>
+        <span class="badge-diurnal-state">廿四时辰 · 自然光相展厅</span>
+      </div>
+
+      <h1 class="curator-main-title">晨光与暮色</h1>
+      <div class="curator-sub-title-en">Circadian Rhythm & Diurnal Relighting</div>
+
+      <p class="curator-preface-prose">
+        突破快门在千分之一秒的时间冻结。以自然地貌与真实母版为几何基准，解耦材质漫射与全天光照轨迹，呈现廿四时辰下同一空间在晨曦、正午、落日与星夜间的连续光影流注。
+      </p>
+    </header>
+
+    <!-- 第二级相册核心舞台：廿四时空悬浮展台 (Level 2: Thematic Celestial Podium) -->
+    <main class="celestial-podium-stage" id="podiumStage">
+
+      <!-- 左右极简悬浮光感导轨按钮 (去文字化 Icon-Only) -->
+      <button class="orbit-nav-btn nav-prev" id="btnPrevAlbum" title="上一影集" aria-label="上一影集">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button class="orbit-nav-btn nav-next" id="btnNextAlbum" title="下一影集" aria-label="下一影集">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+
+      <!-- 3D 环轨画廊视窗 -->
+      <div class="orbit-track-viewport" id="orbitTrack">
+
+        <!-- 影集 01: 用户实拍母版 · 高山远眺廿四流光 -->
+        <article class="album-orbit-card pos-active" data-index="0" data-album="lookout" aria-label="进入《高山远眺 · 廿四流光》放映厅">
+          <div class="master-badge-corner">
+            <span class="master-sparkle"></span>
+            <span>实拍母版推演</span>
+          </div>
+
+          <div class="card-canvas-viewport">
+            <img src="./assets/images/diurnal/lookout_dawn.jpg" class="card-diurnal-layer layer-dawn" alt="晨曦" />
+            <img src="./assets/images/diurnal/lookout_noon.jpg" class="card-diurnal-layer layer-noon" alt="正午原片" />
+            <img src="./assets/images/diurnal/lookout_dusk.jpg" class="card-diurnal-layer layer-dusk" alt="落日" />
+            <img src="./assets/images/diurnal/lookout_night.jpg" class="card-diurnal-layer layer-night" alt="星汉" />
+
+            <div class="card-diurnal-stepper">
+              <span class="stepper-label" id="stepperLabel0">12:00 ZENITH</span>
+              <span class="stepper-pip pip-dawn" data-step="0" title="06:00 晨曦 2800K"></span>
+              <span class="stepper-pip pip-noon active" data-step="1" title="12:00 正午 6500K"></span>
+              <span class="stepper-pip pip-dusk" data-step="2" title="18:00 日暮 2400K"></span>
+              <span class="stepper-pip pip-night" data-step="3" title="24:00 星夜 8500K"></span>
+            </div>
+          </div>
+
+          <div class="card-curation-zone">
+            <div class="card-meta-line">
+              <span>ALBUM 01 · 24-HOUR MASTER</span>
+              <span class="card-coord-tag">45.3°N · RIDGE</span>
+            </div>
+            <h2 class="card-album-title">高山远眺 · 廿四流光</h2>
+            <p class="card-album-prose">
+              以用户 4K 全景实拍母版为机位真理锚点，推演松林峰峦自清晨第一缕斜阳至子夜冷月星汉的完整光照演替。
+            </p>
+            <div class="card-footer-tags">
+              <span class="micro-tag micro-tag-highlight">USER RAW MASTER</span>
+              <span class="micro-tag">4-PHASE RELIGHTING</span>
+              <span class="micro-tag">2400K — 8500K</span>
+              <span class="micro-tag">DISPLAY P3</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 影集 02: 用户实拍母版 · 富士云海廿四霞光 -->
+        <article class="album-orbit-card pos-next" data-index="1" data-album="fuji" aria-label="进入《富士云海 · 廿四霞光》放映厅">
+          <div class="master-badge-corner">
+            <span class="master-sparkle"></span>
+            <span>实拍母版推演</span>
+          </div>
+
+          <div class="card-canvas-viewport">
+            <img src="./assets/images/diurnal/fuji_dawn.jpg" class="card-diurnal-layer layer-dawn" alt="晨曦朝霞" />
+            <img src="./assets/images/diurnal/fuji_noon.jpg" class="card-diurnal-layer layer-noon" alt="正午原片" />
+            <img src="./assets/images/diurnal/fuji_dusk.jpg" class="card-diurnal-layer layer-dusk" alt="落日余晖" />
+            <img src="./assets/images/diurnal/fuji_night.jpg" class="card-diurnal-layer layer-night" alt="冷月星汉" />
+
+            <div class="card-diurnal-stepper">
+              <span class="stepper-label" id="stepperLabel1">12:00 ZENITH</span>
+              <span class="stepper-pip pip-dawn" data-step="0" title="06:00 晨曦 2800K"></span>
+              <span class="stepper-pip pip-noon active" data-step="1" title="12:00 正午 6500K"></span>
+              <span class="stepper-pip pip-dusk" data-step="2" title="18:00 日暮 2400K"></span>
+              <span class="stepper-pip pip-night" data-step="3" title="24:00 星夜 8500K"></span>
+            </div>
+          </div>
+
+          <div class="card-curation-zone">
+            <div class="card-meta-line">
+              <span>ALBUM 02 · CLOUD SEA & VOLCANO</span>
+              <span class="card-coord-tag">35.36°N · FUJI PEAK</span>
+            </div>
+            <h2 class="card-album-title">富士云海 · 廿四霞光</h2>
+            <p class="card-album-prose">
+              以用户 4K 全景实拍母版为机位真理锚点，推演高空层云在破晓粉黛、正午澄澈、日暮火烧与子夜银河下的光影漫射。
+            </p>
+            <div class="card-footer-tags">
+              <span class="micro-tag micro-tag-highlight">USER RAW MASTER</span>
+              <span class="micro-tag">ATMOSPHERIC SCATTER</span>
+              <span class="micro-tag">2400K — 8500K</span>
+              <span class="micro-tag">DISPLAY P3</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 影集 03: 用户实拍母版 · 深林天顶廿四林冠 -->
+        <article class="album-orbit-card pos-prev" data-index="2" data-album="canopy" aria-label="进入《深林天顶 · 廿四林冠》放映厅">
+          <div class="master-badge-corner">
+            <span class="master-sparkle"></span>
+            <span>实拍母版推演</span>
+          </div>
+
+          <div class="card-canvas-viewport">
+            <img src="./assets/images/diurnal/canopy_dawn.jpg" class="card-diurnal-layer layer-dawn" alt="晨曦光柱" />
+            <img src="./assets/images/diurnal/canopy_noon.jpg" class="card-diurnal-layer layer-noon" alt="正午原片" />
+            <img src="./assets/images/diurnal/canopy_dusk.jpg" class="card-diurnal-layer layer-dusk" alt="黄昏落照" />
+            <img src="./assets/images/diurnal/canopy_night.jpg" class="card-diurnal-layer layer-night" alt="古木寒月" />
+
+            <div class="card-diurnal-stepper">
+              <span class="stepper-label" id="stepperLabel2">12:00 ZENITH</span>
+              <span class="stepper-pip pip-dawn" data-step="0" title="06:00 晨曦 2800K"></span>
+              <span class="stepper-pip pip-noon active" data-step="1" title="12:00 正午 6500K"></span>
+              <span class="stepper-pip pip-dusk" data-step="2" title="18:00 日暮 2400K"></span>
+              <span class="stepper-pip pip-night" data-step="3" title="24:00 星夜 8500K"></span>
+            </div>
+          </div>
+
+          <div class="card-curation-zone">
+            <div class="card-meta-line">
+              <span>ALBUM 03 · ANCIENT CANOPY</span>
+              <span class="card-coord-tag">35.38°N · CEDAR FOREST</span>
+            </div>
+            <h2 class="card-album-title">深林天顶 · 廿四林冠</h2>
+            <p class="card-album-prose">
+              以用户 4K 全景实拍母版为仰望视角真理锚点，推演古木苍穹在晨曦丁达尔光柱、午后苍翠透光与深夜冷月穿林间的生机脉动。
+            </p>
+            <div class="card-footer-tags">
+              <span class="micro-tag micro-tag-highlight">USER RAW MASTER</span>
+              <span class="micro-tag">TYNDALL LIGHT BEAM</span>
+              <span class="micro-tag">ORGANIC SSS SCATTER</span>
+              <span class="micro-tag">DISPLAY P3</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- 极轻极奢：星轨微光流导轨 (高度仅 3px，不占纵向空间，承载 8s 倒计时光流与点击切换特效) -->
+      <div class="celestial-horizon-gauge" id="horizonGauge" aria-label="影集流转星轨">
+        <div class="gauge-track active" data-index="0" title="高山远眺">
+          <div class="gauge-glow-fill" id="gaugeFill0"></div>
+        </div>
+        <div class="gauge-track" data-index="1" title="富士云海">
+          <div class="gauge-glow-fill" id="gaugeFill1"></div>
+        </div>
+        <div class="gauge-track" data-index="2" title="深林天顶">
+          <div class="gauge-glow-fill" id="gaugeFill2"></div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- 底部题记 -->
+    <footer class="salon-bottom-bar">
+      <span>CHRONO-LENS LEVEL 02 SALON</span>
+      <span>·</span>
+      <span>24-HOUR TEMPORAL FLOW</span>
+    </footer>
+
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      // 1. 悬浮微气泡交互
+      const btnBack = document.getElementById("btnBackToGrandHall");
+      const btnSound = document.getElementById("btnSoundscape");
+      const portalLayer = document.getElementById("portalLayer");
+
+      btnBack.addEventListener("click", () => {
+        document.body.style.opacity = "0";
+        document.body.style.transform = "scale(0.96)";
+        document.body.style.transition = "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)";
+        setTimeout(() => {
+          window.location.href = "./index.html";
+        }, 360);
+      });
+
+      // 2. 声景接入
+      if (window.ChronoSoundscape) {
+        window.ChronoSoundscape.init({
+          mode: "daylight",
+          btnId: "btnSoundscape",
+          dotId: "soundActiveDot"
+        });
+      }
+
+      // ==========================================================================
+      // 3. 3D 环轨画廊核心状态机与极度平缓渐变系统
+      // ==========================================================================
+      const cards = Array.from(document.querySelectorAll(".album-orbit-card"));
+      const btnPrev = document.getElementById("btnPrevAlbum");
+      const btnNext = document.getElementById("btnNextAlbum");
+      const podiumStage = document.getElementById("podiumStage");
+
+      const totalAlbums = cards.length;
+      let currentIndex = 0;
+      let isPaused = false;
+      let autoTimer = null;
+      const CYCLE_DURATION = 8000; // 8秒平缓切换周期
+
+      // 星轨流光微导轨 DOM
+      const horizonTracks = Array.from(document.querySelectorAll(".gauge-track"));
+      let progressVal = 0;
+      let progressTimer = null;
+
+      // 四时相元数据配置
+      const DIURNAL_PHASES = [
+        { name: "06:00 DAWN", kelvin: "2800K", color: "#d87c48" },
+        { name: "12:00 ZENITH", kelvin: "6500K", color: "#ffd885" },
+        { name: "18:00 DUSK", kelvin: "2400K", color: "#e27036" },
+        { name: "24:00 LUNAR", kelvin: "8500K", color: "#60a5fa" }
+      ];
+
+      // 更新卡片 3D 环轨空间排布 (Positioning Classes)
+      function updatePodiumLayout(animate = true) {
+        cards.forEach((card, idx) => {
+          // 清除原先的位置类
+          card.classList.remove("pos-active", "pos-prev", "pos-next", "pos-hidden");
+
+          // 计算相对于当前中心索引的偏移量
+          const offset = (idx - currentIndex + totalAlbums) % totalAlbums;
+
+          if (offset === 0) {
+            card.classList.add("pos-active");
+          } else if (offset === 1 || (totalAlbums === 2 && offset === 1)) {
+            card.classList.add("pos-next");
+          } else if (offset === totalAlbums - 1) {
+            card.classList.add("pos-prev");
+          } else {
+            card.classList.add("pos-hidden");
+          }
+        });
+
+        // 联动星轨流光导轨激活态
+        horizonTracks.forEach((track, idx) => {
+          const isActive = idx === currentIndex;
+          track.classList.toggle("active", isActive);
+          const fill = track.querySelector(".gauge-glow-fill");
+          if (fill && !isActive) {
+            fill.style.width = "0%";
+          }
+        });
+
+        // 联动全场域漫射背景光晕
+        const activeCard = cards[currentIndex];
+        if (activeCard && typeof syncAtmosphericSky === "function") {
+          const activePip = activeCard.querySelector(".stepper-pip.active");
+          const phase = activePip ? parseInt(activePip.getAttribute("data-step"), 10) : 1;
+          syncAtmosphericSky(phase);
+        }
+      }
+
+      // 切换到指定影集（具备 1.2s 电影级空间位移与透明度渐变）
+      function goToAlbum(idx) {
+        if (idx === currentIndex) return;
+        currentIndex = (idx + totalAlbums) % totalAlbums;
+        progressVal = 0;
+        updatePodiumLayout(true);
+      }
+
+      function nextAlbum() {
+        goToAlbum(currentIndex + 1);
+      }
+
+      function prevAlbum() {
+        goToAlbum(currentIndex - 1);
+      }
+
+      btnNext.addEventListener("click", () => {
+        nextAlbum();
+        resetAutoTimer();
+      });
+
+      btnPrev.addEventListener("click", () => {
+        prevAlbum();
+        resetAutoTimer();
+      });
+
+      // 点击星轨微导轨亦可直接切换
+      horizonTracks.forEach((track) => {
+        track.addEventListener("click", () => {
+          const targetIdx = parseInt(track.getAttribute("data-index"), 10);
+          goToAlbum(targetIdx);
+          resetAutoTimer();
+        });
+      });
+
+      // 点击左右侧翼景深卡片即可直接漫游对齐
+      cards.forEach((card, idx) => {
+        card.addEventListener("click", (e) => {
+          if (card.classList.contains("pos-prev")) {
+            e.preventDefault();
+            prevAlbum();
+            resetAutoTimer();
+          } else if (card.classList.contains("pos-next")) {
+            e.preventDefault();
+            nextAlbum();
+            resetAutoTimer();
+          }
+        });
+      });
+
+      // 自动循环轮巡定时器（带星轨流光平滑倒计时动画特效）
+      function startAutoCycle() {
+        if (progressTimer) clearInterval(progressTimer);
+        const intervalMs = 100;
+        const step = (intervalMs / CYCLE_DURATION) * 100;
+
+        progressTimer = setInterval(() => {
+          if (!isPaused) {
+            progressVal += step;
+            const activeFill = document.querySelector(`.gauge-track[data-index="${currentIndex}"] .gauge-glow-fill`);
+            if (activeFill) {
+              activeFill.style.width = `${Math.min(100, progressVal)}%`;
+            }
+
+            if (progressVal >= 100) {
+              progressVal = 0;
+              nextAlbum();
+            }
+          }
+        }, intervalMs);
+      }
+
+      function resetAutoTimer() {
+        progressVal = 0;
+        const fills = document.querySelectorAll(".gauge-glow-fill");
+        fills.forEach(f => f.style.width = "0%");
+      }
+
+      startAutoCycle();
+
+      // 鼠标悬停在展台上时暂停自动流转，移出恢复
+      podiumStage.addEventListener("mouseenter", () => { isPaused = true; });
+      podiumStage.addEventListener("mouseleave", () => { isPaused = false; });
+
+      // ==========================================================================
+      // 4. 联动背景天光与色温漫射 (Circadian Atmospheric Sky Sync)
+      // ==========================================================================
+      const orbDawn = document.getElementById("orbDawn");
+      const orbNoon = document.getElementById("orbNoon");
+      const orbDusk = document.getElementById("orbDusk");
+      const orbNight = document.getElementById("orbNight");
+
+      function syncAtmosphericSky(phaseIdx) {
+        // phaseIdx: 0 -> Dawn (06:00), 1 -> Noon (12:00), 2 -> Dusk (18:00), 3 -> Night (24:00)
+        if (orbDawn && orbNoon && orbDusk && orbNight) {
+          orbDawn.style.opacity = phaseIdx === 0 ? "1" : "0";
+          orbDawn.style.transform = phaseIdx === 0 ? "scale(1.08) translate3d(20px, 10px, 0)" : "scale(0.88) translate3d(0, 0, 0)";
+
+          orbNoon.style.opacity = phaseIdx === 1 ? "1" : "0";
+          orbNoon.style.transform = phaseIdx === 1 ? "scale(1.05) translate3d(0, 0, 0)" : "scale(0.9) translate3d(0, -20px, 0)";
+
+          orbDusk.style.opacity = phaseIdx === 2 ? "1" : "0";
+          orbDusk.style.transform = phaseIdx === 2 ? "scale(1.08) translate3d(-20px, 15px, 0)" : "scale(0.88) translate3d(0, 0, 0)";
+
+          orbNight.style.opacity = phaseIdx === 3 ? "1" : "0";
+          orbNight.style.transform = phaseIdx === 3 ? "scale(1.05) translate3d(0, 20px, 0)" : "scale(0.85) translate3d(0, 0, 0)";
+        }
+      }
+
+      // ==========================================================================
+      // 5. 卡片点击与时相平缓渐变呼吸逻辑 (Diurnal Phase Cross-Fade)
+      // ==========================================================================
+      cards.forEach((card, idx) => {
+        const layers = [
+          card.querySelector(".layer-dawn"),
+          card.querySelector(".layer-noon"),
+          card.querySelector(".layer-dusk"),
+          card.querySelector(".layer-night")
+        ];
+        const pips = card.querySelectorAll(".stepper-pip");
+        const label = card.querySelector(".stepper-label");
+        let diurnalPhaseIdx = 1; // 默认正午原画
+
+        // 柔和设置时相 (2.4s CSS 纯渐变) 并同步整个大厅背景色温
+        function setPhase(pIdx) {
+          diurnalPhaseIdx = pIdx;
+          layers.forEach((layer, i) => {
+            if (layer) layer.style.opacity = i === pIdx ? "1" : "0";
+          });
+          pips.forEach((pip, i) => {
+            pip.classList.toggle("active", i === pIdx);
+          });
+          if (label && DIURNAL_PHASES[pIdx]) {
+            label.textContent = DIURNAL_PHASES[pIdx].name;
+            label.style.color = DIURNAL_PHASES[pIdx].color;
+          }
+          if (card.classList.contains("pos-active")) {
+            syncAtmosphericSky(pIdx);
+          }
+        }
+
+        // 点击时相微点亦可直接快速直达该时相
+        pips.forEach((pip) => {
+          pip.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const stepIdx = parseInt(pip.getAttribute("data-step"), 10);
+            setPhase(stepIdx);
+          });
+        });
+
+        // 当前卡片每 3.4 秒平滑演进一个时相，如同自然呼吸
+        setInterval(() => {
+          // 仅激活的中心卡片演进时相，节省 GPU 资源并保持主次分明
+          if (card.classList.contains("pos-active") && !isPaused) {
+            diurnalPhaseIdx = (diurnalPhaseIdx + 1) % 4;
+            setPhase(diurnalPhaseIdx);
+          }
+        }, 3400);
+
+        // 卡片交互处理：
+        // - 若点击的是侧翼卡片，则平滑将其旋转移入中心
+        // - 若点击的是中心卡片，则触发时空折叠跃迁进入放映厅
+        card.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (card.classList.contains("pos-active")) {
+            const albumKey = card.getAttribute("data-album");
+            if (portalLayer) {
+              portalLayer.classList.add("is-active");
+            }
+            card.style.transform = "scale(1.06) translateZ(40px)";
+            card.style.opacity = "0.75";
+            setTimeout(() => {
+              window.location.href = `./daylight.html?album=${albumKey}`;
+            }, 380);
+          } else if (card.classList.contains("pos-prev")) {
+            prevAlbum();
+            resetAutoTimer();
+          } else if (card.classList.contains("pos-next")) {
+            nextAlbum();
+            resetAutoTimer();
+          }
+        });
+
+        // 鼠标 3D 微视差跟随 (仅中心卡片响应)
+        card.addEventListener("mousemove", (e) => {
+          if (!card.classList.contains("pos-active")) return;
+          const rect = card.getBoundingClientRect();
+          const px = (e.clientX - rect.left - rect.width / 2) / rect.width;
+          const py = (e.clientY - rect.top - rect.height / 2) / rect.height;
+          card.style.transform = `perspective(1600px) rotateX(${-py * 6}deg) rotateY(${px * 6}deg) translateY(-4px)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+          if (card.classList.contains("pos-active")) {
+            card.style.transform = "translate3d(0, 0, 0) scale(1) rotateY(0deg)";
+          }
+        });
+      });
+
+      // 5. 触控滑动支持 (Touch Swipe)
+      let touchStartX = 0;
+      podiumStage.addEventListener("touchstart", (e) => {
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+
+      podiumStage.addEventListener("touchend", (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diffX = touchEndX - touchStartX;
+        if (Math.abs(diffX) > 45) {
+          if (diffX > 0) {
+            prevAlbum();
+          } else {
+            nextAlbum();
+          }
+          resetAutoTimer();
+        }
+      });
+
+      // 键盘左右箭头支持
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") {
+          prevAlbum();
+          resetAutoTimer();
+        } else if (e.key === "ArrowRight") {
+          nextAlbum();
+          resetAutoTimer();
+        }
+      });
+
+      // 初始化启动
+      updatePodiumLayout(false);
+      startAutoCycle();
+
+    })();
+  </script>
+</body>
+</html>

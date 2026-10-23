@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 340" fill="none">
+  <defs>
+    <!-- 魔盒环境柔光与深邃光晕 -->
+    <radialGradient id="boxAmbientGlow" cx="50%" cy="65%" r="60%">
+      <stop offset="0%" stop-color="#c59b27" stop-opacity="0.18" />
+      <stop offset="40%" stop-color="#8a6919" stop-opacity="0.08" />
+      <stop offset="80%" stop-color="#151820" stop-opacity="0.02" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- 魔盒材质面渐变 -->
+    <linearGradient id="boxTopFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2c303c" />
+      <stop offset="50%" stop-color="#20242e" />
+      <stop offset="100%" stop-color="#161820" />
+    </linearGradient>
+
+    <linearGradient id="boxLeftFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1b1e27" />
+      <stop offset="100%" stop-color="#0f1117" />
+    </linearGradient>
+
+    <linearGradient id="boxRightFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#242833" />
+      <stop offset="100%" stop-color="#13151c" />
+    </linearGradient>
+
+    <!-- 浅铂金与香槟金镶边 -->
+    <linearGradient id="goldEdge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3e5ab" />
+      <stop offset="40%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#997517" />
+    </linearGradient>
+
+    <!-- 盒隙神秘光束渐变 -->
+    <linearGradient id="mysteryBeam" x1="50%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%" stop-color="#ffe8a3" stop-opacity="0.9" />
+      <stop offset="35%" stop-color="#d4af37" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+
+    <filter id="boxGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- 1. 背景底部漫反射光晕 -->
+  <rect x="0" y="0" width="680" height="340" fill="url(#boxAmbientGlow)" />
+
+  <!-- 2. 外围时空几何经纬星环 (Astrolabe Orbit) -->
+  <g opacity="0.35" transform="translate(340, 210)">
+    <ellipse cx="0" cy="0" rx="190" ry="60" stroke="url(#goldEdge)" stroke-width="0.8" stroke-dasharray="3 7" />
+    <ellipse cx="0" cy="0" rx="130" ry="40" stroke="#717a8c" stroke-width="0.6" stroke-dasharray="1 5" />
+    <!-- 悬浮微光粒子 -->
+    <circle cx="-140" cy="-22" r="1.5" fill="#d4af37" opacity="0.8" />
+    <circle cx="120" cy="24" r="1.2" fill="#ffe8a3" opacity="0.7" />
+    <circle cx="-40" cy="38" r="1.8" fill="#d4af37" opacity="0.6" />
+    <circle cx="160" cy="-14" r="1.4" fill="#d4af37" opacity="0.5" />
+  </g>
+
+  <!-- 3. 魔盒核心主体 (悬浮等角多面体 3D Box) -->
+  <g transform="translate(340, 195)">
+    <!-- 底部微阴影 -->
+    <ellipse cx="0" cy="46" rx="65" ry="16" fill="#101217" opacity="0.25" filter="blur(6px)" />
+
+    <!-- 左侧面 (Left Face) -->
+    <polygon points="0,15 -48,-12 -48,42 0,68" fill="url(#boxLeftFacet)" stroke="url(#goldEdge)" stroke-width="0.75" />
+    
+    <!-- 右侧面 (Right Face) -->
+    <polygon points="0,15 48,-12 48,42 0,68" fill="url(#boxRightFacet)" stroke="url(#goldEdge)" stroke-width="0.75" />
+
+    <!-- 顶盖面 (Top Face / 微悬浮微启) -->
+    <polygon points="0,-18 -48,-44 0,-70 48,-44" fill="url(#boxTopFacet)" stroke="url(#goldEdge)" stroke-width="0.9" />
+
+    <!-- 顶盖边缘内部微光暗槽 -->
+    <polygon points="0,-15 -44,-40 0,-64 44,-40" stroke="#997517" stroke-width="0.5" opacity="0.5" fill="none" />
+
+    <!-- 盒盖微启缝隙投射出的神秘冲天光芒 (Ethereal Light Beam) -->
+    <polygon points="-18,-30 0,-130 18,-30 0,-25" fill="url(#mysteryBeam)" filter="url(#boxGlow)" opacity="0.85" />
+    <line x1="0" y1="-28" x2="0" y2="-120" stroke="#fff5d6" stroke-width="1.2" opacity="0.9" filter="url(#boxGlow)" />
+
+    <!-- 魔盒中央符文印锁 (Enigmatic Sigil) -->
+    <g transform="translate(0, 40)">
+      <polygon points="0,-7 6,0 0,7 -6,0" fill="#d4af37" stroke="#ffe8a3" stroke-width="0.8" opacity="0.85" />
+      <circle cx="0" cy="0" r="1.5" fill="#ffffff" />
+    </g>
+
+    <!-- 悬浮升腾的光尘粒子 -->
+    <circle cx="-12" cy="-60" r="1.2" fill="#ffe8a3" opacity="0.8" />
+    <circle cx="8" cy="-85" r="1.6" fill="#ffe8a3" opacity="0.9" filter="url(#boxGlow)" />
+    <circle cx="-4" cy="-105" r="1" fill="#ffffff" opacity="0.7" />
+  </g>
+
+  <!-- 4. 底部微型题记标戳 (艺术典雅排版) -->
+  <g transform="translate(340, 310)" text-anchor="middle">
+    <text font-family="'Cormorant Garamond', 'Cinzel', serif" font-size="10" letter-spacing="0.28em" fill="#997517" opacity="0.75">THE ENIGMATIC MAGIC BOX</text>
+    <text y="14" font-family="'Noto Serif SC', serif" font-size="9" letter-spacing="0.14em" fill="#6c7482" opacity="0.6">未知的魔盒 · 待解锁特化</text>
+  </g>
+</svg>

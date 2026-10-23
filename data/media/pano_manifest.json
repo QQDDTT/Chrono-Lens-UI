@@ -1,0 +1,55 @@
+﻿{
+    "ModuleId":  "MODULE 01 · 穹·极",
+    "ModuleName":  "身临其境 · 现场 (The Living Scene)",
+    "ProcessedAt":  "2026-10-19 01:20:32",
+    "PipelineStage":  "Stage 03: Optimized to Final",
+    "PanoramicExclusivity":  "Strictly 100% Native Panoramic Assets (.insp) - Zero Flat JPG/MP4",
+    "AssetCount":  3,
+    "Assets":  [
+                   {
+                       "Uid":  "pano_01_mountain_skyline",
+                       "Title":  "富士山巅浩瀚云海 (Mt. Fuji Peak \u0026 Cloud Horizon)",
+                       "ThemeDesc":  "山巅 360° 鱼鳞云天幕与群山湖泊俯瞰全景",
+                       "OriginalSource":  "vault\\01_raw\\photos\\IMG_20261004_131540_00_032.insp",
+                       "RawDimensions":  "5888 x 2944",
+                       "FinalMasterPath":  "vault\\04_final\\panoramic_cosmos\\master_pano_cosmos_living_scene_4k.jpg",
+                       "WebPath":  "site/data/media/pano_cosmos_living_scene_4k.jpg",
+                       "Resolution":  "4096 x 2048",
+                       "Projection":  "Equirectangular (360x180)",
+                       "DefaultYaw":  185,
+                       "DefaultPitch":  8,
+                       "FileSizeBytes":  1639117,
+                       "MediaType":  "Strictly Native INSP Panorama (Zero Flat JPG/MP4)"
+                   },
+                   {
+                       "Uid":  "pano_02_forest_canopy",
+                       "Title":  "静谧原始森林古木 (Ancient Forest Canopy)",
+                       "ThemeDesc":  "参天古木树冠与斑驳阳光林海",
+                       "OriginalSource":  "vault\\01_raw\\photos\\IMG_20261004_133531_00_035.insp",
+                       "RawDimensions":  "5888 x 2944",
+                       "FinalMasterPath":  "vault\\04_final\\panoramic_cosmos\\master_pano_cosmos_street_walk_4k.jpg",
+                       "WebPath":  "site/data/media/pano_cosmos_street_walk_4k.jpg",
+                       "Resolution":  "4096 x 2048",
+                       "Projection":  "Equirectangular (360x180)",
+                       "DefaultYaw":  170,
+                       "DefaultPitch":  15,
+                       "FileSizeBytes":  2776374,
+                       "MediaType":  "Strictly Native INSP Panorama (Zero Flat JPG/MP4)"
+                   },
+                   {
+                       "Uid":  "pano_03_mountain_cloudsea",
+                       "Title":  "高山观景长廊远眺 (Mountain Horizon Panorama)",
+                       "ThemeDesc":  "层峦叠翠与无际云海天穹",
+                       "OriginalSource":  "vault\\01_raw\\photos\\IMG_20261004_131242_00_031.insp",
+                       "RawDimensions":  "5888 x 2944",
+                       "FinalMasterPath":  "vault\\04_final\\panoramic_cosmos\\master_pano_cosmos_classic_epoch_4k.jpg",
+                       "WebPath":  "site/data/media/pano_cosmos_classic_epoch_4k.jpg",
+                       "Resolution":  "4096 x 2048",
+                       "Projection":  "Equirectangular (360x180)",
+                       "DefaultYaw":  175,
+                       "DefaultPitch":  5,
+                       "FileSizeBytes":  1577621,
+                       "MediaType":  "Strictly Native INSP Panorama (Zero Flat JPG/MP4)"
+                   }
+               ]
+}

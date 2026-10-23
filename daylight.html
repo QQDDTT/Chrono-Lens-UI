@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>MODULE 02 · 晨·昏 | 一日二十四时光相放映厅 - Chrono-Lens</title>
+  <meta name="description" content="Chrono-Lens 晨·昏 一日二十四时光相放映厅：真实风景素材连续平滑光相推演，24小时光影自由穿梭与自适应色温漫射大厅。" />
+
+  <!-- 移动端全屏与安全区适配 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="晨·昏 放映厅" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#f7f6f2" />
+
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="./favicon.svg" />
+  <link rel="manifest" href="./manifest.json" />
+  <script src="./assets/soundscape.js"></script>
+
+  <!-- 艺术字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       Chrono-Lens 子模块 02 · 晨·昏 一日二十四时光相放映厅核心样式
+       - 遵守平台《感官释放与极致留白宪章》：彻底剥离通栏顶栏与页脚，留白率 > 50%
+       - 遵守《按键去文字化原则》：四角极简悬浮 Ghost Glyphs 微气泡
+       - 24 小时全色域纯数学升余弦连续无跳变插值
+       - 真实高画质风光摄影（阿尔卑斯峰湖多时相无缝 Cross-Fade）
+       ========================================================================== */
+    :root {
+      --circadian-hour: 7.5;
+      --circadian-kelvin: 3800;
+      --bg-base: #f7f6f2;
+      --bg-inner: #ffffff;
+      --bg-outer: #eae7de;
+      --text-main: #181c24;
+      --text-sub: rgba(24, 28, 36, 0.65);
+      --text-muted: rgba(24, 28, 36, 0.38);
+      --accent-gold: #c89c48;
+      --accent-gold-soft: rgba(200, 156, 72, 0.16);
+      --glass-bg: rgba(255, 255, 255, 0.65);
+      --glass-border: rgba(200, 156, 72, 0.22);
+      --card-mat-bg: #ffffff;
+      --sundial-angle: 0deg;
+      --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+      --font-serif: "Noto Serif SC", "Songti SC", "SimSun", serif;
+      --font-en: "Cinzel", "Times New Roman", serif;
+      --font-mono: "Space Mono", monospace;
+      --safe-top: env(safe-area-inset-top, 16px);
+      --safe-bottom: env(safe-area-inset-bottom, 20px);
+      --safe-left: env(safe-area-inset-left, 16px);
+      --safe-right: env(safe-area-inset-right, 16px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    *:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--accent-gold), 0 0 16px var(--accent-gold-soft);
+      border-radius: 4px;
+    }
+
+    /* 优雅微晶毛玻璃画廊滚动条 */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(24, 28, 36, 0.16);
+      border-radius: 9999px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(200, 156, 72, 0.45);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow: hidden;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(24, 28, 36, 0.16) transparent;
+      background-color: var(--bg-base);
+      background-image: radial-gradient(circle at 50% 25%, var(--bg-inner), var(--bg-base) 60%, var(--bg-outer) 100%);
+      color: var(--text-main);
+      font-family: var(--font-serif);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 标签与按键防折行 */
+    .hud-icon-btn, .preset-chip, .time-tag, .kelvin-badge {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* 背景时相动态光柱 (Chrono Volumetric Shaft) */
+    .volumetric-light-shaft {
+      position: absolute;
+      top: -30%;
+      left: 10%;
+      width: 160%;
+      height: 160%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.7;
+      transform: rotate(-35deg);
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 235, 195, 0.12) 50%, rgba(255, 255, 255, 0) 100%);
+      transition: opacity 0.8s ease;
+    }
+
+    /* 空间展开反向舒展动画 */
+    .spatial-unfold-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: calc(var(--safe-top) + 12px) var(--safe-right) calc(var(--safe-bottom) + 12px) var(--safe-left);
+      animation: spatialUnfold 1.2s var(--ease-cinematic) forwards;
+    }
+
+    @keyframes spatialUnfold {
+      0% {
+        opacity: 0;
+        transform: scale(0.96) translateY(12px);
+        filter: blur(8px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    /* 四角极简浮空微气泡 (Ghost Glyphs - 严格遵循按键去文字化原则) */
+    .corner-nav-cluster {
+      position: absolute;
+      top: calc(var(--safe-top) + 16px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 50;
+    }
+    .corner-nav-left { left: calc(var(--safe-left) + 16px); }
+    .corner-nav-right { right: calc(var(--safe-right) + 16px); }
+
+    .glyph-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      transition: all 0.4s var(--ease-cinematic);
+      position: relative;
+    }
+    .glyph-btn:hover {
+      transform: translateY(-2px) scale(1.05);
+      border-color: var(--accent-gold);
+      box-shadow: 0 8px 24px rgba(200, 156, 72, 0.2);
+    }
+    .glyph-btn:active {
+      transform: scale(0.95);
+    }
+    .glyph-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.4s;
+    }
+
+    /* 声景呼吸微光点 */
+    .sound-active-dot {
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      box-shadow: 0 0 8px var(--accent-gold);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .glyph-btn.is-active .sound-active-dot {
+      opacity: 1;
+      animation: soundPulse 2s infinite ease-in-out;
+    }
+    @keyframes soundPulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.4); opacity: 1; }
+    }
+
+    /* ==========================================================================
+       放映厅核心舞台 (Screening Stage)
+       ========================================================================== */
+    .screening-stage {
+      flex: 1;
+      width: 100%;
+      max-width: 1024px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-top: 36px;
+      margin-bottom: 24px;
+    }
+
+    /* 顶部日晷天球时间环与时相印章 (Sundial Chrono-Header) */
+    .chrono-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      pointer-events: auto;
+    }
+
+    /* 日晷天球微图腾 (Sundial Armillary Glyph) */
+    .sundial-glyph {
+      width: 38px;
+      height: 38px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sundial-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px dashed var(--glass-border);
+      animation: rotateSundial 90s linear infinite;
+    }
+    @keyframes rotateSundial {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .sundial-gnomon {
+      width: 2px;
+      height: 18px;
+      background: linear-gradient(to top, var(--accent-gold), transparent);
+      transform-origin: bottom center;
+      transform: rotate(var(--sundial-angle));
+      transition: transform 0.1s linear;
+    }
+
+    /* 时间图章徽标 (Chrono-Stamp) */
+    .chrono-stamp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+    .chrono-time-text {
+      font-family: var(--font-en);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--accent-gold);
+    }
+    .chrono-phase-text {
+      font-family: var(--font-serif);
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      color: var(--text-sub);
+    }
+    .chrono-kelvin-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-left: 2px;
+    }
+
+    /* 极简无边现代浮雕微卡纸展框 (The Chrono-Canvas Frame) */
+    .chrono-canvas-frame {
+      position: relative;
+      width: 100%;
+      max-width: 820px;
+      aspect-ratio: 16 / 10;
+      background: var(--card-mat-bg);
+      border-radius: 6px;
+      padding: clamp(10px, 2.5vw, 22px);
+      box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.8),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.08),
+        0 4px 12px rgba(0, 0, 0, 0.04),
+        0 20px 48px -8px rgba(0, 0, 0, 0.09),
+        0 40px 80px -16px rgba(200, 156, 72, 0.14);
+      perspective: 1200px;
+      transition: background-color 0.4s linear, box-shadow 0.4s linear;
+    }
+
+    .canvas-inner-viewport {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 3px;
+      overflow: hidden;
+      background: #090c14;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
+    }
+
+    /* 真实风景摄影图层堆栈 (Photorealistic Landscape Stack) */
+    .diurnal-photo-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 60%;
+      opacity: 0;
+      will-change: opacity, filter;
+      pointer-events: none;
+      transition: opacity 0.12s linear;
+    }
+
+    /* 艺术微晕光照遮罩 (Optical Halation Overlay) */
+    .optical-halation-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.25;
+      background: radial-gradient(circle at var(--sun-x, 50%) var(--sun-y, 30%), rgba(255, 215, 140, 0.45) 0%, rgba(255, 215, 140, 0) 65%);
+      transition: opacity 0.2s linear;
+    }
+
+    /* 作品极简题记题名 */
+    .artwork-minimal-caption {
+      margin-top: 14px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .artwork-caption-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .artwork-title {
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      color: var(--text-main);
+      transition: color 0.4s;
+    }
+    .artwork-location {
+      font-family: var(--font-en);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      transition: color 0.4s;
+    }
+
+    /* 极简浮空相册切换器 (Minimalist Album Switcher / Deck) */
+    .album-deck-strip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      padding: 3px 6px;
+      border-radius: 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    }
+    .album-switch-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: var(--font-en);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      transition: all 0.3s var(--ease-cinematic);
+    }
+    .album-switch-btn:hover {
+      color: var(--text-main);
+      border-color: var(--glass-border);
+    }
+    .album-switch-btn.active {
+      color: var(--accent-gold);
+      background: rgba(200, 156, 72, 0.12);
+      border-color: var(--accent-gold);
+      font-weight: 600;
+    }
+    .album-switch-btn svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
+    }
+
+    /* ==========================================================================
+       底部极简 24 小时时间轴滑块组件 (Minimalist Chrono-Slider)
+       ========================================================================== */
+    .chrono-slider-container {
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      z-index: 50;
+      padding-bottom: calc(var(--safe-bottom) + 4px);
+    }
+
+    .slider-status-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+    .flow-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      transition: all 0.3s;
+    }
+    .flow-indicator:hover {
+      color: var(--accent-gold);
+    }
+    .flow-pulse-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      animation: pulseFlow 1.6s infinite ease-in-out;
+    }
+    @keyframes pulseFlow {
+      0%, 100% { opacity: 0.3; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+
+    /* 时间轨道与刻度 */
+    .timeline-track-wrapper {
+      position: relative;
+      width: 100%;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      touch-action: none;
+      cursor: pointer;
+    }
+
+    /* 轨道背景 (色温渐变光谱条) */
+    .timeline-track-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(
+        to right,
+        #141926 0%,    /* 00:00 子夜 */
+        #2a1e38 20%,   /* 05:00 黎明蓝调 */
+        #d87c48 25%,   /* 06:00 晨曦朝霞 */
+        #f4d99f 38%,   /* 09:00 柔光 */
+        #fffcf5 50%,   /* 12:00 正午皓光 */
+        #f6d289 62%,   /* 15:00 暖阳 */
+        #d96932 75%,   /* 18:00 暮色落霞 */
+        #232b45 88%,   /* 21:00 蓝调时刻 */
+        #141926 100%   /* 24:00 子夜归真 */
+      );
+      box-shadow: 0 0 10px rgba(200, 156, 72, 0.15);
+    }
+
+    /* 滑块指引微金头 (Thumb) */
+    .timeline-thumb {
+      position: absolute;
+      top: 50%;
+      left: 0%;
+      width: 22px;
+      height: 22px;
+      margin-left: -11px;
+      margin-top: -11px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid var(--accent-gold);
+      box-shadow: 0 0 16px rgba(200, 156, 72, 0.6), 0 2px 6px rgba(0, 0, 0, 0.2);
+      cursor: grab;
+      transition: transform 0.15s var(--ease-cinematic);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    .timeline-thumb:hover {
+      transform: scale(1.18);
+    }
+    .timeline-thumb:active {
+      cursor: grabbing;
+      transform: scale(1.28);
+    }
+    .timeline-thumb-center {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+    }
+
+    /* 刻度文字与时间标签 */
+    .timeline-markers-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 2px;
+    }
+    .marker-label {
+      font-family: var(--font-en);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      transition: color 0.3s;
+    }
+    .marker-label.active {
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    /* 响应式微调 */
+    @media (max-width: 768px) {
+      .chrono-canvas-frame {
+        aspect-ratio: 4 / 3;
+        border-radius: 4px;
+      }
+      .chrono-time-text { font-size: 14px; }
+      .chrono-phase-text { font-size: 12px; }
+      .timeline-track-wrapper { height: 44px; }
+      .timeline-thumb { width: 26px; height: 26px; margin-left: -13px; margin-top: -13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 时相背景微漫射光柱 -->
+  <div class="volumetric-light-shaft" id="lightShaft"></div>
+
+  <!-- 主视图图层 -->
+  <div class="spatial-unfold-layer">
+
+    <!-- 左上角极简微气泡：返回主展馆大厅 (Zero-Text Icon) -->
+    <div class="corner-nav-cluster corner-nav-left">
+      <button class="glyph-btn" id="btnBackToGrandHall" title="返回主展馆" aria-label="返回主展馆">
+        <svg viewBox="0 0 24 24">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <!-- 右上角极简微气泡：声景开关 (Zero-Text Icon) -->
+    <div class="corner-nav-cluster corner-nav-right">
+      <button class="glyph-btn" id="btnSoundscape" title="声景" aria-label="声景">
+        <span class="sound-active-dot" id="soundActiveDot"></span>
+        <svg viewBox="0 0 24 24">
+          <path d="M9 18V5l12-2v13"></path>
+          <circle cx="6" cy="18" r="3"></circle>
+          <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+      </button>
+    </div>
+
+    <!-- 放映厅核心视觉舞台 -->
+    <main class="screening-stage">
+      
+      <!-- 日晷天球时间环与时相印章 -->
+      <header class="chrono-header">
+        <div class="sundial-glyph">
+          <div class="sundial-ring"></div>
+          <div class="sundial-gnomon" id="sundialGnomon"></div>
+        </div>
+        <div class="chrono-stamp-badge">
+          <span class="chrono-time-text" id="chronoClock">07:30</span>
+          <span class="chrono-phase-text" id="chronoPhase">破晓微曦</span>
+          <span class="chrono-kelvin-text" id="chronoKelvin">3800K</span>
+        </div>
+      </header>
+
+      <!-- 现代浮雕微卡纸展框与 24 小时动态光影视口 (真实自然风景多时相摄影叠化) -->
+      <div class="chrono-canvas-frame" id="canvasFrame">
+        <div class="canvas-inner-viewport" id="canvasInnerViewport">
+          <!-- 4 层真实风光多时相摄影素材 (默认用户实拍母版推演 · 高山远眺) -->
+          <img src="./assets/images/diurnal/lookout_night.jpg" id="layerNight" class="diurnal-photo-layer" alt="高山远眺 · 星夜 (23:00)" />
+          <img src="./assets/images/diurnal/lookout_dawn.jpg" id="layerDawn" class="diurnal-photo-layer" alt="高山远眺 · 晨曦 (06:00)" />
+          <img src="./assets/images/diurnal/lookout_noon.jpg" id="layerNoon" class="diurnal-photo-layer" alt="高山远眺 · 正午 (12:00)" />
+          <img src="./assets/images/diurnal/lookout_dusk.jpg" id="layerDusk" class="diurnal-photo-layer" alt="高山远眺 · 日暮 (18:00)" />
+          
+          <!-- 艺术微晕光照遮罩 -->
+          <div class="optical-halation-overlay" id="halationOverlay"></div>
+        </div>
+      </div>
+
+      <!-- 作品极简题记与影集切换器 -->
+      <footer class="artwork-minimal-caption">
+        <div class="artwork-caption-row">
+          <h2 class="artwork-title" id="artTitle">高山远眺 · 廿四流光</h2>
+          <span class="artwork-location" id="artLocation">LOOKOUT RIDGE · 45.3°N 实拍母版</span>
+        </div>
+
+        <!-- 极简影集切换微岛 (全部 100% 用户实拍母版) -->
+        <nav class="album-deck-strip" aria-label="影集选择">
+          <button class="album-switch-btn active" data-album="lookout" title="实拍母版 · 高山远眺">
+            <svg viewBox="0 0 24 24"><polygon points="3 20 9 10 13 16 17 11 21 20 3 20"></polygon></svg>
+            <span>LOOKOUT</span>
+          </button>
+          <button class="album-switch-btn" data-album="fuji" title="实拍母版 · 富士云海">
+            <svg viewBox="0 0 24 24"><path d="M12 3L2 20h20L12 3z"></path></svg>
+            <span>FUJI</span>
+          </button>
+          <button class="album-switch-btn" data-album="canopy" title="实拍母版 · 深林天顶">
+            <svg viewBox="0 0 24 24"><path d="M12 2L4 14h5v8h6v-8h5L12 2z"></path></svg>
+            <span>CANOPY</span>
+          </button>
+        </nav>
+      </footer>
+
+    </main>
+
+    <!-- 底部极简 24 小时时间轴滑块组件 -->
+    <footer class="chrono-slider-container">
+      <div class="slider-status-row">
+        <span>CIRCADIAN RELIGHTING</span>
+        <div class="flow-indicator" id="btnFlowToggle" title="切换自动时间流转">
+          <span class="flow-pulse-dot" id="flowDot"></span>
+          <span id="flowStatusLabel">AUTO FLOW</span>
+        </div>
+        <span>24-HOUR LOOP</span>
+      </div>
+
+      <div class="timeline-track-wrapper" id="timelineWrapper">
+        <div class="timeline-track-bar"></div>
+        <div class="timeline-thumb" id="timelineThumb">
+          <div class="timeline-thumb-center"></div>
+        </div>
+      </div>
+
+      <div class="timeline-markers-row">
+        <span class="marker-label" id="marker-0">00:00</span>
+        <span class="marker-label" id="marker-6">06:00</span>
+        <span class="marker-label active" id="marker-12">12:00</span>
+        <span class="marker-label" id="marker-18">18:00</span>
+        <span class="marker-label" id="marker-24">24:00</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    /* ==========================================================================
+       Chrono-Lens 晨·昏 24 小时光相推演渲染引擎与交互状态机
+       - 纯数学升余弦 (Raised-Cosine) 连续插值：消除阶跃跳变，光线转化极尽平缓
+       - 真实摄影多时相 Cross-Fade 混合架构
+       ========================================================================== */
+    (function () {
+      "use strict";
+
+      // 1. 24 小时光相物理节点定义 (用于色温、名称与天光连续采样)
+      // 真实摄影素材 4 个基准锚点：
+      // - 06:00: Dawn  (晨曦朝霞，熔金粉黛)
+      // - 12:00: Noon  (正午皓白，清澈通透)
+      // - 18:00: Dusk  (落日熔金，沉郁晚霞)
+      // - 24:00 / 00:00: Night (深邃银河，蓝调月华)
+      const CIRCADIAN_NODES = [
+        {
+          hour: 0.0,
+          name: "子夜星汉",
+          kelvin: 8500,
+          bgBase: [11, 14, 22],
+          bgInner: [22, 28, 43],
+          bgOuter: [5, 7, 10],
+          textMain: [234, 240, 248],
+          cardMat: [19, 24, 36],
+          sunX: 50,
+          sunY: 90,
+          bloom: 0.12,
+          shadowAlpha: 0.45
+        },
+        {
+          hour: 4.5,
+          name: "黎明破晓",
+          kelvin: 7600,
+          bgBase: [20, 26, 38],
+          bgInner: [38, 46, 68],
+          bgOuter: [10, 13, 20],
+          textMain: [238, 242, 250],
+          cardMat: [28, 35, 52],
+          sunX: 20,
+          sunY: 75,
+          bloom: 0.16,
+          shadowAlpha: 0.35
+        },
+        {
+          hour: 6.0,
+          name: "晨曦霞光",
+          kelvin: 2800,
+          bgBase: [248, 240, 229],
+          bgInner: [255, 246, 236],
+          bgOuter: [236, 224, 208],
+          textMain: [38, 30, 24],
+          cardMat: [255, 255, 255],
+          sunX: 25,
+          sunY: 55,
+          bloom: 0.45,
+          shadowAlpha: 0.15
+        },
+        {
+          hour: 8.5,
+          name: "晨光熹微",
+          kelvin: 4200,
+          bgBase: [246, 244, 238],
+          bgInner: [255, 252, 246],
+          bgOuter: [235, 232, 224],
+          textMain: [26, 28, 34],
+          cardMat: [255, 255, 255],
+          sunX: 35,
+          sunY: 38,
+          bloom: 0.32,
+          shadowAlpha: 0.12
+        },
+        {
+          hour: 12.0,
+          name: "正午皓光",
+          kelvin: 6500,
+          bgBase: [247, 246, 242],
+          bgInner: [255, 255, 255],
+          bgOuter: [234, 231, 222],
+          textMain: [24, 28, 36],
+          cardMat: [255, 255, 255],
+          sunX: 50,
+          sunY: 18,
+          bloom: 0.22,
+          shadowAlpha: 0.10
+        },
+        {
+          hour: 15.5,
+          name: "午后斜阳",
+          kelvin: 4800,
+          bgBase: [245, 241, 230],
+          bgInner: [255, 250, 240],
+          bgOuter: [232, 226, 212],
+          textMain: [30, 26, 22],
+          cardMat: [255, 255, 255],
+          sunX: 65,
+          sunY: 36,
+          bloom: 0.30,
+          shadowAlpha: 0.14
+        },
+        {
+          hour: 18.0,
+          name: "落日熔金",
+          kelvin: 2400,
+          bgBase: [242, 223, 206],
+          bgInner: [250, 238, 226],
+          bgOuter: [224, 200, 178],
+          textMain: [36, 24, 18],
+          cardMat: [255, 255, 255],
+          sunX: 78,
+          sunY: 55,
+          bloom: 0.50,
+          shadowAlpha: 0.20
+        },
+        {
+          hour: 20.0,
+          name: "暮色苍茫",
+          kelvin: 7200,
+          bgBase: [25, 28, 43],
+          bgInner: [42, 48, 70],
+          bgOuter: [12, 14, 22],
+          textMain: [234, 240, 248],
+          cardMat: [30, 36, 54],
+          sunX: 85,
+          sunY: 72,
+          bloom: 0.20,
+          shadowAlpha: 0.32
+        },
+        {
+          hour: 22.0,
+          name: "冷夜月华",
+          kelvin: 8200,
+          bgBase: [13, 16, 26],
+          bgInner: [24, 30, 48],
+          bgOuter: [6, 8, 12],
+          textMain: [234, 240, 248],
+          cardMat: [20, 25, 38],
+          sunX: 75,
+          sunY: 85,
+          bloom: 0.14,
+          shadowAlpha: 0.40
+        },
+        {
+          hour: 24.0,
+          name: "子夜星汉",
+          kelvin: 8500,
+          bgBase: [11, 14, 22],
+          bgInner: [22, 28, 43],
+          bgOuter: [5, 7, 10],
+          textMain: [234, 240, 248],
+          cardMat: [19, 24, 36],
+          sunX: 50,
+          sunY: 90,
+          bloom: 0.12,
+          shadowAlpha: 0.45
+        }
+      ];
+
+      // 状态变量
+      let currentHour = 7.5; // 初始时刻 07:30
+      let isAutoFlow = true;
+      let isDragging = false;
+      let resumeTimer = null;
+      let lastFrameTime = performance.now();
+
+      // DOM 元素引用
+      const root = document.documentElement;
+      const lightShaft = document.getElementById("lightShaft");
+      const sundialGnomon = document.getElementById("sundialGnomon");
+      const chronoClock = document.getElementById("chronoClock");
+      const chronoPhase = document.getElementById("chronoPhase");
+      const chronoKelvin = document.getElementById("chronoKelvin");
+      const halationOverlay = document.getElementById("halationOverlay");
+      const timelineWrapper = document.getElementById("timelineWrapper");
+      const timelineThumb = document.getElementById("timelineThumb");
+      const btnFlowToggle = document.getElementById("btnFlowToggle");
+      const flowDot = document.getElementById("flowDot");
+      const flowStatusLabel = document.getElementById("flowStatusLabel");
+      const btnBack = document.getElementById("btnBackToGrandHall");
+      const btnSound = document.getElementById("btnSoundscape");
+      const canvasFrame = document.getElementById("canvasFrame");
+
+      // 4个真实自然风景图层
+      const layerDawn = document.getElementById("layerDawn");
+      const layerNoon = document.getElementById("layerNoon");
+      const layerDusk = document.getElementById("layerDusk");
+      const layerNight = document.getElementById("layerNight");
+
+      // 2. 纯数学升余弦 (Raised Cosine) 平滑插值工具函数
+      function lerp(a, b, t) {
+        return a + (b - a) * t;
+      }
+
+      function lerpRgb(c1, c2, t) {
+        return [
+          Math.round(lerp(c1[0], c2[0], t)),
+          Math.round(lerp(c1[1], c2[1], t)),
+          Math.round(lerp(c1[2], c2[2], t))
+        ];
+      }
+
+      function rgbStr(rgb, alpha) {
+        if (alpha !== undefined) {
+          return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${alpha})`;
+        }
+        return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+      }
+
+      // 计算任意时刻 h 下连续环境状态
+      function sampleCircadianState(hour) {
+        const h = (hour % 24 + 24) % 24;
+        let nodeA = CIRCADIAN_NODES[0];
+        let nodeB = CIRCADIAN_NODES[1];
+
+        for (let i = 0; i < CIRCADIAN_NODES.length - 1; i++) {
+          if (h >= CIRCADIAN_NODES[i].hour && h <= CIRCADIAN_NODES[i + 1].hour) {
+            nodeA = CIRCADIAN_NODES[i];
+            nodeB = CIRCADIAN_NODES[i + 1];
+            break;
+          }
+        }
+
+        const span = nodeB.hour - nodeA.hour;
+        const localT = (h - nodeA.hour) / (span || 1);
+        // 升余弦平滑因子：一阶导数在两端完全为0，平缓无尖角
+        const smoothT = 0.5 - 0.5 * Math.cos(localT * Math.PI);
+
+        const kelvin = Math.round(lerp(nodeA.kelvin, nodeB.kelvin, smoothT));
+        const bgBase = lerpRgb(nodeA.bgBase, nodeB.bgBase, smoothT);
+        const bgInner = lerpRgb(nodeA.bgInner, nodeB.bgInner, smoothT);
+        const bgOuter = lerpRgb(nodeA.bgOuter, nodeB.bgOuter, smoothT);
+        const textMain = lerpRgb(nodeA.textMain, nodeB.textMain, smoothT);
+        const cardMat = lerpRgb(nodeA.cardMat, nodeB.cardMat, smoothT);
+        const sunX = lerp(nodeA.sunX, nodeB.sunX, smoothT);
+        const sunY = lerp(nodeA.sunY, nodeB.sunY, smoothT);
+        const bloom = lerp(nodeA.bloom, nodeB.bloom, smoothT);
+        const shadowAlpha = lerp(nodeA.shadowAlpha, nodeB.shadowAlpha, smoothT);
+
+        return {
+          hour: h,
+          name: localT < 0.5 ? nodeA.name : nodeB.name,
+          kelvin,
+          bgBase,
+          bgInner,
+          bgOuter,
+          textMain,
+          cardMat,
+          sunX,
+          sunY,
+          bloom,
+          shadowAlpha
+        };
+      }
+
+      // 3. 真实风景摄影 4 时相连续无缝 Cross-Fade 混合权重计算
+      // 锚点分布：
+      // - 00:00 (Night, 权重 1)
+      // - 06:00 (Dawn,  权重 1)
+      // - 12:00 (Noon,  权重 1)
+      // - 18:00 (Dusk,  权重 1)
+      // - 24:00 (Night, 权重 1)
+      function updatePhotoLayers(hour) {
+        const h = (hour % 24 + 24) % 24;
+        let wNight = 0;
+        let wDawn = 0;
+        let wNoon = 0;
+        let wDusk = 0;
+
+        if (h >= 0.0 && h < 6.0) {
+          // Night -> Dawn
+          const t = h / 6.0;
+          const s = 0.5 - 0.5 * Math.cos(t * Math.PI);
+          wNight = 1.0 - s;
+          wDawn = s;
+        } else if (h >= 6.0 && h < 12.0) {
+          // Dawn -> Noon
+          const t = (h - 6.0) / 6.0;
+          const s = 0.5 - 0.5 * Math.cos(t * Math.PI);
+          wDawn = 1.0 - s;
+          wNoon = s;
+        } else if (h >= 12.0 && h < 18.0) {
+          // Noon -> Dusk
+          const t = (h - 12.0) / 6.0;
+          const s = 0.5 - 0.5 * Math.cos(t * Math.PI);
+          wNoon = 1.0 - s;
+          wDusk = s;
+        } else {
+          // Dusk -> Night (18.0 ~ 24.0)
+          const t = (h - 18.0) / 6.0;
+          const s = 0.5 - 0.5 * Math.cos(t * Math.PI);
+          wDusk = 1.0 - s;
+          wNight = s;
+        }
+
+        // 应用透明度（保留 3 位小数，确保 GPU 合成流水线纯净高效）
+        layerNight.style.opacity = wNight.toFixed(3);
+        layerDawn.style.opacity = wDawn.toFixed(3);
+        layerNoon.style.opacity = wNoon.toFixed(3);
+        layerDusk.style.opacity = wDusk.toFixed(3);
+      }
+
+      // 4. 全场域环境光幕、日晷与 UI 连续刷新
+      function updateCircadianEnvironment(hour) {
+        const state = sampleCircadianState(hour);
+
+        // A. 更新时相文本印章
+        const hh = Math.floor(state.hour);
+        const mm = Math.floor((state.hour % 1) * 60);
+        chronoClock.textContent = `${String(hh).padStart(2, "0")}:${String(mm).padStart(2, "0")}`;
+        chronoPhase.textContent = state.name;
+        chronoKelvin.textContent = `${state.kelvin}K`;
+
+        // B. 更新日晷指针物理角度 (0h=0°, 6h=90°, 12h=180°, 18h=270°)
+        const sundialDeg = (state.hour / 24) * 360;
+        root.style.setProperty("--sundial-angle", `${sundialDeg.toFixed(2)}deg`);
+
+        // C. 全场域纯数学 RGB 连续无跳变渐变
+        root.style.setProperty("--bg-base", rgbStr(state.bgBase));
+        root.style.setProperty("--bg-inner", rgbStr(state.bgInner));
+        root.style.setProperty("--bg-outer", rgbStr(state.bgOuter));
+        root.style.setProperty("--text-main", rgbStr(state.textMain));
+        root.style.setProperty("--text-sub", rgbStr(state.textMain, 0.68));
+        root.style.setProperty("--text-muted", rgbStr(state.textMain, 0.40));
+        root.style.setProperty("--card-mat-bg", rgbStr(state.cardMat));
+
+        // 动态毛玻璃底色与边框联动
+        const isNightTone = state.cardMat[0] < 80;
+        if (isNightTone) {
+          root.style.setProperty("--glass-bg", "rgba(18, 24, 36, 0.72)");
+          root.style.setProperty("--glass-border", "rgba(100, 150, 220, 0.22)");
+          canvasFrame.style.boxShadow = `0 8px 32px rgba(0, 0, 0, 0.5), 0 30px 70px -10px rgba(100, 150, 220, ${state.shadowAlpha.toFixed(2)})`;
+        } else {
+          root.style.setProperty("--glass-bg", "rgba(255, 255, 255, 0.68)");
+          root.style.setProperty("--glass-border", "rgba(200, 156, 72, 0.22)");
+          canvasFrame.style.boxShadow = `0 4px 14px rgba(0, 0, 0, 0.03), 0 20px 48px -8px rgba(0, 0, 0, 0.08), 0 40px 80px -16px rgba(200, 156, 72, ${state.shadowAlpha.toFixed(2)})`;
+        }
+
+        // D. 太阳光晕位置与强度平滑联动
+        root.style.setProperty("--sun-x", `${state.sunX.toFixed(1)}%`);
+        root.style.setProperty("--sun-y", `${state.sunY.toFixed(1)}%`);
+        halationOverlay.style.opacity = state.bloom.toFixed(2);
+
+        // E. 底部时间轴滑块位置更新
+        const pct = (state.hour / 24.0) * 100;
+        timelineThumb.style.left = `${pct.toFixed(2)}%`;
+
+        // F. 刻度高亮联动
+        const markers = [
+          { id: "marker-0", h: 0 },
+          { id: "marker-6", h: 6 },
+          { id: "marker-12", h: 12 },
+          { id: "marker-18", h: 18 },
+          { id: "marker-24", h: 24 }
+        ];
+        markers.forEach(m => {
+          const el = document.getElementById(m.id);
+          if (el) {
+            const diff = Math.abs(state.hour - m.h);
+            el.classList.toggle("active", diff < 1.5);
+          }
+        });
+
+        // G. 刷新真实风光摄影多图层平滑混合
+        updatePhotoLayers(state.hour);
+
+        // H. 声景时间轴动态色温滤波联动
+        if (window.ChronoSoundscape && window.ChronoSoundscape.setCircadianHour) {
+          window.ChronoSoundscape.setCircadianHour(state.hour);
+        }
+      }
+
+      // 5. 时间轴交互绑定 (支持拖拽、轻扫、点击)
+      function setHourFromPointer(clientX) {
+        const rect = timelineWrapper.getBoundingClientRect();
+        let ratio = (clientX - rect.left) / rect.width;
+        ratio = Math.max(0, Math.min(1, ratio));
+        currentHour = ratio * 24.0;
+        updateCircadianEnvironment(currentHour);
+      }
+
+      function handleDragStart(e) {
+        isDragging = true;
+        isAutoFlow = false;
+        flowDot.style.animation = "none";
+        flowStatusLabel.textContent = "MANUAL SCRUB";
+
+        if (resumeTimer) clearTimeout(resumeTimer);
+
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setHourFromPointer(clientX);
+      }
+
+      function handleDragMove(e) {
+        if (!isDragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        setHourFromPointer(clientX);
+      }
+
+      function handleDragEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+
+        // 停止拖拽 5 秒后恢复自动平缓呼吸流转
+        resumeTimer = setTimeout(() => {
+          isAutoFlow = true;
+          flowDot.style.animation = "pulseFlow 1.6s infinite ease-in-out";
+          flowStatusLabel.textContent = "AUTO FLOW";
+        }, 5000);
+      }
+
+      timelineWrapper.addEventListener("mousedown", handleDragStart);
+      window.addEventListener("mousemove", handleDragMove);
+      window.addEventListener("mouseup", handleDragEnd);
+
+      timelineWrapper.addEventListener("touchstart", handleDragStart, { passive: true });
+      window.addEventListener("touchmove", handleDragMove, { passive: true });
+      window.addEventListener("touchend", handleDragEnd);
+
+      // 点击切换自动流转状态
+      btnFlowToggle.addEventListener("click", () => {
+        isAutoFlow = !isAutoFlow;
+        if (isAutoFlow) {
+          flowDot.style.animation = "pulseFlow 1.6s infinite ease-in-out";
+          flowStatusLabel.textContent = "AUTO FLOW";
+        } else {
+          flowDot.style.animation = "none";
+          flowStatusLabel.textContent = "PAUSED";
+        }
+      });
+
+      // 键盘左右箭头支持微调
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") {
+          currentHour = Math.max(0, currentHour - 0.25);
+          updateCircadianEnvironment(currentHour);
+        } else if (e.key === "ArrowRight") {
+          currentHour = Math.min(24, currentHour + 0.25);
+          updateCircadianEnvironment(currentHour);
+        }
+      });
+
+      // 6. 自动时间呼吸演进循环 (每 60 秒完成 24 小时微缩流转)
+      function animationLoop(now) {
+        const deltaSec = (now - lastFrameTime) / 1000;
+        lastFrameTime = now;
+
+        if (isAutoFlow && !isDragging) {
+          // 速度：60 秒走完 24 小时 = 0.4 小时/秒
+          currentHour = (currentHour + deltaSec * 0.4) % 24.0;
+          updateCircadianEnvironment(currentHour);
+        }
+
+        requestAnimationFrame(animationLoop);
+      }
+
+      // 7. 鼠标微视差倾斜 (Parallax Tilt)
+      canvasFrame.addEventListener("mousemove", (e) => {
+        const rect = canvasFrame.getBoundingClientRect();
+        const px = (e.clientX - rect.left - rect.width / 2) / rect.width;
+        const py = (e.clientY - rect.top - rect.height / 2) / rect.height;
+        canvasFrame.style.transform = `perspective(1200px) rotateX(${-py * 6}deg) rotateY(${px * 6}deg)`;
+      });
+      canvasFrame.addEventListener("mouseleave", () => {
+        canvasFrame.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg)";
+      });
+
+      // 8. 多影集数据配置与平滑切换系统 (默认用户实拍母版)
+      const ALBUMS = {
+        lookout: {
+          title: "高山远眺 · 廿四流光",
+          location: "LOOKOUT RIDGE · 45.3°N 实拍母版",
+          photos: {
+            dawn: "./assets/images/diurnal/lookout_dawn.jpg",
+            noon: "./assets/images/diurnal/lookout_noon.jpg",
+            dusk: "./assets/images/diurnal/lookout_dusk.jpg",
+            night: "./assets/images/diurnal/lookout_night.jpg"
+          }
+        },
+        fuji: {
+          title: "富士云海 · 廿四霞光",
+          location: "FUJI PEAK · 35.36°N 实拍母版",
+          photos: {
+            dawn: "./assets/images/diurnal/fuji_dawn.jpg",
+            noon: "./assets/images/diurnal/fuji_noon.jpg",
+            dusk: "./assets/images/diurnal/fuji_dusk.jpg",
+            night: "./assets/images/diurnal/fuji_night.jpg"
+          }
+        },
+        canopy: {
+          title: "深林天顶 · 廿四林冠",
+          location: "ANCIENT CANOPY · 35.38°N 实拍母版",
+          photos: {
+            dawn: "./assets/images/diurnal/canopy_dawn.jpg",
+            noon: "./assets/images/diurnal/canopy_noon.jpg",
+            dusk: "./assets/images/diurnal/canopy_dusk.jpg",
+            night: "./assets/images/diurnal/canopy_night.jpg"
+          }
+        }
+      };
+
+      let currentAlbumKey = "lookout";
+
+      function switchAlbum(key) {
+        if (!ALBUMS[key] || key === currentAlbumKey) return;
+        currentAlbumKey = key;
+        const album = ALBUMS[key];
+
+        // 按钮高亮联动
+        document.querySelectorAll(".album-switch-btn").forEach(btn => {
+          btn.classList.toggle("active", btn.getAttribute("data-album") === key);
+        });
+
+        // 标题与地理坐标平滑淡入淡出
+        const artTitle = document.getElementById("artTitle");
+        const artLocation = document.getElementById("artLocation");
+        if (artTitle && artLocation) {
+          artTitle.style.opacity = "0";
+          artLocation.style.opacity = "0";
+          setTimeout(() => {
+            artTitle.textContent = album.title;
+            artLocation.textContent = album.location;
+            artTitle.style.opacity = "1";
+            artLocation.style.opacity = "1";
+          }, 200);
+        }
+
+        // 视口图层切换
+        layerDawn.src = album.photos.dawn;
+        layerNoon.src = album.photos.noon;
+        layerDusk.src = album.photos.dusk;
+        layerNight.src = album.photos.night;
+
+        // 立即根据当前时刻刷新图层透明度
+        updatePhotoLayers(currentHour);
+      }
+
+      // 绑定影集切换按钮事件
+      document.querySelectorAll(".album-switch-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const key = btn.getAttribute("data-album");
+          switchAlbum(key);
+        });
+      });
+
+      // 9. 导航返回与声景接入 (遵循三级架构：返回第二级相册清单大厅)
+      btnBack.addEventListener("click", () => {
+        document.body.style.opacity = "0";
+        document.body.style.transform = "scale(0.96)";
+        setTimeout(() => {
+          window.location.href = "./daylight-salon.html";
+        }, 400);
+      });
+
+      if (window.ChronoSoundscape) {
+        window.ChronoSoundscape.init({
+          mode: "daylight",
+          btnId: "btnSoundscape",
+          dotId: "soundActiveDot"
+        });
+      }
+
+      // 初始化启动与 URL 相册路由
+      window.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const reqAlbum = urlParams.get("album");
+        if (reqAlbum && ALBUMS[reqAlbum]) {
+          switchAlbum(reqAlbum);
+        }
+
+        updateCircadianEnvironment(currentHour);
+        lastFrameTime = performance.now();
+        requestAnimationFrame(animationLoop);
+      });
+    })();
+  </script>
+</body>
+</html>

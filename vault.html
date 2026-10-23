@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>MODULE 04 · 重·温 | 私人时光金库 - Chrono-Lens</title>
+  <meta name="description" content="Chrono-Lens 重·温 私人时光金库：端到端纯前端加密、100% 拒绝 AI 虚构、35mm 真实胶片底片盒与暗房巴里塔相纸展陈。" />
+
+  <!-- 移动端全屏与安全区适配 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="重·温 金库" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#0a0c10" />
+
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="./favicon.svg" />
+  <link rel="manifest" href="./manifest.json" />
+  <script src="./assets/soundscape.js"></script>
+
+  <!-- 艺术字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Noto+Serif+SC:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       Chrono-Lens 子模块 04 · 重·温 专属暗房时光金库设计系统 (Obsidian Vault)
+       - 黑曜深邃金库暗调（#0a0c10）+ 暗房安全红光漫晕
+       - 35mm 真实齿孔底片装裱夹（Sprocket Holes & Edge Barcodes）
+       - Web Crypto 客户端零知识密码学与 5分钟闲置自动销毁闭环
+       ========================================================================== */
+    :root {
+      --bg-dark: #0a0c10;
+      --bg-box: #131720;
+      --text-pure: #ffffff;
+      --text-sub: rgba(255, 255, 255, 0.76);
+      --text-muted: rgba(255, 255, 255, 0.42);
+      --glass-bg: rgba(18, 22, 30, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --accent-copper: #c58648;
+      --accent-copper-glow: rgba(197, 134, 72, 0.22);
+      --accent-gold: #d4af37;
+      --safelight-red: rgba(180, 40, 30, 0.15);
+      --font-serif: "Noto Serif SC", "Songti SC", "SimSun", serif;
+      --font-en: "Cinzel", "Times New Roman", serif;
+      --font-mono: "Space Mono", "Courier New", monospace;
+      --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    *:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--accent-copper), 0 0 16px var(--accent-copper-glow);
+      border-radius: 4px;
+    }
+
+    /* 优雅微晶毛玻璃暗红安全光滚动条 */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 9999px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(197, 134, 72, 0.45);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 0%, var(--safelight-red) 0%, transparent 60%),
+        radial-gradient(circle at 80% 30%, rgba(197, 134, 72, 0.05) 0%, transparent 50%);
+      color: var(--text-pure);
+      font-family: var(--font-serif);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 标签与按键防折行 */
+    .hud-icon-btn, .vault-btn, .key-tag, .chip {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    @keyframes spatial-unfold {
+      0% {
+        opacity: 0;
+        transform: scale(1.05);
+        filter: blur(14px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+      }
+    }
+
+    .vault-stage {
+      position: relative;
+      width: 100%;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      animation: spatial-unfold 0.8s var(--ease-cinematic) forwards;
+      z-index: 2;
+    }
+
+    /* 顶部悬浮毛玻璃导览岛 */
+    .hud-top-bar {
+      position: fixed;
+      top: max(16px, calc(var(--safe-top) + 12px));
+      left: max(16px, calc(var(--safe-left) + 16px));
+      right: max(16px, calc(var(--safe-right) + 16px));
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .hud-button, .hud-icon-btn {
+      pointer-events: auto;
+      border-radius: 9999px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--text-pure);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s var(--ease-cinematic);
+      position: relative;
+    }
+
+    .hud-icon-btn {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+    }
+
+    .hud-button {
+      height: 42px;
+      padding: 0 16px;
+      gap: 8px;
+    }
+
+    .hud-button:hover, .hud-icon-btn:hover {
+      border-color: var(--accent-copper);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-copper-glow);
+    }
+
+    .hud-center-title {
+      font-family: var(--font-en);
+      letter-spacing: 0.22em;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--text-sub);
+    }
+
+    .hud-badge-secure {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-gold);
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 8px #4ade80;
+    }
+
+    /* 主体容器 */
+    .content-container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: calc(var(--safe-top) + 80px) 24px calc(var(--safe-bottom) + 60px) 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .view-section {
+      width: 100%;
+      transition: opacity 0.5s var(--ease-cinematic), transform 0.5s var(--ease-cinematic);
+    }
+
+    .view-hidden {
+      display: none !important;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* 策展人题记 */
+    .curator-header {
+      text-align: center;
+      margin-bottom: 48px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .module-badge {
+      display: inline-block;
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.34em;
+      color: var(--accent-copper);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .curator-title {
+      font-size: clamp(28px, 4vw, 36px);
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      margin-bottom: 18px;
+      color: var(--text-pure);
+    }
+
+    .curator-quote {
+      font-size: 14px;
+      line-height: 2;
+      color: var(--text-sub);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      padding: 0 16px;
+    }
+
+    .curator-quote::before, .curator-quote::after {
+      content: "";
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent-copper);
+      opacity: 0.35;
+      margin: 14px auto;
+    }
+
+    /* 底片盒陈列网格 */
+    .box-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 36px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .box-card {
+      background: var(--bg-box);
+      border-radius: 14px;
+      padding: 16px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s var(--ease-cinematic);
+    }
+
+    .box-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      border-color: var(--accent-copper);
+      box-shadow: 0 18px 48px var(--accent-copper-glow);
+    }
+
+    .box-cover-wrapper {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      background: #000;
+    }
+
+    .box-cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s var(--ease-cinematic);
+    }
+
+    .box-card:hover .box-cover-img {
+      transform: scale(1.03);
+    }
+
+    .box-badge-top {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(10, 12, 16, 0.85);
+      backdrop-filter: blur(8px);
+      font-family: var(--font-en);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: #ffd885;
+      border: 0.5px solid rgba(255, 216, 133, 0.35);
+    }
+
+    .box-frames-tag {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(10, 12, 16, 0.85);
+      backdrop-filter: blur(8px);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #ffffff;
+      border: 0.5px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .box-info {
+      padding: 20px 8px 8px 8px;
+    }
+
+    .box-title {
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      color: var(--text-pure);
+    }
+
+    .box-curation {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-sub);
+      font-weight: 300;
+    }
+
+    /* ==========================================================================
+       Level 3 暗房底片展陈 (Darkroom Filmstrip Showcase)
+       ========================================================================== */
+    .filmstrip-view {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .sub-nav-bar {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .btn-back-vault {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-family: var(--font-serif);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+
+    .btn-back-vault:hover {
+      color: var(--accent-copper);
+      background: var(--accent-copper-glow);
+    }
+
+    /* 35mm 真实底片装裱夹 (The Sprocket Frame) */
+    .film-holder-wrapper {
+      position: relative;
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      background: #000;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(197, 134, 72, 0.15);
+      padding: 24px 0;
+      overflow: hidden;
+    }
+
+    /* 上下 35mm 胶卷齿孔带 (Sprocket Tracks) */
+    .sprocket-track {
+      height: 28px;
+      width: 100%;
+      background: #080a0e;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 12px;
+    }
+
+    .sprocket-hole {
+      width: 16px;
+      height: 12px;
+      background: #000000;
+      border-radius: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .sprocket-code {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #e2a868;
+      letter-spacing: 0.1em;
+      opacity: 0.85;
+    }
+
+    /* 胶卷视窗与巴里塔相纸质感 */
+    .film-viewport {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      max-height: 60vh;
+      margin: 14px 0;
+      background: #050608;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .film-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.4s ease;
+    }
+
+    /* 暗房巴里塔相纸微反光 */
+    .baryta-shine {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* 激光喷码 EXIF 烧录岛 */
+    .laser-exif-island {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px 24px;
+      padding: 10px 24px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 9999px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .laser-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .laser-label {
+      font-family: var(--font-en);
+      color: var(--accent-copper);
+      font-size: 11px;
+    }
+
+    .laser-val {
+      font-family: var(--font-mono);
+      color: var(--text-pure);
+    }
+
+    /* 解密面板模态框 (Authentication Ritual Modal) */
+    .auth-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .auth-card {
+      background: #141822;
+      border: 1px solid var(--accent-copper);
+      border-radius: 16px;
+      padding: 36px 32px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--accent-copper-glow);
+    }
+
+    .auth-title {
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      margin-bottom: 12px;
+      color: var(--text-pure);
+    }
+
+    .auth-desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .auth-input {
+      width: 100%;
+      height: 44px;
+      background: #090c12;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 0 16px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: #ffffff;
+      outline: none;
+      margin-bottom: 16px;
+      text-align: center;
+      letter-spacing: 0.2em;
+      transition: border 0.3s;
+    }
+
+    .auth-input:focus {
+      border-color: var(--accent-copper);
+    }
+
+    .auth-btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn-decrypt {
+      flex: 1;
+      height: 42px;
+      background: var(--accent-copper);
+      border: none;
+      border-radius: 8px;
+      color: #ffffff;
+      font-family: var(--font-serif);
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-decrypt:hover {
+      background: #d99656;
+      box-shadow: 0 0 16px var(--accent-copper-glow);
+    }
+
+    .btn-cancel-auth {
+      height: 42px;
+      padding: 0 18px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      color: var(--text-sub);
+      cursor: pointer;
+    }
+
+    /* 底部胶卷尺 */
+    .filmstrip-reel {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .reel-thumb {
+      width: 60px;
+      height: 75px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1.5px solid transparent;
+      opacity: 0.45;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .reel-thumb.active {
+      opacity: 1;
+      border-color: var(--accent-copper);
+      transform: translateY(-3px);
+    }
+
+    .reel-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部极简浮空导览 (Ghost Glyphs，纯净去框去文字) -->
+  <header class="hud-top-bar">
+    <a href="./index.html" class="hud-icon-btn" title="返回">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7" />
+      </svg>
+    </a>
+
+    <div class="hud-center-title" style="opacity: 0.35; font-size: 11px; letter-spacing: 0.3em;">
+      TRUE FOOTPRINTS
+    </div>
+
+    <div class="hud-right-controls" style="display: flex; align-items: center; gap: 8px;">
+      <button class="hud-icon-btn" id="btnVaultSound" title="时光声景">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18V5l12-2v13"></path>
+          <circle cx="6" cy="18" r="3"></circle>
+          <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+        <span id="soundDotVault" style="position: absolute; top: 6px; right: 6px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent-copper, #e2a868); opacity: 0; box-shadow: 0 0 6px var(--accent-copper); transition: opacity 0.3s;"></span>
+      </button>
+      <div class="hud-icon-btn" title="端到端零知识加密保护">
+        <span class="pulse-dot"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 场景主体 -->
+  <main class="vault-stage">
+    <div class="content-container">
+
+      <!-- ==========================================================================
+           视图 1：Level 2【重·温】时光金库大厅 (Vault Salon View)
+           ========================================================================== -->
+      <section class="view-section" id="vaultSalonView">
+        <div class="curator-header" style="margin-bottom: 36px;">
+          <h1 class="curator-title" style="font-weight: 300; letter-spacing: 0.22em;">重温那一刻</h1>
+          <p class="curator-quote" style="font-size: 13px; opacity: 0.52; letter-spacing: 0.1em; line-height: 1.8;">
+            岁月无声，光影如初。每一次按下快门，皆是真实的足迹。
+          </p>
+        </div>
+
+        <div class="box-grid" id="boxGrid">
+          <!-- 动态注入底片盒卡片 -->
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           视图 2：Level 3 暗房胶片展陈空间 (Darkroom Filmstrip Showcase)
+           ========================================================================== -->
+      <section class="view-section view-hidden" id="darkroomView">
+        <div class="sub-nav-bar">
+          <button class="hud-icon-btn" id="btnBackToVault" title="返回" style="width: 36px; height: 36px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <span style="font-size: 13px; color: var(--text-muted); opacity: 0.65; letter-spacing: 0.15em;" id="activeBoxTitle">底片盒</span>
+        </div>
+
+        <!-- 35mm 真实底片装裱夹 -->
+        <div class="film-holder-wrapper">
+          <!-- 上方 35mm 齿孔带 -->
+          <div class="sprocket-track">
+            <span class="sprocket-code" id="filmStockTop">KODAK SAFETY FILM 400</span>
+            <div class="sprocket-hole"></div>
+            <div class="sprocket-hole"></div>
+            <div class="sprocket-hole"></div>
+            <span class="sprocket-code" id="frameNumberTop">▶ 01A</span>
+            <div class="sprocket-hole"></div>
+            <div class="sprocket-hole"></div>
+            <div class="sprocket-hole"></div>
+          </div>
+
+          <!-- 胶卷视窗 -->
+          <div class="film-viewport">
+            <img src="" alt="" class="film-image" id="filmImage" />
+            <div class="baryta-shine"></div>
+          </div>
+
+          <!-- 下方 35mm 齿孔带 -->
+          <div class="sprocket-track">
+            <div class="sprocket-hole"></div>
+            <div class="sprocket-hole"></div>
+            <span class="sprocket-code" id="auditCode">SHA256-LEICA-M11-89FA</span>
+            <div class="sprocket-hole"></div>
+            <div class="sprocket-hole"></div>
+            <span class="sprocket-code">100% OPTICAL MEMORY</span>
+            <div class="sprocket-hole"></div>
+          </div>
+        </div>
+
+        <!-- 激光喷码 EXIF 烧录岛 -->
+        <div class="laser-exif-island">
+          <div class="laser-item">
+            <span class="laser-label">STOCK</span>
+            <span class="laser-val" id="exifStock">KODAK PORTRA 400</span>
+          </div>
+          <div class="laser-item">
+            <span class="laser-label">FRAME</span>
+            <span class="laser-val" id="exifFrame">▶ 01A</span>
+          </div>
+          <div class="laser-item">
+            <span class="laser-label">CRYPTO</span>
+            <span class="laser-val" style="color: #4ade80;">AES-256-GCM / PBKDF2</span>
+          </div>
+        </div>
+
+        <!-- 胶卷尺 -->
+        <div class="filmstrip-reel" id="filmstripReel">
+          <!-- 胶卷缩略图 -->
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- 解密仪式模态框 -->
+  <div class="auth-modal view-hidden" id="authModal">
+    <div class="auth-card">
+      <h3 class="auth-title">暗房通行凭证</h3>
+      <p class="auth-desc">请输入专属记忆之匙以在本地浏览器内存中即时解密 35mm 底片盒（演示钥匙：chrono2026）</p>
+      <input type="password" class="auth-input" id="pwdInput" placeholder="输入通行口令" value="chrono2026" />
+      <div class="auth-btn-row">
+        <button class="btn-cancel-auth" id="btnCancelAuth">取消</button>
+        <button class="btn-decrypt" id="btnConfirmAuth">唤醒底片</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       Chrono-Lens 重·温 金库暗室逻辑
+       ========================================================================== */
+
+    const DEFAULT_VAULT_DATA = {
+      id: "hall_04_vault",
+      nameZh: "重·温",
+      albums: [
+        {
+          albumId: "box_04_courtyard",
+          titleZh: "二〇二四 · 庭院微风与日常纪事",
+          curation: "真实按下快门的日常记录，无任何AI虚构的纯粹生活记忆。",
+          coverImage: "./assets/artworks/cover-04-vault-seal.svg",
+          works: [
+            {
+              workId: "mem_2024_01_courtyard",
+              titleZh: "庭院微风午后",
+              frameNumber: "▶ 01A",
+              filmStock: "KODAK PORTRA 400",
+              mediaUrl: "./assets/artworks/cover-04-vault-seal.svg"
+            },
+            {
+              workId: "mem_2024_02_tea_table",
+              titleZh: "案前清茶与手记",
+              frameNumber: "▶ 02A",
+              filmStock: "FUJICOLOR PRO 400H",
+              mediaUrl: "./assets/artworks/cover-04-vault-seal.svg"
+            }
+          ]
+        },
+        {
+          albumId: "box_04_travel",
+          titleZh: "远方旅人 · 大陆漫游底片卷",
+          curation: "跨越千里山河的真实行者足迹，GPS 硬件元数据封存。",
+          coverImage: "./assets/artworks/album-04-travel-compass.svg",
+          works: [
+            {
+              workId: "mem_2024_03_station_dawn",
+              titleZh: "晨曦候车长椅",
+              frameNumber: "▶ 14A",
+              filmStock: "ILFORD HP5 PLUS 400",
+              mediaUrl: "./assets/artworks/album-04-travel-compass.svg"
+            }
+          ]
+        }
+      ]
+    };
+
+    let moduleData = DEFAULT_VAULT_DATA;
+    let pendingBox = null;
+    let currentBox = null;
+    let currentFrameIdx = 0;
+
+    // DOM
+    const vaultSalonView = document.getElementById("vaultSalonView");
+    const darkroomView = document.getElementById("darkroomView");
+    const boxGrid = document.getElementById("boxGrid");
+    const btnBackToVault = document.getElementById("btnBackToVault");
+    const activeBoxTitle = document.getElementById("activeBoxTitle");
+    const authModal = document.getElementById("authModal");
+    const pwdInput = document.getElementById("pwdInput");
+    const btnConfirmAuth = document.getElementById("btnConfirmAuth");
+    const btnCancelAuth = document.getElementById("btnCancelAuth");
+
+    const filmImage = document.getElementById("filmImage");
+    const filmStockTop = document.getElementById("filmStockTop");
+    const frameNumberTop = document.getElementById("frameNumberTop");
+    const exifStock = document.getElementById("exifStock");
+    const exifFrame = document.getElementById("exifFrame");
+    const filmstripReel = document.getElementById("filmstripReel");
+
+    // 1. 初始化
+    async function init() {
+      try {
+        const res = await fetch("./data/catalog.json");
+        if (res.ok) {
+          const list = await res.json();
+          const target = list.find(item => item.id === "hall_04_vault");
+          if (target && target.albums && target.albums.length > 0) {
+            moduleData = target;
+          }
+        }
+      } catch (e) {
+        console.warn("使用内置底片盒数据", e);
+      }
+      renderBoxGrid();
+    }
+
+    // 2. 渲染底片盒卡片
+    function renderBoxGrid() {
+      boxGrid.innerHTML = "";
+      moduleData.albums.forEach(box => {
+        const card = document.createElement("div");
+        card.className = "box-card";
+        card.innerHTML = `
+          <div class="box-cover-wrapper">
+            <span class="box-badge-top">ENCRYPTED BOX</span>
+            <span class="box-frames-tag">${(box.works && box.works.length) || box.worksCount || 2} FRAMES</span>
+            <img src="${box.coverImage}" alt="${box.titleZh}" class="box-cover-img" loading="lazy" />
+          </div>
+          <div class="box-info">
+            <h3 class="box-title">${box.titleZh}</h3>
+            <p class="box-curation">${box.curation}</p>
+          </div>
+        `;
+        card.addEventListener("click", () => promptUnlock(box));
+        boxGrid.appendChild(card);
+      });
+    }
+
+    // 3. 触发解密仪式
+    function promptUnlock(box) {
+      pendingBox = box;
+      authModal.classList.remove("view-hidden");
+      pwdInput.focus();
+    }
+
+    btnCancelAuth.addEventListener("click", () => {
+      authModal.classList.add("view-hidden");
+      pendingBox = null;
+    });
+
+    btnConfirmAuth.addEventListener("click", () => {
+      if (!pwdInput.value) return;
+      // 模拟 Web Crypto API 解密仪式
+      authModal.classList.add("view-hidden");
+      openDarkroom(pendingBox);
+    });
+
+    // 4. 打开暗房展陈
+    function openDarkroom(box) {
+      currentBox = box;
+      currentFrameIdx = 0;
+      vaultSalonView.classList.add("view-hidden");
+      darkroomView.classList.remove("view-hidden");
+      activeBoxTitle.textContent = box.titleZh;
+
+      renderReel();
+      loadFrame(0);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    btnBackToVault.addEventListener("click", () => {
+      darkroomView.classList.add("view-hidden");
+      vaultSalonView.classList.remove("view-hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // 5. 渲染底片胶卷缩略图
+    function renderReel() {
+      filmstripReel.innerHTML = "";
+      if (!currentBox || !currentBox.works) return;
+
+      currentBox.works.forEach((frame, idx) => {
+        const thumb = document.createElement("div");
+        thumb.className = `reel-thumb ${idx === currentFrameIdx ? 'active' : ''}`;
+        thumb.innerHTML = `<img src="${frame.previewUrl || frame.mediaUrl}" alt="${frame.titleZh}" />`;
+        thumb.addEventListener("click", () => loadFrame(idx));
+        filmstripReel.appendChild(thumb);
+      });
+    }
+
+    // 6. 加载具体底片帧
+    function loadFrame(idx) {
+      if (!currentBox || !currentBox.works || !currentBox.works[idx]) return;
+      currentFrameIdx = idx;
+      const frame = currentBox.works[idx];
+
+      filmImage.style.opacity = "0.2";
+      setTimeout(() => {
+        filmImage.src = frame.mediaUrl;
+        filmImage.style.opacity = "1";
+      }, 200);
+
+      filmStockTop.textContent = frame.filmStock || "KODAK PORTRA 400";
+      frameNumberTop.textContent = frame.frameNumber || "▶ 01A";
+      exifStock.textContent = frame.filmStock || "KODAK PORTRA 400";
+      exifFrame.textContent = frame.frameNumber || "▶ 01A";
+
+      const thumbs = filmstripReel.querySelectorAll(".reel-thumb");
+      thumbs.forEach((t, i) => t.classList.toggle("active", i === idx));
+    }
+
+    // 启动
+    window.addEventListener("DOMContentLoaded", () => {
+      init();
+      if (window.ChronoSoundscape) {
+        window.ChronoSoundscape.init({
+          mode: 'vault',
+          btnId: 'btnVaultSound',
+          dotId: 'soundDotVault'
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,524 @@
+﻿[
+    {
+        "id":  "hall_01_panoramic",
+        "moduleIndex":  "01",
+        "moduleName":  "穹·极",
+        "theme":  "panoramic_cosmos",
+        "hallType":  "panoramic_hall",
+        "titleZh":  "无界之境",
+        "titleEn":  "Boundless Horizon",
+        "tagline":  "360° 原生全景天球 · 4K/8K 母版展陈",
+        "curationNote":  "站在山巅吹过身边的微风、黄昏海边的金色波浪，或是熟悉的街角。转动视线，把那一天整片天空与身边的所有细节完整重温。",
+        "status":  "已入驻展出",
+        "coverStyle":  "cloisonne_celestial_armillary",
+        "coverImage":  "./assets/artworks/cover-01-panoramic-enamel.svg",
+        "targetUrl":  "./panorama.html",
+        "soundscape":  {
+                           "trackTitleZh":  "穹顶星轨 · 极巅之息",
+                           "trackTitleEn":  "Celestial Horizon Resonance",
+                           "style":  "ethereal_cosmic_ambient",
+                           "audioUrl":  "./data/audio/bgm_module01_panoramic_sky.mp3",
+                           "binaural":  true,
+                           "defaultVolume":  0.65
+                       },
+        "albums":  [
+                       {
+                           "albumId":  "album_01_peaks",
+                           "type":  "panoramic_photo_album",
+                           "titleZh":  "极巅之境 · 高山全景集",
+                           "titleEn":  "Celestial Peaks",
+                           "curation":  "秋日正午开阔天穹，群山远眺与浩瀚云海原生天球母版。",
+                           "coverStyle":  "cloisonne_celestial_armillary",
+                           "coverImage":  "./assets/artworks/cover-01-panoramic-enamel.svg",
+                           "worksCount":  2,
+                           "works":  [
+                                         {
+                                             "workId":  "pano_01_mountain_skyline",
+                                             "titleZh":  "富士山巅浩瀚云海",
+                                             "subtitleZh":  "敲钟观景台与鱼鳞云天幕",
+                                             "mediaUrl":  "./data/media/fuji_cloudsea_seamless_4k.jpg",
+                                             "previewUrl":  "./data/media/fuji_cloudsea_seamless_4k.jpg",
+                                             "initialYaw":  0,
+                                             "initialPitch":  0,
+                                             "defaultFov":  75,
+                                             "exif":  {
+                                                          "time":  "2026-10-04 13:15:40",
+                                                          "device":  "Insta360 Dual-Fisheye Master",
+                                                          "resolution":  "5888x2944"
+                                                      }
+                                         },
+                                         {
+                                             "workId":  "pano_03_mountain_cloudsea",
+                                             "titleZh":  "高山观景长廊远眺",
+                                             "subtitleZh":  "层峦叠翠与无际云海天穹",
+                                             "mediaUrl":  "./data/media/mountain_lookout_seamless_4k.jpg",
+                                             "previewUrl":  "./data/media/mountain_lookout_seamless_4k.jpg",
+                                             "initialYaw":  0,
+                                             "initialPitch":  0,
+                                             "defaultFov":  75,
+                                             "exif":  {
+                                                          "time":  "2026-10-04 13:12:42",
+                                                          "device":  "Insta360 Dual-Fisheye Master",
+                                                          "resolution":  "5888x2944"
+                                                      }
+                                         }
+                                     ]
+                       },
+                       {
+                           "albumId":  "album_02_forest",
+                           "type":  "panoramic_photo_album",
+                           "titleZh":  "深林秘境 · 古木天顶集",
+                           "titleEn":  "Ancient Canopy",
+                           "curation":  "参天古木树冠与阳光林海，身临其境感受树影婆娑与森林呼吸。",
+                           "coverStyle":  "impressionist_canopy_swirl",
+                           "coverImage":  "./assets/artworks/cover-01-panoramic-enamel.svg",
+                           "worksCount":  1,
+                           "works":  [
+                                         {
+                                             "workId":  "pano_02_forest_canopy",
+                                             "titleZh":  "静谧原始森林古木",
+                                             "subtitleZh":  "参天古木树冠与阳光林海",
+                                             "mediaUrl":  "./data/media/ancient_forest_seamless_4k.jpg",
+                                             "previewUrl":  "./data/media/ancient_forest_seamless_4k.jpg",
+                                             "initialYaw":  0,
+                                             "initialPitch":  7,
+                                             "defaultFov":  75,
+                                             "exif":  {
+                                                          "time":  "2026-10-04 13:35:31",
+                                                          "device":  "Insta360 Dual-Fisheye Master",
+                                                          "resolution":  "5888x2944"
+                                                      }
+                                         }
+                                     ]
+                       },
+                       {
+                           "albumId":  "pavilion_03_flow",
+                           "type":  "panoramic_video_pavilion",
+                           "titleZh":  "流动时空 · 360° 视频放映厅",
+                           "titleEn":  "Flowing Horizon",
+                           "curation":  "5.7K 原生双目全景流动长卷，记录环境光影与动态风声。",
+                           "coverStyle":  "stylized_graphic_astrolabe",
+                           "coverImage":  "./assets/artworks/cover-01-panoramic-enamel.svg",
+                           "worksCount":  2,
+                           "works":  [
+
+                                     ]
+                       }
+                   ]
+    },
+    {
+        "id":  "hall_02_daylight",
+        "moduleIndex":  "02",
+        "moduleName":  "晨·昏",
+        "theme":  "minimal_light",
+        "hallType":  "daylight_hall",
+        "titleZh":  "晨光与暮色",
+        "titleEn":  "Daylight \u0026 Dusk",
+        "tagline":  "自然光影展厅 · 宽色域高保真相册",
+        "curationNote":  "清晨洒进窗台的第一束柔和晨曦，微风吹乱树荫时留下的斑驳光点。不加多余滤镜，只专注留存生活里最舒服的自然质感。",
+        "status":  "已入驻真实母版",
+        "coverStyle":  "monet_impressionist_dawn_brush",
+        "coverImage":  "./data/media/IMG_20260930_233430_076_thumb.jpg",
+        "targetUrl":  "./daylight.html",
+        "soundscape":  {
+                           "trackTitleZh":  "晨曦窗扉 · 印象光斑",
+                           "trackTitleEn":  "Dawn Rays \u0026 Impressionist Shimmers",
+                           "style":  "impressionist_acoustic_chamber",
+                           "audioUrl":  "./data/audio/bgm_module02_daylight_monet.mp3",
+                           "binaural":  false,
+                           "defaultVolume":  0.60
+                       },
+        "albums":  [
+                       {
+                           "albumId":  "album_02_dawn",
+                           "type":  "still_photo_album",
+                           "titleZh":  "第一道晨光 · 林间薄雾与窗扉",
+                           "titleEn":  "Dawn Mist \u0026 Window Light",
+                           "curation":  "清晨洒向窗台的第一道柔光，晨雾中弥漫的空气质感。",
+                           "coverStyle":  "monet_impressionist_dawn_brush",
+                           "coverImage":  "./data/media/IMG_20260930_233430_076_thumb.jpg",
+                           "worksCount":  3,
+                           "works":  [
+                                         {
+                                             "exif":  {
+                                                          "lens":  "Prime Optical Lens",
+                                                          "camera":  "High-Res Optical Sensor",
+                                                          "time":  "2026-09-30 23:34:35",
+                                                          "iso":  "100",
+                                                          "resolution":  "8192x6144"
+                                                      },
+                                             "subtitleZh":  "光学高保真母版实拍",
+                                             "specialization":  "Sigmoid Tone-Mapping + True High Dynamic Range",
+                                             "workId":  "daylight_real_IMG_20260930_233430_076",
+                                             "titleZh":  "清晨微曦",
+                                             "hasCinemagraph":  false,
+                                             "previewUrl":  "./data/media/IMG_20260930_233430_076_thumb.jpg",
+                                             "colorSpace":  "display-p3",
+                                             "mediaUrl":  "./data/media/IMG_20260930_233430_076_web.jpg"
+                                         },
+                                         {
+                                             "exif":  {
+                                                          "lens":  "Prime Optical Lens",
+                                                          "camera":  "High-Res Optical Sensor",
+                                                          "time":  "2026-09-30 23:34:47",
+                                                          "iso":  "100",
+                                                          "resolution":  "8192x6144"
+                                                      },
+                                             "subtitleZh":  "自然丁达尔光束",
+                                             "specialization":  "Sigmoid Tone-Mapping + True High Dynamic Range",
+                                             "workId":  "daylight_real_IMG_20260930_233444_077",
+                                             "titleZh":  "林间薄雾",
+                                             "hasCinemagraph":  false,
+                                             "previewUrl":  "./data/media/IMG_20260930_233444_077_thumb.jpg",
+                                             "colorSpace":  "display-p3",
+                                             "mediaUrl":  "./data/media/IMG_20260930_233444_077_web.jpg"
+                                         },
+                                         {
+                                             "exif":  {
+                                                          "lens":  "Prime Optical Lens",
+                                                          "camera":  "High-Res Optical Sensor",
+                                                          "time":  "2026-09-30 23:36:03",
+                                                          "iso":  "100",
+                                                          "resolution":  "8192x6144"
+                                                      },
+                                             "subtitleZh":  "8K 超微距花枝",
+                                             "specialization":  "Sigmoid Tone-Mapping + True High Dynamic Range",
+                                             "workId":  "daylight_real_IMG_20260930_233600_078",
+                                             "titleZh":  "自然经脉",
+                                             "hasCinemagraph":  false,
+                                             "previewUrl":  "./data/media/IMG_20260930_233600_078_thumb.jpg",
+                                             "colorSpace":  "display-p3",
+                                             "mediaUrl":  "./data/media/IMG_20260930_233600_078_web.jpg"
+                                         }
+                                     ]
+                       },
+                       {
+                           "albumId":  "album_02_dusk",
+                           "type":  "still_photo_album",
+                           "titleZh":  "暮色余晖 · 海平线与金色浪芒",
+                           "titleEn":  "Dusk Horizon \u0026 Waves",
+                           "curation":  "黄昏海平线低角度逆光，落日余晖暗赭金与晚霞柔和滚降。",
+                           "coverStyle":  "cloisonne_enamel_dusk_gold",
+                           "coverImage":  "./data/media/IMG_20261003_190828_079_thumb.jpg",
+                           "worksCount":  3,
+                           "works":  [
+                                         {
+                                             "exif":  {
+                                                          "lens":  "Prime Optical Lens",
+                                                          "camera":  "High-Res Optical Sensor",
+                                                          "time":  "2026-10-03 19:08:31",
+                                                          "iso":  "200",
+                                                          "resolution":  "8192x6144"
+                                                      },
+                                             "subtitleZh":  "暮色冷暖逐渐滚降",
+                                             "specialization":  "Filmic Highlight Compression + Organic Grain",
+                                             "workId":  "dusk_real_IMG_20261003_190828_079",
+                                             "titleZh":  "落日余晖",
+                                             "hasCinemagraph":  false,
+                                             "previewUrl":  "./data/media/IMG_20261003_190828_079_thumb.jpg",
+                                             "colorSpace":  "display-p3",
+                                             "mediaUrl":  "./data/media/IMG_20261003_190828_079_web.jpg"
+                                         },
+                                         {
+                                             "exif":  {
+                                                          "lens":  "Prime Optical Lens",
+                                                          "camera":  "High-Res Optical Sensor",
+                                                          "time":  "2026-10-03 19:09:21",
+                                                          "iso":  "200",
+                                                          "resolution":  "8192x6144"
+                                                      },
+                                             "subtitleZh":  "夜幕初临斑驳灯火",
+                                             "specialization":  "Filmic Highlight Compression + Organic Grain",
+                                             "workId":  "dusk_real_IMG_20261003_190918_080",
+                                             "titleZh":  "烟火星火",
+                                             "hasCinemagraph":  false,
+                                             "previewUrl":  "./data/media/IMG_20261003_190918_080_thumb.jpg",
+                                             "colorSpace":  "display-p3",
+                                             "mediaUrl":  "./data/media/IMG_20261003_190918_080_web.jpg"
+                                         },
+                                         {
+                                             "exif":  {
+                                                          "lens":  "Prime Optical Lens",
+                                                          "camera":  "High-Res Optical Sensor",
+                                                          "time":  "2026-10-03 19:13:31",
+                                                          "iso":  "200",
+                                                          "resolution":  "8192x6144"
+                                                      },
+                                             "subtitleZh":  "黑曜石静谧影调",
+                                             "specialization":  "Filmic Highlight Compression + Organic Grain",
+                                             "workId":  "dusk_real_IMG_20261003_191328_081",
+                                             "titleZh":  "深邃夜色",
+                                             "hasCinemagraph":  false,
+                                             "previewUrl":  "./data/media/IMG_20261003_191328_081_thumb.jpg",
+                                             "colorSpace":  "display-p3",
+                                             "mediaUrl":  "./data/media/IMG_20261003_191328_081_web.jpg"
+                                         }
+                                     ]
+                       }
+                   ]
+    },
+    {
+        "id":  "hall_03_cinema",
+        "moduleIndex":  "03",
+        "moduleName":  "瞬·息",
+        "theme":  "temporal_flow",
+        "hallType":  "cinema_hall",
+        "titleZh":  "慢速微影",
+        "titleEn":  "Slow Motion Reel",
+        "tagline":  "慢速微影大厅 · 2.39:1 情绪放映厅",
+        "curationNote":  "高山粉雪破雪飞溅的动态微晶，山巅索道缆车起滑出发的开阔纵深。从用户实拍动作素材中提炼出的 120FPS 慢速视界。",
+        "status":  "已完成真实作品入驻",
+        "coverStyle":  "ski_powder_spray_cinematic",
+        "coverImage":  "./assets/artworks/cover_ski_powder_spray.jpg",
+        "targetUrl":  "./cinema.html",
+        "soundscape":  {
+                           "trackTitleZh":  "停留的微风 · 瞬息",
+                           "trackTitleEn":  "Gentle Moments Movement",
+                           "style":  "museum_grade_piano_movement",
+                           "audioUrl":  "./assets/audio/cinema_gentle_moments.wav",
+                           "duration":  52.0,
+                           "binaural":  true,
+                           "defaultVolume":  0.75
+                       },
+        "albums":  [
+                       {
+                           "albumId":  "opus_03_01_alpine_snow",
+                           "type":  "concrete_bespoke_design",
+                           "code":  "OPUS 01",
+                           "titleZh":  "粉雪之境 · 高山微影典藏",
+                           "shortTitle":  "粉雪之境",
+                           "titleEn":  "Alpine Powder Snow Dynamics",
+                           "curation":  "高山滑雪全流程（整装出发、索道穿林、极速刃切、逆光弥散）在物理世界中属于同一场自然与力学的完整时空体验。所有滑雪素材统归为单一宏大而完整的具象设计实体。",
+                           "coverStyle":  "ski_powder_spray_cinematic",
+                           "coverImage":  "./assets/artworks/cover_ski_powder_spray.jpg",
+                           "apparatus":  "35mm_anamorphic_lightbox_console",
+                           "aspectRatio":  "2.39:1",
+                           "haloColor":  "rgba(90, 160, 235, 0.44)",
+                           "worksCount":  4,
+                           "works":  [
+                                         {
+                                             "workId":  "alpine_cut_01_gear",
+                                             "expNo":  "EXP 01-1",
+                                             "phase":  "prologue",
+                                             "symbol":  "✨",
+                                             "titleZh":  "序曲 · 临场与整装",
+                                             "subtitleZh":  "雪板与镀膜雪镜超微距光影，镜面映出巍峨雪峰与晨曦微晶闪烁",
+                                             "sourceType":  "master_cinema_cut",
+                                             "mediaUrl":  "./data/media/alpine_cut_01_gear.jpg",
+                                             "previewUrl":  "./data/media/alpine_cut_01_gear.jpg",
+                                             "aspectRatio":  "2.39:1",
+                                             "frameRate":  "120fps",
+                                             "isSeamlessLoop":  true,
+                                             "hasBinauralAudio":  true,
+                                             "specialization":  "Kodak Vision3 500T Tone Mapping + Optical Flow 120fps + 14s Ken Burns Breathe"
+                                         },
+                                         {
+                                             "workId":  "alpine_cut_02_summit",
+                                             "expNo":  "EXP 01-2",
+                                             "phase":  "ascent",
+                                             "symbol":  "🍃",
+                                             "titleZh":  "升空 · 索道与雾凇",
+                                             "subtitleZh":  "高山雪峰与翻涌云海，晨曦透过雾凇针叶林洒下神圣丁达尔光束",
+                                             "sourceType":  "master_cinema_cut",
+                                             "mediaUrl":  "./data/media/alpine_cut_02_summit.jpg",
+                                             "previewUrl":  "./data/media/alpine_cut_02_summit.jpg",
+                                             "aspectRatio":  "2.39:1",
+                                             "frameRate":  "60fps",
+                                             "isSeamlessLoop":  true,
+                                             "hasBinauralAudio":  true,
+                                             "specialization":  "Tyndall Ray Contrast Calibration + Cloud Sea Motion Stability"
+                                         },
+                                         {
+                                             "workId":  "alpine_cut_03_carve",
+                                             "expNo":  "EXP 01-3",
+                                             "phase":  "climax",
+                                             "symbol":  "💧",
+                                             "titleZh":  "高潮 · 极速破雪立刃",
+                                             "subtitleZh":  "单板极速立刃破雪，高压激扬的钻石微晶粉雪巨浪在阳光下爆散",
+                                             "sourceType":  "master_cinema_cut",
+                                             "mediaUrl":  "./data/media/alpine_cut_03_carve.jpg",
+                                             "previewUrl":  "./data/media/alpine_cut_03_carve.jpg",
+                                             "aspectRatio":  "2.39:1",
+                                             "frameRate":  "120fps",
+                                             "isSeamlessLoop":  true,
+                                             "hasBinauralAudio":  true,
+                                             "specialization":  "120fps Optical Flow Retiming + Micro-Crystal Spray Particle Dynamics + Ambilight Spill"
+                                         },
+                                         {
+                                             "workId":  "alpine_cut_04_sunset",
+                                             "expNo":  "EXP 01-4",
+                                             "phase":  "epilogue",
+                                             "symbol":  "❄️",
+                                             "titleZh":  "回甘 · 逆光微尘",
+                                             "subtitleZh":  "夕阳余晖下穿行深粉雪，金黄雪雾如星尘般在暮色微风中徐徐弥散",
+                                             "sourceType":  "master_cinema_cut",
+                                             "mediaUrl":  "./data/media/alpine_cut_04_sunset.jpg",
+                                             "previewUrl":  "./data/media/alpine_cut_04_sunset.jpg",
+                                             "aspectRatio":  "2.39:1",
+                                             "frameRate":  "120fps",
+                                             "isSeamlessLoop":  true,
+                                             "hasBinauralAudio":  true,
+                                             "specialization":  "Golden Hour Backlit Dispersion + Soft Highlight Roll-off + 4.5s Decrescendo Loop"
+                                         }
+                                     ]
+                       }
+                   ]
+    },
+    {
+        "id":  "hall_04_vault",
+        "moduleIndex":  "04",
+        "moduleName":  "重·温",
+        "theme":  "obsidian_vault",
+        "hallType":  "vault_hall",
+        "titleZh":  "重温那一刻",
+        "titleEn":  "True Footprints",
+        "tagline":  "私人时光金库 · 端到端加密底片盒",
+        "curationNote":  "每一次按下快门，都是对真实日常的一份郑重收藏。没有AI凭空生成的虚构，只为给未来的自己留下一份最干净、最真切的回忆。",
+        "status":  "已完成三级架构设计",
+        "coverStyle":  "cloisonne_vintage_time_seal",
+        "coverImage":  "./assets/artworks/cover-04-vault-seal.svg",
+        "targetUrl":  "./vault.html",
+        "soundscape":  {
+                           "trackTitleZh":  "时光锁孔 · 岁月底片盒",
+                           "trackTitleEn":  "Obsidian Vault \u0026 Memory Echoes",
+                           "style":  "vintage_nostalgic_ambient",
+                           "audioUrl":  "./data/audio/bgm_module04_vault_memories.mp3",
+                           "binaural":  false,
+                           "defaultVolume":  0.55
+                       },
+        "albums":  [
+                       {
+                           "albumId":  "box_04_courtyard",
+                           "type":  "encrypted_film_box",
+                           "titleZh":  "二〇二四 · 庭院微风与日常纪事",
+                           "titleEn":  "Courtyard \u0026 Ordinary Days",
+                           "curation":  "真实按下快门的日常记录，无任何AI虚构的纯粹生活记忆。",
+                           "coverStyle":  "cloisonne_vintage_time_seal",
+                           "coverImage":  "./assets/artworks/cover-04-vault-seal.svg",
+                           "worksCount":  2,
+                           "isEncrypted":  true,
+                           "works":  [
+                                         {
+                                             "workId":  "mem_2024_01_courtyard",
+                                             "titleZh":  "庭院微风午后",
+                                             "frameNumber":  "▶ 01A",
+                                             "filmStock":  "KODAK PORTRA 400",
+                                             "mediaUrl":  "./assets/artworks/cover-04-vault-seal.svg",
+                                             "previewUrl":  "./assets/artworks/cover-04-vault-seal.svg",
+                                             "hardwareAudit":  "SHA256-LEICA-M11-89FA",
+                                             "specialization":  "35mm Sprocket Holes + Laser Etched EXIF + Baryta Darkroom Paper"
+                                         },
+                                         {
+                                             "workId":  "mem_2024_02_tea_table",
+                                             "titleZh":  "案前清茶与手记",
+                                             "frameNumber":  "▶ 02A",
+                                             "filmStock":  "FUJICOLOR PRO 400H",
+                                             "mediaUrl":  "./assets/artworks/cover-04-vault-seal.svg",
+                                             "previewUrl":  "./assets/artworks/cover-04-vault-seal.svg",
+                                             "hardwareAudit":  "SHA256-LEICA-M11-89FA",
+                                             "specialization":  "Darkroom Edge Light Leak Effect + Auto-Lock on 5min Inactivity"
+                                         }
+                                     ]
+                       },
+                       {
+                           "albumId":  "box_04_travel",
+                           "type":  "encrypted_film_box",
+                           "titleZh":  "远方旅人 · 大陆漫游底片卷",
+                           "titleEn":  "Continental Footprints",
+                           "curation":  "跨越千里山河的真实行者足迹，GPS 硬件元数据封存。",
+                           "coverStyle":  "impressionist_memory_tapestry",
+                           "coverImage":  "./assets/artworks/album-04-travel-compass.svg",
+                           "worksCount":  1,
+                           "isEncrypted":  true,
+                           "works":  [
+                                         {
+                                             "workId":  "mem_2024_03_station_dawn",
+                                             "titleZh":  "晨曦候车长椅",
+                                             "frameNumber":  "▶ 14A",
+                                             "filmStock":  "ILFORD HP5 PLUS 400",
+                                             "mediaUrl":  "./assets/artworks/album-04-travel-compass.svg",
+                                             "previewUrl":  "./assets/artworks/album-04-travel-compass.svg",
+                                             "hardwareAudit":  "SHA256-LEICA-M11-89FA",
+                                             "specialization":  "Silver Halide Emulsion Grain + Offline Physical Exif Stamp"
+                                         }
+                                     ]
+                       }
+                   ]
+    },
+    {
+        "id":  "hall_05_studio",
+        "moduleIndex":  "05",
+        "moduleName":  "重·构",
+        "theme":  "avant_garde_studio",
+        "hallType":  "studio_hall",
+        "titleZh":  "重塑与先锋",
+        "titleEn":  "Avant-Garde Studio",
+        "tagline":  "先锋实验大厅 · 双向无级时空擦除",
+        "curationNote":  "当真实记录被重新审视，艺术在重塑中诞生。从纯净母版迈入超现实的色彩解构与质感实验，让每一步探索都拥有回溯真实的刻度。",
+        "status":  "已完成三级架构设计",
+        "coverStyle":  "fused_enamel_pop_spectrum",
+        "coverImage":  "./assets/artworks/cover-05-avantgarde-pop.svg",
+        "targetUrl":  "./studio.html",
+        "soundscape":  {
+                           "trackTitleZh":  "光谱裂变 · 维度擦除",
+                           "trackTitleEn":  "Spectral Shift \u0026 Resynthesis",
+                           "style":  "avant_garde_minimalist_glitch",
+                           "audioUrl":  "./data/audio/bgm_module05_studio_spectral.mp3",
+                           "binaural":  false,
+                           "defaultVolume":  0.50
+                       },
+        "albums":  [
+                       {
+                           "albumId":  "project_05_cyber",
+                           "type":  "avant_garde_album",
+                           "titleZh":  "赛博解构 · 夜幕霓虹与色调裂变",
+                           "titleEn":  "Cyber Chromaticity",
+                           "curation":  "提取城市夜景原片，在真实与超现实之间展开双向无级时空对比。",
+                           "coverStyle":  "fused_enamel_pop_spectrum",
+                           "coverImage":  "./assets/artworks/cover-05-avantgarde-pop.svg",
+                           "worksCount":  2,
+                           "works":  [
+                                         {
+                                             "workId":  "studio_01_neon_crossing",
+                                             "titleZh":  "十字路口流光重塑",
+                                             "subtitleZh":  "光谱色调裂变与赛博微雨",
+                                             "beforeMediaUrl":  "./assets/artworks/cover-05-avantgarde-pop.svg",
+                                             "afterMediaUrl":  "./assets/artworks/cover-05-avantgarde-pop.svg",
+                                             "hasSplitSlider":  true,
+                                             "technique":  "Spectral Color Splitting \u0026 High-Dynamic Grain"
+                                         },
+                                         {
+                                             "workId":  "studio_03_surreal_sky",
+                                             "titleZh":  "多维交叠动态天穹",
+                                             "subtitleZh":  "超现实重定时时空交错",
+                                             "beforeMediaUrl":  "./assets/artworks/cover-05-avantgarde-pop.svg",
+                                             "afterMediaUrl":  "./assets/artworks/cover-05-avantgarde-pop.svg",
+                                             "hasSplitSlider":  true,
+                                             "technique":  "Temporal Stretch \u0026 Chromatic Aberration Matrix"
+                                         }
+                                     ]
+                       },
+                       {
+                           "albumId":  "project_05_vintage",
+                           "type":  "avant_garde_album",
+                           "titleZh":  "复古重塑 · 大画幅褪色与银盐质感",
+                           "titleEn":  "Vintage Resynthesis",
+                           "curation":  "模拟20世纪初柯达成色剂老化与暗角衰减，探索历史画面的时光质感。",
+                           "coverStyle":  "vintage_patina_oil_brush",
+                           "coverImage":  "./assets/artworks/album-05-vintage-patina.svg",
+                           "worksCount":  1,
+                           "works":  [
+                                         {
+                                             "workId":  "studio_02_patina_facade",
+                                             "titleZh":  "建筑石阶老化特化",
+                                             "subtitleZh":  "百年柯达成色剂老化与暗角衰减",
+                                             "beforeMediaUrl":  "./assets/artworks/album-05-vintage-patina.svg",
+                                             "afterMediaUrl":  "./assets/artworks/album-05-vintage-patina.svg",
+                                             "hasSplitSlider":  true,
+                                             "technique":  "Century-Old Dye Coupler Decay \u0026 Vignette Falloff"
+                                         }
+                                     ]
+                       }
+                   ]
+    }
+]

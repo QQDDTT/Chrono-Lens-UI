@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>MODULE 05 · 重·构 | 先锋艺术实验室 - Chrono-Lens</title>
+  <meta name="description" content="Chrono-Lens 重·构 先锋艺术实验室：母版溯源与双向无级擦除对比滑动条、赛博光谱色调裂变与复古银盐重塑。" />
+
+  <!-- 移动端全屏与安全区适配 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="重·构 实验" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#0e1014" />
+
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="./favicon.svg" />
+  <link rel="manifest" href="./manifest.json" />
+  <script src="./assets/soundscape.js"></script>
+
+  <!-- 艺术字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Noto+Serif+SC:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       Chrono-Lens 子模块 05 · 重·构 专属先锋艺术实验室设计系统
+       - 先锋暗调实验灰（#0e1014）+ 冷钛合金光芒
+       - 双向无级擦除对比滑动条 (Interactive Before/After Split Slider)
+       - 表现主义波普几何光谱与裂变珐琅微装裱
+       ========================================================================== */
+    :root {
+      --bg-dark: #0e1014;
+      --bg-card: #14171d;
+      --text-pure: #ffffff;
+      --text-sub: rgba(255, 255, 255, 0.76);
+      --text-muted: rgba(255, 255, 255, 0.44);
+      --glass-bg: rgba(20, 24, 32, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --accent-neon-cyan: #38bdf8;
+      --accent-neon-pink: #f43f5e;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --font-serif: "Noto Serif SC", "Songti SC", "SimSun", serif;
+      --font-en: "Cinzel", "Times New Roman", serif;
+      --font-mono: "Space Mono", "Courier New", monospace;
+      --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    *:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--accent-neon-cyan), 0 0 16px var(--accent-glow);
+      border-radius: 4px;
+    }
+
+    /* 优雅微晶毛玻璃赛博暗冷滚动条 */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 9999px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(56, 189, 248, 0.45);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 75% 15%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 25% 65%, rgba(244, 63, 94, 0.06) 0%, transparent 60%);
+      color: var(--text-pure);
+      font-family: var(--font-serif);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 标签与按键防折行 */
+    .hud-icon-btn, .studio-btn, .filter-chip, .split-handle {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    @keyframes spatial-unfold {
+      0% {
+        opacity: 0;
+        transform: scale(1.05);
+        filter: blur(14px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+      }
+    }
+
+    .studio-stage {
+      position: relative;
+      width: 100%;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      animation: spatial-unfold 0.8s var(--ease-cinematic) forwards;
+      z-index: 2;
+    }
+
+    /* 顶部悬浮毛玻璃导览岛 */
+    .hud-top-bar {
+      position: fixed;
+      top: max(16px, calc(var(--safe-top) + 12px));
+      left: max(16px, calc(var(--safe-left) + 16px));
+      right: max(16px, calc(var(--safe-right) + 16px));
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .hud-icon-btn {
+      pointer-events: auto;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-pure);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s var(--ease-cinematic);
+    }
+
+    .hud-icon-btn:hover {
+      border-color: var(--accent-neon-cyan);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+
+    .hud-center-title {
+      font-family: var(--font-en);
+      letter-spacing: 0.28em;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.38);
+    }
+
+    .hud-badge-pipeline {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .pulse-dot-cyan {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-neon-cyan);
+      box-shadow: 0 0 8px var(--accent-neon-cyan);
+    }
+
+    /* 页面主体内容容器 */
+    .content-container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: calc(var(--safe-top) + 80px) 24px calc(var(--safe-bottom) + 60px) 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .view-section {
+      width: 100%;
+      transition: opacity 0.5s var(--ease-cinematic), transform 0.5s var(--ease-cinematic);
+    }
+
+    .view-hidden {
+      display: none !important;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* 策展人题记 */
+    .curator-header {
+      text-align: center;
+      margin-bottom: 48px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .module-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.32em;
+      color: var(--accent-neon-cyan);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .curator-title {
+      font-size: clamp(28px, 4vw, 36px);
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      margin-bottom: 18px;
+      color: var(--text-pure);
+    }
+
+    .curator-quote {
+      font-size: 14px;
+      line-height: 2;
+      color: var(--text-sub);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      padding: 0 16px;
+    }
+
+    .curator-quote::before, .curator-quote::after {
+      content: "";
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent-neon-cyan);
+      opacity: 0.35;
+      margin: 14px auto;
+    }
+
+    /* 实验项目网格 */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 36px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border-radius: 14px;
+      padding: 16px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s var(--ease-cinematic);
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      border-color: var(--accent-neon-cyan);
+      box-shadow: 0 18px 48px var(--accent-glow);
+    }
+
+    .project-cover-box {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      background: #000;
+    }
+
+    .project-cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s var(--ease-cinematic);
+    }
+
+    .project-card:hover .project-cover-img {
+      transform: scale(1.03);
+    }
+
+    .project-badge-top {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(14, 16, 20, 0.85);
+      backdrop-filter: blur(8px);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--accent-neon-cyan);
+      border: 0.5px solid rgba(56, 189, 248, 0.35);
+    }
+
+    .project-count-tag {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(14, 16, 20, 0.85);
+      backdrop-filter: blur(8px);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #ffffff;
+      border: 0.5px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .project-info {
+      padding: 20px 8px 8px 8px;
+    }
+
+    .project-title {
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      color: var(--text-pure);
+    }
+
+    .project-curation {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-sub);
+      font-weight: 300;
+    }
+
+    /* ==========================================================================
+       Level 3 先锋实验项目展陈 (Studio Project Showcase)
+       ========================================================================== */
+    .showcase-view {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .sub-nav-bar {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .btn-back-studio {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-family: var(--font-serif);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+
+    .btn-back-studio:hover {
+      color: var(--accent-neon-cyan);
+      background: var(--accent-glow);
+    }
+
+    /* 双向无级擦除对比滑动视窗 (Split Slider Container) */
+    .slider-frame-wrapper {
+      position: relative;
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1.5px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.15);
+      background: #000;
+    }
+
+    .split-viewport {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      max-height: 64vh;
+      overflow: hidden;
+      user-select: none;
+      cursor: ew-resize;
+    }
+
+    /* After 图像 (特化层，全铺底层) */
+    .img-after {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(1.4) contrast(1.1);
+    }
+
+    /* Before 图像 (母版层，上方由剪裁框控制宽度) */
+    .before-clip-box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 50%;
+      overflow: hidden;
+      z-index: 5;
+      border-right: 2px solid #ffffff;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .img-before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      /* 保持与容器完全对齐 */
+    }
+
+    /* 分割线手柄徽章 */
+    .slider-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      pointer-events: none;
+      color: #0e1014;
+    }
+
+    /* 左右状态小标识 */
+    .badge-before {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.65);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #ffffff;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .badge-after {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.25);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-neon-cyan);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* 参数岛 */
+    .technique-island {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 10px 24px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 9999px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    /* 底部作品导航 */
+    .project-track {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .work-thumb {
+      width: 60px;
+      height: 75px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1.5px solid transparent;
+      opacity: 0.45;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .work-thumb.active {
+      opacity: 1;
+      border-color: var(--accent-neon-cyan);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .work-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部悬浮毛玻璃导览岛 -->
+  <header class="hud-top-bar">
+    <a href="./index.html" class="hud-icon-btn" title="返回主展馆大厅">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7" />
+      </svg>
+    </a>
+
+    <div class="hud-center-title">
+      MODULE 05 · RECONSTRUCT
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button class="hud-icon-btn" id="btnStudioSound" title="先锋声景">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18V5l12-2v13"></path>
+          <circle cx="6" cy="18" r="3"></circle>
+          <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+        <span id="soundDotStudio" style="position: absolute; top: 6px; right: 6px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent-neon-cyan, #38bdf8); opacity: 0; box-shadow: 0 0 6px var(--accent-neon-cyan); transition: opacity 0.3s;"></span>
+      </button>
+      <div class="hud-badge-pipeline" title="光影重塑实验室">
+        <span class="pulse-dot-cyan"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 场景主体 -->
+  <main class="studio-stage">
+    <div class="content-container">
+
+      <!-- ==========================================================================
+           视图 1：Level 2【重·构】先锋实验大厅 (Studio Salon View)
+           ========================================================================== -->
+      <section class="view-section" id="studioSalonView">
+        <div class="curator-header">
+          <h1 class="curator-title">重塑与先锋</h1>
+          <p class="curator-quote">
+            在真实之上，以光影与算法重构全新的视界。
+          </p>
+        </div>
+
+        <div class="project-grid" id="projectGrid">
+          <!-- 动态注入实验单元卡片 -->
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           视图 2：Level 3 先锋实验项目展陈 (Studio Project Showcase)
+           ========================================================================== -->
+      <section class="view-section view-hidden" id="showcaseView">
+        <div class="sub-nav-bar">
+          <button class="hud-icon-btn" id="btnBackToStudio" title="返回实验选廊">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <span style="font-size: 13px; letter-spacing: 0.12em; color: var(--text-muted);" id="activeProjectTitle"></span>
+        </div>
+
+        <!-- 双向无级擦除对比滑动条 -->
+        <div class="slider-frame-wrapper">
+          <div class="split-viewport" id="splitViewport">
+            <!-- 底层：After 特化版 -->
+            <img src="" alt="" class="img-after" id="imgAfter" />
+
+            <!-- 上层裁剪框：Before 母版 -->
+            <div class="before-clip-box" id="beforeClipBox">
+              <img src="" alt="" class="img-before" id="imgBefore" />
+            </div>
+
+            <!-- 分割线手柄 -->
+            <div class="slider-handle" id="sliderHandle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M8 7l-5 5 5 5M16 7l5 5-5 5"></path>
+              </svg>
+            </div>
+
+            <span class="badge-before">BEFORE · 母版</span>
+            <span class="badge-after">AFTER · 重塑</span>
+          </div>
+        </div>
+
+        <!-- 参数与技术岛 -->
+        <div class="technique-island">
+          <span style="font-family: var(--font-mono); color: var(--accent-neon-cyan);" id="techniqueName">
+            Spectral Color Splitting
+          </span>
+          <span style="opacity: 0.3;">|</span>
+          <span style="font-family: var(--font-mono); color: var(--text-sub);">
+            DUAL-STATE SCRUBBER
+          </span>
+        </div>
+
+        <!-- 作品微轨 -->
+        <div class="project-track" id="projectTrack">
+          <!-- 缩略图 -->
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    /* ==========================================================================
+       Chrono-Lens 重·构 先锋实验大厅逻辑
+       ========================================================================== */
+
+    const DEFAULT_STUDIO_DATA = {
+      id: "hall_05_studio",
+      nameZh: "重·构",
+      albums: [
+        {
+          albumId: "project_05_cyber",
+          titleZh: "赛博解构 · 夜幕霓虹与色调裂变",
+          curation: "提取城市夜景原片，在真实与超现实之间展开双向无级时空对比。",
+          coverImage: "./assets/artworks/cover-05-avantgarde-pop.svg",
+          works: [
+            {
+              workId: "studio_01_neon_crossing",
+              titleZh: "十字路口流光重塑",
+              beforeMediaUrl: "./assets/artworks/cover-05-avantgarde-pop.svg",
+              afterMediaUrl: "./assets/artworks/cover-05-avantgarde-pop.svg",
+              technique: "Spectral Color Splitting & High-Dynamic Grain"
+            },
+            {
+              workId: "studio_03_surreal_sky",
+              titleZh: "多维交叠动态天穹",
+              beforeMediaUrl: "./assets/artworks/cover-05-avantgarde-pop.svg",
+              afterMediaUrl: "./assets/artworks/cover-05-avantgarde-pop.svg",
+              technique: "Temporal Stretch & Chromatic Aberration Matrix"
+            }
+          ]
+        },
+        {
+          albumId: "project_05_vintage",
+          titleZh: "复古重塑 · 大画幅褪色与银盐质感",
+          curation: "模拟20世纪初柯达成色剂老化与暗角衰减，探索历史画面的时光质感。",
+          coverImage: "./assets/artworks/album-05-vintage-patina.svg",
+          works: [
+            {
+              workId: "studio_02_patina_facade",
+              titleZh: "建筑石阶老化特化",
+              beforeMediaUrl: "./assets/artworks/album-05-vintage-patina.svg",
+              afterMediaUrl: "./assets/artworks/album-05-vintage-patina.svg",
+              technique: "Century-Old Dye Coupler Decay & Vignette Falloff"
+            }
+          ]
+        }
+      ]
+    };
+
+    let moduleData = DEFAULT_STUDIO_DATA;
+    let currentAlbum = null;
+    let currentWorkIdx = 0;
+
+    // DOM
+    const studioSalonView = document.getElementById("studioSalonView");
+    const showcaseView = document.getElementById("showcaseView");
+    const projectGrid = document.getElementById("projectGrid");
+    const btnBackToStudio = document.getElementById("btnBackToStudio");
+    const activeProjectTitle = document.getElementById("activeProjectTitle");
+
+    const splitViewport = document.getElementById("splitViewport");
+    const beforeClipBox = document.getElementById("beforeClipBox");
+    const sliderHandle = document.getElementById("sliderHandle");
+    const imgBefore = document.getElementById("imgBefore");
+    const imgAfter = document.getElementById("imgAfter");
+    const techniqueName = document.getElementById("techniqueName");
+    const projectTrack = document.getElementById("projectTrack");
+
+    // 1. 初始化
+    async function init() {
+      try {
+        const res = await fetch("./data/catalog.json");
+        if (res.ok) {
+          const list = await res.json();
+          const target = list.find(item => item.id === "hall_05_studio");
+          if (target && target.albums && target.albums.length > 0) {
+            moduleData = target;
+          }
+        }
+      } catch (e) {
+        console.warn("使用内置先锋实验数据", e);
+      }
+      renderProjectGrid();
+      bindSliderEvents();
+    }
+
+    // 2. 渲染卡片
+    function renderProjectGrid() {
+      projectGrid.innerHTML = "";
+      moduleData.albums.forEach(album => {
+        const card = document.createElement("div");
+        card.className = "project-card";
+        card.innerHTML = `
+          <div class="project-cover-box">
+            <span class="project-badge-top">AVANT-GARDE LAB</span>
+            <span class="project-count-tag">${(album.works && album.works.length) || album.worksCount || 2} EXP</span>
+            <img src="${album.coverImage}" alt="${album.titleZh}" class="project-cover-img" loading="lazy" />
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">${album.titleZh}</h3>
+            <p class="project-curation">${album.curation}</p>
+          </div>
+        `;
+        card.addEventListener("click", () => openShowcase(album));
+        projectGrid.appendChild(card);
+      });
+    }
+
+    // 3. 打开实验展陈
+    function openShowcase(album) {
+      currentAlbum = album;
+      currentWorkIdx = 0;
+      studioSalonView.classList.add("view-hidden");
+      showcaseView.classList.remove("view-hidden");
+      activeProjectTitle.textContent = album.titleZh;
+
+      renderProjectTrack();
+      loadExperiment(0);
+      setSplitPosition(50);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    btnBackToStudio.addEventListener("click", () => {
+      showcaseView.classList.add("view-hidden");
+      studioSalonView.classList.remove("view-hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // 4. 渲染微轨
+    function renderProjectTrack() {
+      projectTrack.innerHTML = "";
+      if (!currentAlbum || !currentAlbum.works) return;
+
+      currentAlbum.works.forEach((w, idx) => {
+        const thumb = document.createElement("div");
+        thumb.className = `work-thumb ${idx === currentWorkIdx ? 'active' : ''}`;
+        thumb.innerHTML = `<img src="${w.beforeMediaUrl}" alt="${w.titleZh}" />`;
+        thumb.addEventListener("click", () => loadExperiment(idx));
+        projectTrack.appendChild(thumb);
+      });
+    }
+
+    // 5. 加载实验
+    function loadExperiment(idx) {
+      if (!currentAlbum || !currentAlbum.works || !currentAlbum.works[idx]) return;
+      currentWorkIdx = idx;
+      const w = currentAlbum.works[idx];
+
+      imgBefore.src = w.beforeMediaUrl;
+      imgAfter.src = w.afterMediaUrl;
+      techniqueName.textContent = w.technique || "Spectral Color Splitting";
+
+      const thumbs = projectTrack.querySelectorAll(".work-thumb");
+      thumbs.forEach((t, i) => t.classList.toggle("active", i === idx));
+    }
+
+    // 6. 双向无级擦除对比滑动条 (Split Slider) 控制
+    let isDragging = false;
+
+    function setSplitPosition(percent) {
+      const clamped = Math.max(0, Math.min(100, percent));
+      beforeClipBox.style.width = `${clamped}%`;
+      sliderHandle.style.left = `${clamped}%`;
+      // 让 Before 图像与 Viewport 等宽，防止形变
+      imgBefore.style.width = `${splitViewport.offsetWidth}px`;
+    }
+
+    function handleMove(clientX) {
+      const rect = splitViewport.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const percent = (x / rect.width) * 100;
+      setSplitPosition(percent);
+    }
+
+    function bindSliderEvents() {
+      splitViewport.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        handleMove(e.clientX);
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        handleMove(e.clientX);
+      });
+
+      window.addEventListener("mouseup", () => {
+        isDragging = false;
+      });
+
+      // 触控支持
+      splitViewport.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        if (e.touches.length > 0) handleMove(e.touches[0].clientX);
+      }, { passive: true });
+
+      window.addEventListener("touchmove", (e) => {
+        if (!isDragging) return;
+        if (e.touches.length > 0) handleMove(e.touches[0].clientX);
+      }, { passive: true });
+
+      window.addEventListener("touchend", () => {
+        isDragging = false;
+      });
+
+      window.addEventListener("resize", () => {
+        imgBefore.style.width = `${splitViewport.offsetWidth}px`;
+      });
+    }
+
+    // 启动
+    window.addEventListener("DOMContentLoaded", () => {
+      init();
+      if (window.ChronoSoundscape) {
+        window.ChronoSoundscape.init({
+          mode: 'studio',
+          btnId: 'btnStudioSound',
+          dotId: 'soundDotStudio'
+        });
+      }
+    });
+  </script>
+</body>
+</html>
