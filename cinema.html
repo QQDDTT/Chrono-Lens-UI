@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>MODULE 03 · 慢速微影 | 美学范式与 35mm 具象相册放映厅 - Chrono-Lens</title>
+  <meta name="description" content="Chrono-Lens 慢速微影美学范式：以 35mm 摄影暗房光学剪辑台与透光看片箱为物理装置隐喻，呈现《极速粉雪》、《雪境高地》、《雪野临场》三大具象设计实体与真实母版动作动量。" />
+
+  <!-- 移动端全屏与安全区适配 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="慢速微影 范式" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#08090d" />
+
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="./favicon.svg" />
+  <link rel="manifest" href="./manifest.json" />
+  <script src="./assets/soundscape.js"></script>
+
+  <!-- 艺术字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+SC:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       Optic-Resonance Design Tokens & Architecture
+       【美学范式 vs 具象设计】架构体系：
+       - 美学范式 (Aesthetic Paradigm)：慢速微影 (时间慢流、黑曜暗室、2.39:1 宽银幕、35mm 穿孔导轨)
+       - 具象设计 (Concrete Bespoke Design)：极速粉雪、雪境高地、雪野临场三大独立装置相册
+       - 物理装置隐喻：35mm 摄影暗房光学剪辑台与透光看片箱 (Film Flatbed Console & Lightbox)
+       - 严格 100dvh 黄金视口，零纵向溢出，留白率 >= 50%，无字之境自解释
+       ========================================================================== */
+    :root {
+      /* 1. 黑曜暗室基底 (Obsidian Void) */
+      --optic-obsidian-bg: #08090d;
+      --optic-obsidian-surface: rgba(14, 17, 24, 0.76);
+      --optic-obsidian-border: rgba(255, 255, 255, 0.10);
+      --optic-obsidian-border-gold: rgba(212, 175, 55, 0.38);
+      --optic-obsidian-text: #ffffff;
+      --optic-obsidian-text-sub: rgba(255, 255, 255, 0.70);
+      --optic-obsidian-text-muted: rgba(255, 255, 255, 0.38);
+
+      /* 2. 电影胶卷与环境溢光令牌 */
+      --optic-cinema-gold: #d4af37;
+      --optic-cinema-gold-bright: #ffd585;
+      --optic-cinema-gold-glow: rgba(212, 175, 55, 0.28);
+      --optic-halo-powder: rgba(90, 160, 235, 0.44);
+      --optic-halo-summit: rgba(180, 195, 215, 0.42);
+      --optic-halo-gear: rgba(195, 145, 80, 0.42);
+
+      /* 3. 字体栈与物理缓动 */
+      --font-serif: "Noto Serif SC", "Songti SC", "SimSun", serif;
+      --font-en: "Cinzel", "Times New Roman", serif;
+      --font-mono: "Space Mono", "Courier New", monospace;
+      --optic-ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+
+      /* 4. 空间与安全区 (动态 100dvh 与双核避让) */
+      --optic-viewport-height: 100dvh;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    *:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--optic-cinema-gold), 0 0 18px var(--optic-cinema-gold-glow);
+      border-radius: 4px;
+    }
+
+    /* 优雅微晶毛玻璃暗色滚动条 */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 9999px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(212, 175, 55, 0.5);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow: hidden !important; /* 严格单屏控制，100dvh 黄金视口，零纵向溢出 */
+      overscroll-behavior-y: contain;
+      background-color: #08090d;
+      background-image: 
+        radial-gradient(circle at 50% 36%, rgba(212, 160, 85, 0.12) 0%, rgba(13, 16, 22, 0.94) 62%, #08090d 100%),
+        radial-gradient(ellipse at 50% 0%, rgba(255, 235, 205, 0.05) 0%, transparent 55%),
+        radial-gradient(circle at 80% 85%, rgba(180, 140, 75, 0.04) 0%, transparent 50%);
+      color: var(--optic-obsidian-text);
+      font-family: var(--font-serif);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 35mm 运动银盐微晶质感层 (真材质微肌理) */
+    .film-grain-surface {
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: 3px 3px;
+      opacity: 0.35;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* 页面入场时空绽放 */
+    @keyframes spatial-unfold {
+      0% {
+        opacity: 0;
+        transform: scale(1.02);
+        filter: blur(8px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+      }
+    }
+
+    /* 电影级微呼吸缓慢运镜 (Cinematic Micro Ken Burns Drift: 纯真实母版慢移，杜绝假动画) */
+    @keyframes ken-burns-breathe {
+      0%, 100% {
+        transform: scale(1) translate3d(0, 0, 0);
+      }
+      50% {
+        transform: scale(1.03) translate3d(-0.4%, -0.6%, 0);
+      }
+    }
+
+    /* 呼吸脉冲微光 */
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 0.75; }
+      50% { transform: scale(1.35); opacity: 1; box-shadow: 0 0 10px var(--optic-cinema-gold-bright); }
+    }
+
+    /* 剪辑台主容器 (严格 100dvh，边缘避让 >= 16px) */
+    .film-console-master {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: calc(var(--safe-top) + 10px) max(16px, var(--safe-right)) calc(var(--safe-bottom) + 12px) max(16px, var(--safe-left));
+      animation: spatial-unfold 0.8s var(--optic-ease-cinematic) forwards;
+      z-index: 2;
+    }
+
+    /* ==========================================================================
+       顶部浮空幽灵微气泡 (Ghost Glyphs HUD: 纯图符去文字化，消灭生硬顶栏)
+       ========================================================================== */
+    .ghost-hud-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      z-index: 50;
+      pointer-events: auto;
+    }
+
+    .ghost-hud-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .ghost-hud-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    /* 黄金触控热区 >= 44x44px (纯矢量图符微气泡) */
+    .ghost-glyph-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--optic-obsidian-surface);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--optic-obsidian-border);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--optic-obsidian-text);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.35s var(--optic-ease-cinematic);
+      position: relative;
+      flex-shrink: 0;
+      touch-action: manipulation;
+    }
+
+    .ghost-glyph-btn:hover {
+      border-color: var(--optic-cinema-gold);
+      color: var(--optic-cinema-gold-bright);
+      transform: translateY(-2px) scale(1.06);
+      box-shadow: 0 0 20px var(--optic-cinema-gold-glow);
+    }
+
+    /* 极简微晶胶囊标识 (去说教，仅保留时空徽记) */
+    .ghost-title-pill {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--optic-obsidian-text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(14, 17, 24, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--optic-obsidian-border);
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .pill-accent {
+      color: var(--optic-cinema-gold-bright);
+      font-weight: 600;
+    }
+
+    .audio-breath-dot {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--optic-cinema-gold-bright);
+      box-shadow: 0 0 8px var(--optic-cinema-gold-bright);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .audio-breath-dot.is-active {
+      opacity: 1;
+      animation: pulse-glow 2s infinite ease-in-out;
+    }
+
+    /* ==========================================================================
+       【第一层：理念场域巡礼 (Level 1: Domain Folio Atrium)】
+       - 核心装置：3D 悬浮物理典藏胶片盘匣 (35mm Opus Folio Cassette)
+       - 底部装置：典藏卷册时空罗盘索引 (Folio Compass, 绝无细碎切片导轨)
+       ========================================================================== */
+    .domain-folio-view {
+      width: 100%;
+      max-width: 980px;
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      z-index: 5;
+      padding: 6px 0 10px 0;
+      animation: spatial-unfold 0.65s var(--optic-ease-cinematic) forwards;
+      overflow: hidden;
+    }
+
+    /* 3D 悬浮舞台 */
+    .folio-stage-chamber {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      perspective: 1400px;
+      padding: 0 12px;
+    }
+
+    /* 实时大景深环境溢光漫射 (Ambilight Halo) */
+    .lightbox-halo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 125%;
+      height: 135%;
+      border-radius: 36px;
+      background: radial-gradient(circle, rgba(212, 165, 85, 0.18) 0%, rgba(8, 9, 13, 0) 72%);
+      filter: blur(65px);
+      pointer-events: none;
+      z-index: 1;
+      transition: background 0.8s ease, opacity 0.6s ease;
+      opacity: 0.95;
+    }
+
+    /* 3D 悬浮物理典藏胶片盘匣 (Opus Folio Cassette) */
+    .opus-folio-cassette {
+      position: relative;
+      width: 100%;
+      max-width: 540px;
+      aspect-ratio: 16 / 11;
+      max-height: 50vh;
+      max-height: 50dvh;
+      background: #090b10;
+      border-radius: 16px;
+      /* 多层冷钛金属精雕外框 + 0.5px 精细反光缝 + 典藏装裱深度阴影 */
+      border: 1.5px solid rgba(212, 175, 55, 0.32);
+      box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.95),
+        0 0 0 1px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(212, 175, 55, 0.12),
+        inset 0 0 40px rgba(0, 0, 0, 0.88);
+      overflow: hidden;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      z-index: 2;
+      transition: transform 0.6s var(--optic-ease-cinematic), box-shadow 0.6s var(--optic-ease-cinematic), border-color 0.4s ease;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+    }
+
+    .opus-folio-cassette:hover {
+      border-color: rgba(212, 175, 55, 0.9);
+      transform: translateY(-5px) scale(1.025);
+      box-shadow: 
+        0 40px 100px rgba(0, 0, 0, 0.98),
+        0 0 0 1px rgba(212, 175, 55, 0.5),
+        0 0 60px rgba(212, 175, 55, 0.4);
+    }
+
+    /* 盘匣四角精密装裱金属角扣 (Cold Titanium Corner Clasps) */
+    .cassette-corner-clasp {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid rgba(212, 175, 55, 0.7);
+      pointer-events: none;
+      z-index: 5;
+    }
+    .clasp-tl { top: 8px; left: 8px; border-right: none; border-bottom: none; border-top-left-radius: 6px; }
+    .clasp-tr { top: 8px; right: 8px; border-left: none; border-bottom: none; border-top-right-radius: 6px; }
+    .clasp-bl { bottom: 8px; left: 8px; border-right: none; border-top: none; border-bottom-left-radius: 6px; }
+    .clasp-br { bottom: 8px; right: 8px; border-left: none; border-top: none; border-bottom-right-radius: 6px; }
+
+    /* 典藏封面上层渐变与有机玻璃质感 */
+    .cassette-glass-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 40%, rgba(0, 0, 0, 0.55) 100%);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* 35mm 冷钛放映机光隙物镜与未曝光盘匣装置 (理念场域绝对零作品显影) */
+    .aperture-barrel-housing {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, #131722 0%, #0a0d14 65%, #05070a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    .aperture-reticle-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px dashed rgba(212, 175, 55, 0.22);
+      pointer-events: none;
+    }
+    .ring-outer {
+      width: 82%;
+      aspect-ratio: 1 / 1;
+      border-color: rgba(255, 255, 255, 0.08);
+      animation: aperture-slow-spin 60s linear infinite;
+    }
+    .ring-mid {
+      width: 60%;
+      aspect-ratio: 1 / 1;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      animation: aperture-slow-spin-rev 45s linear infinite;
+    }
+
+    @keyframes aperture-slow-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes aperture-slow-spin-rev {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+
+    .aperture-focal-notches {
+      position: absolute;
+      width: 72%;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-top-color: rgba(212, 175, 55, 0.45);
+      border-bottom-color: rgba(212, 175, 55, 0.45);
+      pointer-events: none;
+      animation: aperture-slow-spin 30s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+
+    /* 时空哲学纯金金印 (Philosophy Seal Disc) */
+    .philosophy-seal-disc {
+      position: relative;
+      width: clamp(140px, 32vw, 190px);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #2a2215 0%, #15120c 60%, #0a0805 100%);
+      border: 1.5px solid rgba(212, 175, 55, 0.65);
+      box-shadow: 
+        inset 0 0 30px rgba(0, 0, 0, 0.95),
+        0 10px 40px rgba(0, 0, 0, 0.8),
+        0 0 35px rgba(212, 175, 55, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      z-index: 2;
+      transition: all 0.5s var(--optic-ease-cinematic);
+    }
+    .opus-folio-cassette:hover .philosophy-seal-disc {
+      border-color: rgba(212, 175, 55, 0.95);
+      box-shadow: 
+        inset 0 0 35px rgba(0, 0, 0, 0.95),
+        0 15px 50px rgba(0, 0, 0, 0.9),
+        0 0 55px rgba(212, 175, 55, 0.45);
+      transform: scale(1.04);
+    }
+
+    /* 高山粉雪专属冰晶与飘雪粒子层 (Powder Snow Floating Crystals) */
+    .snow-particle-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 3;
+      transition: opacity 0.5s ease;
+    }
+    .snow-flake {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 40%, rgba(235, 245, 255, 0.9) 75%, transparent 100%);
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.95);
+      opacity: 0.85;
+      animation: snow-drift 7s ease-in-out infinite;
+    }
+    .sf-1 { width: 4px; height: 4px; top: 18%; left: 22%; animation-duration: 6.2s; animation-delay: 0s; }
+    .sf-2 { width: 3px; height: 3px; top: 32%; left: 74%; animation-duration: 7.8s; animation-delay: 1.2s; }
+    .sf-3 { width: 5px; height: 5px; top: 62%; left: 28%; animation-duration: 8.5s; animation-delay: 2.1s; }
+    .sf-4 { width: 2.5px; height: 2.5px; top: 78%; left: 68%; animation-duration: 6.9s; animation-delay: 0.8s; }
+    .sf-5 { width: 3.5px; height: 3.5px; top: 25%; left: 45%; animation-duration: 9.1s; animation-delay: 3.0s; }
+    .sf-6 { width: 4.5px; height: 4.5px; top: 82%; left: 40%; animation-duration: 7.4s; animation-delay: 1.8s; }
+
+    @keyframes snow-drift {
+      0% { transform: translateY(0) translateX(0) scale(0.9); opacity: 0.35; }
+      50% { transform: translateY(-12px) translateX(8px) scale(1.15); opacity: 0.95; }
+      100% { transform: translateY(0) translateX(0) scale(0.9); opacity: 0.35; }
+    }
+
+    /* 高山雪山脊线微雕剪影 (Alpine Crest Contours: 极简纯净银白等高线) */
+    .alpine-ridge-contours {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: 
+        radial-gradient(ellipse 90% 45% at 50% 85%, rgba(255, 255, 255, 0.04) 0%, transparent 70%),
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 14px);
+      z-index: 1;
+      transition: opacity 0.5s ease;
+    }
+
+    /* 六角冰晶雪花星轨核心 */
+    .sigil-snow-star {
+      font-size: 26px;
+      line-height: 1;
+      filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.95));
+      animation: snowflake-pulse 4s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    @keyframes snowflake-pulse {
+      0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 8px rgba(235, 245, 255, 0.75)); }
+      50% { transform: scale(1.12) rotate(15deg); filter: drop-shadow(0 0 18px rgba(255, 255, 255, 1)); }
+    }
+
+    /* OPUS 01 具象设计：【粉雪之境 · 高山微影典藏】卡片专属色彩 (雪山极寒冰蓝白、冰霜微晶) */
+    .opus-folio-cassette.theme-snow {
+      border-color: rgba(165, 215, 255, 0.75);
+      box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.95),
+        0 0 45px rgba(140, 205, 255, 0.35),
+        inset 0 0 35px rgba(10, 22, 38, 0.85);
+    }
+    .opus-folio-cassette.theme-snow .aperture-barrel-housing {
+      background: radial-gradient(circle at center, #13253b 0%, #0a1727 65%, #050d18 100%);
+    }
+    .opus-folio-cassette.theme-snow .philosophy-seal-disc {
+      background: radial-gradient(circle at 35% 35%, #193354 0%, #0e2037 60%, #06111f 100%);
+      border-color: rgba(195, 235, 255, 0.9);
+      box-shadow: 
+        inset 0 0 25px rgba(0, 0, 0, 0.95),
+        0 10px 40px rgba(0, 0, 0, 0.8),
+        0 0 35px rgba(150, 215, 255, 0.55);
+    }
+    .opus-folio-cassette.theme-snow .seal-inner-ring {
+      border-color: rgba(180, 225, 255, 0.5);
+    }
+    .opus-folio-cassette.theme-snow .seal-formula {
+      color: #bae6fd;
+      letter-spacing: 0.22em;
+      text-shadow: 0 0 8px rgba(186, 230, 253, 0.6);
+    }
+    .opus-folio-cassette.theme-snow .seal-motto {
+      color: rgba(224, 242, 254, 0.85);
+    }
+    .opus-folio-cassette.theme-snow .seal-pill {
+      background: rgba(14, 28, 46, 0.95);
+      border-color: rgba(160, 220, 255, 0.65);
+      color: #f0f9ff;
+      box-shadow: 0 0 12px rgba(140, 205, 255, 0.3);
+    }
+    .opus-folio-cassette.theme-snow .clasp-tl,
+    .opus-folio-cassette.theme-snow .clasp-tr,
+    .opus-folio-cassette.theme-snow .clasp-bl,
+    .opus-folio-cassette.theme-snow .clasp-br {
+      border-color: rgba(185, 230, 255, 0.85);
+    }
+    .opus-folio-cassette.theme-snow .cassette-center-action {
+      background: rgba(18, 36, 60, 0.92);
+      border-color: rgba(160, 220, 255, 0.75);
+      color: #f0f9ff;
+      box-shadow: 0 0 20px rgba(140, 205, 255, 0.35);
+    }
+
+    /* OPUS 02 具象设计：【深蓝涌动 · 巨浪微晶】卡片专属色彩 (深海暗涌蔚蓝、巨浪水光) */
+    .opus-folio-cassette.theme-marine {
+      border-color: rgba(60, 150, 245, 0.75);
+      box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.95),
+        0 0 45px rgba(45, 135, 240, 0.32),
+        inset 0 0 35px rgba(6, 18, 32, 0.85);
+    }
+    .opus-folio-cassette.theme-marine .aperture-barrel-housing {
+      background: radial-gradient(circle at center, #0f2742 0%, #081729 65%, #030d17 100%);
+    }
+    .opus-folio-cassette.theme-marine .philosophy-seal-disc {
+      background: radial-gradient(circle at 35% 35%, #14355a 0%, #0b213a 60%, #04101e 100%);
+      border-color: rgba(96, 175, 255, 0.85);
+      box-shadow: 
+        inset 0 0 25px rgba(0, 0, 0, 0.95),
+        0 10px 40px rgba(0, 0, 0, 0.8),
+        0 0 35px rgba(50, 140, 240, 0.5);
+    }
+    .opus-folio-cassette.theme-marine .seal-inner-ring {
+      border-color: rgba(80, 160, 245, 0.5);
+    }
+    .opus-folio-cassette.theme-marine .seal-formula {
+      color: #93c5fd;
+      text-shadow: 0 0 8px rgba(147, 197, 253, 0.6);
+    }
+    .opus-folio-cassette.theme-marine .seal-motto {
+      color: rgba(219, 234, 254, 0.85);
+    }
+    .opus-folio-cassette.theme-marine .seal-pill {
+      background: rgba(10, 24, 42, 0.95);
+      border-color: rgba(70, 155, 250, 0.65);
+      color: #eff6ff;
+      box-shadow: 0 0 12px rgba(50, 140, 240, 0.3);
+    }
+    .opus-folio-cassette.theme-marine .clasp-tl,
+    .opus-folio-cassette.theme-marine .clasp-tr,
+    .opus-folio-cassette.theme-marine .clasp-bl,
+    .opus-folio-cassette.theme-marine .clasp-br {
+      border-color: rgba(80, 165, 250, 0.85);
+    }
+    .opus-folio-cassette.theme-marine .cassette-center-action {
+      background: rgba(12, 30, 54, 0.92);
+      border-color: rgba(70, 160, 255, 0.75);
+      color: #eff6ff;
+      box-shadow: 0 0 20px rgba(50, 140, 240, 0.35);
+    }
+
+    .seal-inner-ring {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 0.5px solid rgba(212, 175, 55, 0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-align: center;
+      padding: 8px;
+    }
+
+    .seal-formula {
+      font-family: var(--font-mono);
+      font-size: 7.5px;
+      letter-spacing: 0.2em;
+      color: var(--optic-cinema-gold-bright);
+      opacity: 0.85;
+    }
+
+    .seal-sigil-cluster {
+      display: flex;
+      gap: 8px;
+      font-size: 14px;
+      line-height: 1;
+      filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.5));
+      margin: 2px 0;
+    }
+
+    .seal-motto {
+      font-family: var(--font-en);
+      font-size: 7px;
+      letter-spacing: 0.16em;
+      color: rgba(255, 255, 255, 0.55);
+      max-width: 120px;
+      line-height: 1.2;
+    }
+
+    .aperture-lens-sheen {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 65% 25%, rgba(90, 160, 240, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    /* 典藏封签徽牌 (Archive Seal Plate) */
+    .cassette-seal-plate {
+      position: absolute;
+      top: 16px;
+      left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      z-index: 4;
+      pointer-events: none;
+    }
+    .seal-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      background: rgba(10, 13, 20, 0.82);
+      backdrop-filter: blur(12px);
+      border: 0.5px solid rgba(212, 175, 55, 0.38);
+      border-radius: 3px;
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      letter-spacing: 0.18em;
+      color: var(--optic-cinema-gold-bright);
+      width: fit-content;
+    }
+    .seal-title {
+      font-size: clamp(15px, 2.4vw, 19px);
+      font-weight: 300;
+      letter-spacing: 0.16em;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+      margin-top: 2px;
+    }
+    .seal-subtitle {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.6);
+      letter-spacing: 0.14em;
+    }
+
+    /* 盘匣右下角：极简启幕徽记 */
+    .cassette-center-action {
+      position: absolute;
+      bottom: 16px;
+      right: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(10, 13, 20, 0.78);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      color: var(--optic-cinema-gold-bright);
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.16em;
+      z-index: 4;
+      transition: all 0.35s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+    }
+    .opus-folio-cassette:hover .cassette-center-action {
+      background: rgba(212, 175, 55, 0.22);
+      border-color: var(--optic-cinema-gold);
+      transform: scale(1.04);
+      box-shadow: 0 0 20px var(--optic-cinema-gold-glow);
+    }
+
+    /* 底部独特装置：典藏卷册时空罗盘 (Folio Compass, 绝无细碎切片导轨) */
+    .domain-folio-compass {
+      width: 100%;
+      max-width: 780px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 0 8px;
+      z-index: 6;
+      flex-shrink: 0;
+    }
+    .compass-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      color: var(--optic-obsidian-text-muted);
+      padding: 0 4px;
+    }
+    .compass-reel-track {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 4px 2px;
+    }
+    .compass-reel-track::-webkit-scrollbar { display: none; }
+    .compass-opus-card {
+      flex: 1 1 0;
+      min-width: 135px;
+      max-width: 320px;
+      background: rgba(13, 15, 20, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 7px 10px;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-sizing: border-box;
+      min-height: 44px;
+    }
+    .compass-opus-card:hover {
+      transform: translateY(-2px);
+    }
+
+    /* OPUS 01 罗盘卡片：高山粉雪专属色彩 */
+    #cardOpus01 {
+      border-color: rgba(165, 215, 255, 0.28);
+    }
+    #cardOpus01 .compass-card-code {
+      color: #7dd3fc;
+    }
+    #cardOpus01:hover {
+      border-color: rgba(165, 215, 255, 0.65);
+      background: rgba(16, 26, 42, 0.94);
+    }
+    #cardOpus01.is-active {
+      border-color: rgba(185, 230, 255, 0.95);
+      background: rgba(14, 25, 42, 0.98);
+      box-shadow: 0 0 18px rgba(140, 210, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    #cardOpus01.is-active .compass-card-status {
+      color: #bae6fd;
+      font-weight: 600;
+    }
+    #cardOpus01.is-active .compass-card-title {
+      color: #f0f9ff;
+    }
+
+    /* OPUS 02 罗盘卡片：深蓝涌动专属色彩 */
+    #cardOpus02 {
+      border-color: rgba(60, 150, 245, 0.28);
+    }
+    #cardOpus02 .compass-card-code {
+      color: #60a5fa;
+    }
+    #cardOpus02:hover {
+      border-color: rgba(60, 150, 245, 0.65);
+      background: rgba(12, 22, 38, 0.94);
+    }
+    #cardOpus02.is-active {
+      border-color: rgba(75, 165, 255, 0.95);
+      background: rgba(10, 20, 36, 0.98);
+      box-shadow: 0 0 18px rgba(50, 140, 240, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    #cardOpus02.is-active .compass-card-status {
+      color: #93c5fd;
+      font-weight: 600;
+    }
+    #cardOpus02.is-active .compass-card-title {
+      color: #eff6ff;
+    }
+
+    .compass-card-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+    .compass-card-code {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+    .compass-card-status {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.06em;
+      color: var(--optic-obsidian-text-muted);
+      white-space: nowrap;
+    }
+    .compass-card-body {
+      width: 100%;
+    }
+    .compass-card-title {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--optic-obsidian-text);
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ==========================================================================
+       独特电影装置：35mm 物理电影胶卷连续穿孔导轨刻度尺 (Film Flatbed Track)
+       - 双侧 4px × 3px 矩形穿孔链齿孔 (Sprocket Holes)
+       - KODAK 5219 · 500T 曝光字标与 0.5px 金丝经纬刻度线
+       - 观者横滑拨动胶卷，如同在剪辑台上卷动物理胶片盘
+       ========================================================================== */
+    .film-flatbed-reel {
+      width: 100%;
+      max-width: 980px;
+      flex-shrink: 0;
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 10;
+    }
+
+    .reel-gauge-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--optic-obsidian-text-muted);
+      letter-spacing: 0.16em;
+    }
+
+    .reel-housing-box {
+      width: 100%;
+      position: relative;
+      background: rgba(10, 13, 20, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      padding: 6px 8px;
+      overflow: hidden;
+    }
+
+    /* 35mm 真实电影胶卷微缩链齿孔 (Film Sprocket Perforations) */
+    .reel-housing-box::before,
+    .reel-housing-box::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 4px;
+      background-image: repeating-linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.95) 0px,
+        rgba(0, 0, 0, 0.95) 6px,
+        rgba(255, 255, 255, 0.08) 6px,
+        rgba(255, 255, 255, 0.08) 7px,
+        transparent 7px,
+        transparent 14px
+      );
+      opacity: 0.9;
+    }
+
+    .reel-housing-box::before {
+      margin-bottom: 5px;
+    }
+
+    .reel-housing-box::after {
+      margin-top: 5px;
+    }
+
+    /* 连续胶卷轨道 (无缝横向滑动，隐藏原生滚动槽) */
+    .film-cells-strip {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 4px 4px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+    }
+
+    .film-cells-strip::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* 单张 35mm 负片胶卷格 (Film Strip Cell: 醋酸纤维微暗紫半透光片基) */
+    .film-strip-cell {
+      flex-shrink: 0;
+      width: 144px;
+      background: #06080d;
+      border-radius: 4px;
+      padding: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+      transition: all 0.35s var(--optic-ease-cinematic);
+      position: relative;
+      touch-action: manipulation;
+    }
+
+    .film-strip-cell:hover {
+      border-color: rgba(212, 175, 55, 0.75);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.2);
+    }
+
+    .film-strip-cell.is-active {
+      border-color: var(--optic-cinema-gold-bright);
+      background: #090e18;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 20px rgba(212, 175, 55, 0.35);
+      transform: translateY(-3px) scale(1.035);
+    }
+
+    .strip-cell-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1px 2px;
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.12em;
+      border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 2px;
+    }
+
+    .film-strip-cell.is-active .strip-cell-header {
+      color: var(--optic-cinema-gold-bright);
+    }
+
+    .strip-cell-thumb {
+      width: 100%;
+      aspect-ratio: 2.39 / 1;
+      border-radius: 2px;
+      overflow: hidden;
+      background: #08090d;
+      position: relative;
+    }
+
+    .strip-cell-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.65;
+      transition: opacity 0.3s, transform 0.4s var(--optic-ease-cinematic);
+    }
+
+    .film-strip-cell:hover .strip-cell-thumb img,
+    .film-strip-cell.is-active .strip-cell-thumb img {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .strip-cell-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2px 2px 0 2px;
+      font-size: 9px;
+      color: var(--optic-obsidian-text);
+      font-weight: 300;
+    }
+
+    .strip-footer-title {
+      max-width: 90px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      opacity: 0.85;
+    }
+
+    /* ==========================================================================
+       【第三级：相册放映暗室 (Level 3: Album Screening Chamber)】
+       - 2.39:1 变形宽银幕电影放映暗箱
+       - 动作切片 35mm 连续菲林刻度尺
+       ========================================================================== */
+    .screening-chamber-view {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      animation: spatial-unfold 0.65s var(--optic-ease-cinematic) forwards;
+    }
+
+    /* 宽银幕暗箱卡体 */
+    .screen-stage-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 920px;
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      z-index: 5;
+    }
+
+    .cinema-screen-card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2.39 / 1;
+      max-height: 52vh;
+      max-height: 52dvh;
+      background: #000000;
+      border-radius: 10px;
+      /* 双层冷钛精工倒角 + 0.5px 精细反光微缝 */
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      box-shadow: 
+        0 30px 90px rgba(0, 0, 0, 0.94),
+        0 0 0 1px rgba(0, 0, 0, 0.8),
+        0 0 45px rgba(90, 160, 240, 0.25),
+        inset 0 0 36px rgba(0, 0, 0, 0.75);
+      overflow: hidden;
+      cursor: pointer;
+      z-index: 2;
+      transition: transform 0.5s var(--optic-ease-cinematic), box-shadow 0.5s var(--optic-ease-cinematic), border-color 0.4s ease;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+    }
+
+    /* 触控瞬态微光图符反馈 (MOMUS-SUGG-01) */
+    .screen-pulse-glyph {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.6);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(8, 10, 15, 0.78);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.65);
+      box-shadow: 0 0 28px rgba(212, 175, 55, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--optic-cinema-gold-bright);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s var(--optic-ease-cinematic);
+      z-index: 20;
+    }
+    .screen-pulse-glyph.is-flashing {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .cinema-screen-card:hover {
+      border-color: rgba(212, 175, 55, 0.8);
+      transform: translateY(-2px) scale(1.015);
+      box-shadow: 
+        0 36px 100px rgba(0, 0, 0, 0.96),
+        0 0 0 1px rgba(212, 175, 55, 0.4),
+        0 0 54px rgba(212, 175, 55, 0.35);
+    }
+
+    /* 四角负片装裱金属微卡扣 */
+    .cinema-screen-card::before {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border: 0.5px solid rgba(255, 255, 255, 0.14);
+      border-radius: 6px;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* 切片真实母版展现 (依托真实摄影原片，带有微呼吸运镜) */
+    .screen-base-art {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.95;
+      animation: ken-burns-breathe 14s infinite ease-in-out;
+      transition: opacity 0.4s ease, transform 0.8s var(--optic-ease-cinematic);
+    }
+
+    /* 展台右上角：120 FPS 纯金封签 */
+    .screen-badge-top-right {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 6;
+      pointer-events: none;
+    }
+
+    .chip-120fps {
+      font-family: var(--font-en);
+      font-size: 9.5px;
+      letter-spacing: 0.16em;
+      color: var(--optic-cinema-gold-bright);
+      background: rgba(8, 9, 13, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 3px 8px;
+      border-radius: 3px;
+      border: 0.5px solid rgba(212, 175, 55, 0.38);
+    }
+
+    /* 展台左下角：专属动作动量微标 */
+    .screen-badge-bottom-left {
+      position: absolute;
+      bottom: 10px;
+      left: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 6;
+      pointer-events: none;
+    }
+
+    .motion-indicator-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      border-radius: 3px;
+      background: rgba(10, 12, 18, 0.88);
+      backdrop-filter: blur(12px);
+      border: 0.5px solid rgba(255, 255, 255, 0.16);
+      font-size: 10.5px;
+      letter-spacing: 0.08em;
+      color: var(--optic-obsidian-text);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    /* 2.5px 纯金时间流光微轨 */
+    .timeline-rail {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2.5px;
+      background: rgba(255, 255, 255, 0.12);
+      z-index: 7;
+    }
+
+    .timeline-progress {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(212, 175, 55, 0.2) 0%, var(--optic-cinema-gold) 85%, var(--optic-cinema-gold-bright) 100%);
+      box-shadow: 0 0 10px var(--optic-cinema-gold-bright);
+      transition: width 0.1s linear;
+    }
+
+    /* 放映暗箱下方信息条 */
+    .screen-caption-bar {
+      width: 100%;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4px;
+    }
+
+    .screen-caption-left {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .screen-caption-title {
+      font-size: 15px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      color: var(--optic-obsidian-text);
+    }
+
+    .screen-caption-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--optic-obsidian-text-muted);
+      letter-spacing: 0.12em;
+    }
+
+    /* 极简幽灵微晶返回键 (自解释无文字，热区刚性 >= 44x44px) */
+    .ghost-back-btn {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      background: rgba(14, 17, 24, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--optic-cinema-gold-bright);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      touch-action: manipulation;
+    }
+
+    .ghost-back-btn:hover {
+      border-color: var(--optic-cinema-gold);
+      box-shadow: 0 0 14px var(--optic-cinema-gold-glow);
+      transform: scale(1.08);
+    }
+
+    /* 放映暗箱控制条 (热区规约 >= 44x44px) */
+    .screen-controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 2px;
+    }
+
+    .screen-ctrl-btn {
+      width: 44px;
+      height: 44px;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.45);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      touch-action: manipulation;
+    }
+
+    .screen-ctrl-btn:hover {
+      color: var(--optic-cinema-gold-bright);
+      transform: scale(1.15);
+    }
+
+    /* 移动端细致排版适配 (消灭全部 25 项微瑕疵) */
+    @media (max-width: 768px) {
+      .film-console-master {
+        padding: calc(var(--safe-top) + 6px) max(16px, var(--safe-right)) max(18px, calc(var(--safe-bottom) + 10px)) max(16px, var(--safe-left));
+      }
+      .domain-folio-view {
+        padding: 0 4px 6px 4px;
+        gap: 8px;
+      }
+      .folio-stage-chamber {
+        padding: 0 4px;
+      }
+      .opus-folio-cassette {
+        max-width: 100%;
+        max-height: 42vh;
+        max-height: 42dvh;
+      }
+      .domain-folio-compass {
+        padding: 0 2px;
+      }
+      .compass-opus-card {
+        min-width: 170px;
+        padding: 8px 10px;
+      }
+      .compass-card-title {
+        font-size: 12px;
+      }
+      .film-strip-cell {
+        width: 118px;
+      }
+      .screen-caption-bar {
+        padding: 0 4px;
+        box-sizing: border-box;
+      }
+      .screen-caption-title {
+        font-size: 13px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .ghost-title-pill {
+        font-size: 9px;
+        padding: 4px 10px;
+        gap: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 35mm 运动银盐微晶质感层 -->
+  <div class="film-grain-surface" aria-hidden="true"></div>
+
+  <!-- 剪辑台主容器 (严格 100dvh 黄金视口，零纵向溢出) -->
+  <main class="film-console-master">
+
+    <!-- 顶部浮空幽灵微气泡 (Ghost Glyphs HUD: 纯图符去文字化) -->
+    <header class="ghost-hud-bar">
+      <div class="ghost-hud-left">
+        <a href="./index.html" class="ghost-glyph-btn" id="btnNavBack" title="返回主页" aria-label="返回主页">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+        </a>
+        <div class="ghost-title-pill">
+          <span class="pill-accent" id="hudPillPrefix">PARADIGM</span>
+          <span style="opacity: 0.35;">/</span>
+          <span id="hudStateTag">SLOW CINEMA · 35MM</span>
+        </div>
+      </div>
+
+      <div class="ghost-hud-right">
+        <!-- 声景微钮：联动本地《停留的微风 · 瞬息》52秒美术馆级实体音频 -->
+        <button class="ghost-glyph-btn" id="btnBinauralAudio" title="声景" aria-label="声景">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <span class="audio-breath-dot" id="audioDotCinema"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- =========================================================================
+         【第一层：理念场域巡礼 (Level 1: Domain Folio Atrium)】
+         - 3D 悬浮物理典藏胶片盘匣 (35mm Opus Folio Cassette)
+         - 底部典藏卷册时空罗盘 (Folio Compass, 绝无细碎切片导轨)
+         ========================================================================= -->
+    <section class="domain-folio-view" id="domainFolioView">
+      
+      <!-- 中央 3D 悬浮物理典藏胶片盘匣舞台 -->
+      <div class="folio-stage-chamber">
+        <div class="lightbox-halo" id="lightboxHalo"></div>
+
+        <div class="opus-folio-cassette theme-snow" id="opusFolioCassette" role="button" tabindex="0" title="轻触启幕 · 切入放映暗室" aria-label="切入放映暗室">
+          <!-- 四角冷钛装裱角扣 -->
+          <span class="cassette-corner-clasp clasp-tl" aria-hidden="true"></span>
+          <span class="cassette-corner-clasp clasp-tr" aria-hidden="true"></span>
+          <span class="cassette-corner-clasp clasp-bl" aria-hidden="true"></span>
+          <span class="cassette-corner-clasp clasp-br" aria-hidden="true"></span>
+
+          <!-- 有机玻璃高光反光层 -->
+          <div class="cassette-glass-overlay" aria-hidden="true"></div>
+
+          <!-- 35mm 冷钛未曝光典藏胶片盘匣与放映机光隙物镜装置 -->
+          <div class="aperture-barrel-housing" id="apertureHousing" aria-hidden="true">
+            <!-- 高山微晶飘雪粒子层 (CSS 硬件加速呼吸粒子) -->
+            <div class="snow-particle-layer" id="snowParticleLayer">
+              <span class="snow-flake sf-1"></span>
+              <span class="snow-flake sf-2"></span>
+              <span class="snow-flake sf-3"></span>
+              <span class="snow-flake sf-4"></span>
+              <span class="snow-flake sf-5"></span>
+              <span class="snow-flake sf-6"></span>
+            </div>
+
+            <!-- 高山雪山脊线微雕等高线背景 -->
+            <div class="alpine-ridge-contours" id="alpineRidgeContours"></div>
+
+            <div class="aperture-reticle-ring ring-outer"></div>
+            <div class="aperture-reticle-ring ring-mid"></div>
+            <div class="aperture-focal-notches"></div>
+            
+            <!-- 时空哲学核心物镜印章 -->
+            <div class="philosophy-seal-disc" id="philosophySealDisc">
+              <div class="seal-inner-ring">
+                <span class="seal-formula" id="sealFormula">POWDER SNOW · 120 FPS</span>
+                <!-- 精密六角冰晶雪花星轨核心徽标 -->
+                <div class="seal-sigil-cluster" id="sealSigilCluster">
+                  <span class="sigil-snow-star" id="sealSigilIcon">❄️</span>
+                </div>
+                <span class="seal-motto" id="sealMotto">SUB-ZERO POWDER DYNAMICS</span>
+              </div>
+            </div>
+            
+            <div class="aperture-lens-sheen"></div>
+          </div>
+          
+          <!-- 典藏金属金印铭牌 -->
+          <div class="cassette-seal-plate">
+            <span class="seal-pill" id="folioCodeBadge">❄️ OPUS 01 · 35MM REEL · 120 FPS</span>
+            <h1 class="seal-title" id="folioTitleZh">粉雪之境 · 高山微影典藏</h1>
+            <span class="seal-subtitle" id="folioTitleEn">ALPINE POWDER SNOW DYNAMICS · 2.39:1</span>
+          </div>
+
+          <!-- 启幕微钮印章 -->
+          <div class="cassette-center-action" id="folioCenterAction">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>ENTER CHAMBER</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部独特装置：典藏卷册时空罗盘 (Folio Compass, 绝无细碎切片导轨) -->
+      <div class="domain-folio-compass">
+        <div class="compass-header">
+          <span>PARADIGM REEL ARCHIVE</span>
+          <span style="color: var(--optic-cinema-gold-bright);">FOLIO COMPASS</span>
+          <span>CURATED OPUS</span>
+        </div>
+
+        <div class="compass-reel-track">
+          <!-- OPUS 01 已就绪具象设计卡片 -->
+          <div class="compass-opus-card is-active" id="cardOpus01" role="button" tabindex="0" aria-label="选择 OPUS 01 粉雪之境">
+            <div class="compass-card-header">
+              <span class="compass-card-code">❄️ OPUS 01</span>
+              <span class="compass-card-status" id="statusOpus01">● ACTIVE</span>
+            </div>
+            <div class="compass-card-body">
+              <span class="compass-card-title">粉雪之境 · 高山微影典藏</span>
+            </div>
+          </div>
+
+          <!-- OPUS 02 补充完整已就绪卡片 -->
+          <div class="compass-opus-card" id="cardOpus02" role="button" tabindex="0" aria-label="选择 OPUS 02 深蓝涌动">
+            <div class="compass-card-header">
+              <span class="compass-card-code">🌊 OPUS 02</span>
+              <span class="compass-card-status" id="statusOpus02">○ SELECT</span>
+            </div>
+            <div class="compass-card-body">
+              <span class="compass-card-title">深蓝涌动 · 巨浪微晶</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =========================================================================
+         【第三级：相册放映暗室 (Level 3: Album Screening Chamber)】
+         - 仅当点击进入具体相册后呈现！展示真实切片母版与切片胶卷导轨
+         ========================================================================= -->
+    <section class="screening-chamber-view" id="screeningChamberView" style="display: none;">
+      
+      <!-- 中央核心：2.39:1 变形宽银幕电影放映暗箱 -->
+      <div class="screen-stage-wrapper">
+        <div class="lightbox-halo" id="screeningHalo"></div>
+
+        <div class="cinema-screen-card" id="cinemaScreenCard" title="单击切换播放/暂停" role="button" tabindex="0" aria-label="播放开关">
+          <!-- 触控瞬态微光图符反馈 (MOMUS-SUGG-01) -->
+          <div class="screen-pulse-glyph" id="screenPulseGlyph" aria-hidden="true">
+            <svg id="pulseGlyphSvg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </div>
+
+          <!-- 真实切片母版呈现 (纯真实摄影装裱，带有微呼吸运镜) -->
+          <img src="" alt="" class="screen-base-art" id="screenBaseArt" />
+
+          <!-- 展台右上角：120 FPS 纯金封签 -->
+          <div class="screen-badge-top-right">
+            <span class="chip-120fps" id="screenExpBadge">EXP 01 · 120 FPS</span>
+          </div>
+
+          <!-- 展台左下角：专属动作动量微标 -->
+          <div class="screen-badge-bottom-left">
+            <div class="motion-indicator-pill">
+              <span id="motionSubjectIcon">❄️</span>
+              <span id="motionSubjectTitle" style="color: var(--optic-obsidian-text); font-size: 11px;">刃切破雪滑行</span>
+            </div>
+          </div>
+
+          <!-- 2.5px 纯金流光时间微轨 -->
+          <div class="timeline-rail">
+            <div class="timeline-progress" id="timelineProgress"></div>
+          </div>
+        </div>
+
+        <!-- 放映暗箱下方信息条 -->
+        <div class="screen-caption-bar">
+          <div class="screen-caption-left">
+            <h2 class="screen-caption-title" id="screenCutTitle">刃切破雪滑行</h2>
+            <span class="screen-caption-meta" id="screenCutMeta">120FPS REEL</span>
+          </div>
+          <button class="ghost-back-btn" id="btnBackToConsole" title="退回看片台" aria-label="退回看片台">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- 底部独特装置：当前相册动作切片 35mm 菲林刻度尺 -->
+      <div class="film-flatbed-reel">
+        <div class="reel-gauge-header">
+          <span>MOTION MANIFEST REEL</span>
+          <span style="color: var(--optic-cinema-gold-bright);" id="screenAlbumShortTitle">极速粉雪</span>
+          <span style="color: var(--optic-cinema-gold);">KODAK 5219</span>
+        </div>
+
+        <div class="reel-housing-box">
+          <div class="film-cells-strip" id="cutsFilmStrip">
+            <!-- 动态注入该相册专属动作切片菲林格 -->
+          </div>
+        </div>
+
+        <!-- 极简控制微纽 (上一格、暂停/播放微循环、下一格) -->
+        <div class="screen-controls-bar">
+          <button class="screen-ctrl-btn" id="btnPrevCut" title="上一项 (←)" aria-label="上一项">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button class="screen-ctrl-btn" id="btnPlayPause" title="暂停/播放动态微循环 (空格)" aria-label="播放开关">
+            <svg id="playIconSvg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+          </button>
+          <button class="screen-ctrl-btn" id="btnNextCut" title="下一项 (→)" aria-label="下一项">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       三级架构数据编排与 35mm 物理剪辑台逻辑引擎
+       ========================================================================== -->
+  <script>
+    /*
+     * Chrono-Lens 规范体系 · 模块 03 核心逻辑引擎
+     * 理念场域：【瞬·息】慢速微影 (形而上时空哲学，绝无具体设计)
+     * 具象设计：【粉雪之境 · 高山微影典藏】(所有滑雪素材统归于此，包含完整六阶时空切片)
+     * 物理装置隐喻：35mm 摄影暗房光学剪辑台与放映暗室 (2.39:1 变形宽银幕)
+     * 坚守真实光学装裱铁律，彻底杜绝任何 2D Canvas 假动画！
+     */
+    const CINEMA_SPEC_DATA = {
+      domain: {
+        domainId: "domain_03_cinema",
+        nameZh: "瞬·息",
+        nameEn: "Gentle Moments",
+        paradigmTitle: "SLOW CINEMA · 35MM",
+        philosophy: "捕捉转瞬即逝的动作微元，在时间的单向奔流中构筑无缝微循环与情绪回甘。"
+      },
+      concreteDesigns: [
+        {
+          designId: "opus_03_01_alpine_snow",
+          code: "OPUS 01",
+          titleZh: "粉雪之境 · 高山微影典藏",
+          shortTitle: "粉雪之境",
+          titleEn: "Alpine Powder Snow Dynamics",
+          badgeText: "❄️ OPUS 01 · 35MM REEL · 120 FPS",
+          apparatus: "35mm_anamorphic_lightbox_console",
+          aspectRatio: "2.39:1",
+          themeStyle: "theme-snow",
+          haloColor: "rgba(220, 175, 110, 0.20)",
+          coverArt: "./assets/artworks/cover_ski_powder_spray.jpg",
+          formula: "POWDER SNOW · 120 FPS",
+          sigils: "❄️ ✦ ❖ ✧",
+          motto: "SUB-ZERO POWDER DYNAMICS",
+          cutsCount: 4,
+          cuts: [
+            {
+              cutId: "alpine_cut_01_gear",
+              expNo: "EXP 01-1",
+              phase: "prologue",
+              symbol: "✨",
+              titleZh: "序曲 · 临场与整装",
+              subtitleZh: "雪板与镀膜雪镜超微距光影，镜面映出巍峨雪峰与晨曦微晶闪烁",
+              previewArt: "./data/media/alpine_cut_01_gear.jpg",
+              fps: 120
+            },
+            {
+              cutId: "alpine_cut_02_summit",
+              expNo: "EXP 01-2",
+              phase: "ascent",
+              symbol: "🍃",
+              titleZh: "升空 · 索道与雾凇",
+              subtitleZh: "高山雪峰与翻涌云海，晨曦透过雾凇针叶林洒下神圣丁达尔光束",
+              previewArt: "./data/media/alpine_cut_02_summit.jpg",
+              fps: 60
+            },
+            {
+              cutId: "alpine_cut_03_carve",
+              expNo: "EXP 01-3",
+              phase: "climax",
+              symbol: "💧",
+              titleZh: "高潮 · 极速破雪立刃",
+              subtitleZh: "单板极速立刃破雪，高压激扬的钻石微晶粉雪巨浪在阳光下爆散",
+              previewArt: "./data/media/alpine_cut_03_carve.jpg",
+              fps: 120
+            },
+            {
+              cutId: "alpine_cut_04_sunset",
+              expNo: "EXP 01-4",
+              phase: "epilogue",
+              symbol: "❄️",
+              titleZh: "回甘 · 逆光微尘",
+              subtitleZh: "夕阳余晖下穿行深粉雪，金黄雪雾如星尘般在暮色微风中徐徐弥散",
+              previewArt: "./data/media/alpine_cut_04_sunset.jpg",
+              fps: 120
+            }
+          ]
+        },
+        {
+          designId: "opus_03_02_deep_marine",
+          code: "OPUS 02",
+          titleZh: "深蓝涌动 · 巨浪微晶",
+          shortTitle: "深蓝涌动",
+          titleEn: "Deep Marine Dynamics",
+          badgeText: "🌊 OPUS 02 · 35MM REEL · 120 FPS",
+          apparatus: "35mm_anamorphic_lightbox_console",
+          aspectRatio: "2.39:1",
+          themeStyle: "theme-marine",
+          haloColor: "rgba(35, 95, 160, 0.22)",
+          coverArt: "./assets/artworks/cover_deep_marine_surge.jpg",
+          formula: "OCEAN SURGE · 120 FPS",
+          sigils: "🌊 💎 🌀 ✨",
+          motto: "FJORD & SWELL DYNAMICS",
+          cutsCount: 4,
+          cuts: [
+            {
+              cutId: "marine_cut_01_mirror",
+              expNo: "EXP 02-1",
+              phase: "prologue",
+              symbol: "🌊",
+              titleZh: "序曲 · 碧水镜天",
+              subtitleZh: "高山峡湾深蓝如翡翠，湖面泛起钻石微澜与天光云影",
+              previewArt: "./data/media/marine_cut_01_mirror.jpg",
+              fps: 120
+            },
+            {
+              cutId: "marine_cut_02_shore",
+              expNo: "EXP 02-2",
+              phase: "ascent",
+              symbol: "💎",
+              titleZh: "澄澈 · 岸线微晶",
+              subtitleZh: "雪线与碧波交界处，冰裂水冠与翡翠色水流徐徐涌动",
+              previewArt: "./data/media/marine_cut_02_shore.jpg",
+              fps: 60
+            },
+            {
+              cutId: "marine_cut_03_surge",
+              expNo: "EXP 02-3",
+              phase: "climax",
+              symbol: "🌀",
+              titleZh: "高潮 · 巨浪微晶",
+              subtitleZh: "群山环抱间水浪破空爆散，高压水雾在晨光中化为透亮微晶",
+              previewArt: "./data/media/marine_cut_03_surge.jpg",
+              fps: 120
+            },
+            {
+              cutId: "marine_cut_04_glow",
+              expNo: "EXP 02-4",
+              phase: "epilogue",
+              symbol: "✨",
+              titleZh: "回甘 · 暮色余波",
+              subtitleZh: "斜阳洒满深蓝湖面，金波随山风层层推涌至视界尽头",
+              previewArt: "./data/media/marine_cut_04_glow.jpg",
+              fps: 120
+            }
+          ]
+        }
+      ]
+    };
+
+    // 状态管理：Level 1 (理念场域典藏大厅) 与 Level 2 (具象设计放映暗室)
+    let currentLevel = 1;
+    let currentOpusIdx = 0; // 0: 粉雪之境 (OPUS 01), 1: 深蓝涌动 (OPUS 02)
+    let currentCutIdx = 0;
+    let isFlowPlaying = true;
+    let loopProgress = 0;
+    let loopTimer = null;
+
+    // DOM 元素引用
+    const domainFolioView = document.getElementById("domainFolioView");
+    const screeningChamberView = document.getElementById("screeningChamberView");
+    const btnNavBack = document.getElementById("btnNavBack");
+    const hudStateTag = document.getElementById("hudStateTag");
+    const hudPillPrefix = document.getElementById("hudPillPrefix");
+    const btnBinauralAudio = document.getElementById("btnBinauralAudio");
+    const audioDotCinema = document.getElementById("audioDotCinema");
+
+    // Level 1: 理念场域元素
+    const lightboxHalo = document.getElementById("lightboxHalo");
+    const opusFolioCassette = document.getElementById("opusFolioCassette");
+    const folioCodeBadge = document.getElementById("folioCodeBadge");
+    const folioTitleZh = document.getElementById("folioTitleZh");
+    const folioTitleEn = document.getElementById("folioTitleEn");
+    const sealFormula = document.getElementById("sealFormula");
+    const sealSigilIcon = document.getElementById("sealSigilIcon");
+    const sealMotto = document.getElementById("sealMotto");
+    const snowParticleLayer = document.getElementById("snowParticleLayer");
+    const alpineRidgeContours = document.getElementById("alpineRidgeContours");
+    const cardOpus01 = document.getElementById("cardOpus01");
+    const cardOpus02 = document.getElementById("cardOpus02");
+
+    // Level 2: 具象设计放映暗室元素
+    const screeningHalo = document.getElementById("screeningHalo");
+    const cinemaScreenCard = document.getElementById("cinemaScreenCard");
+    const screenBaseArt = document.getElementById("screenBaseArt");
+    const screenExpBadge = document.getElementById("screenExpBadge");
+    const motionSubjectIcon = document.getElementById("motionSubjectIcon");
+    const motionSubjectTitle = document.getElementById("motionSubjectTitle");
+    const timelineProgress = document.getElementById("timelineProgress");
+    const screenCutTitle = document.getElementById("screenCutTitle");
+    const screenCutMeta = document.getElementById("screenCutMeta");
+    const screenAlbumShortTitle = document.getElementById("screenAlbumShortTitle");
+    const cutsFilmStrip = document.getElementById("cutsFilmStrip");
+    const btnBackToConsole = document.getElementById("btnBackToConsole");
+    const btnPrevCut = document.getElementById("btnPrevCut");
+    const btnNextCut = document.getElementById("btnNextCut");
+    const btnPlayPause = document.getElementById("btnPlayPause");
+    const playIconSvg = document.getElementById("playIconSvg");
+
+    // Optic-Resonance 触觉轻音效微发生器 (Web Audio Micro-Haptics)
+    function playMicroTick(freq = 800) {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        if (!window._microAudioCtx) {
+          window._microAudioCtx = new AudioCtx();
+        }
+        const aCtx = window._microAudioCtx;
+        if (aCtx.state === "suspended") {
+          aCtx.resume();
+        }
+        const osc = aCtx.createOscillator();
+        const gain = aCtx.createGain();
+        osc.frequency.setValueAtTime(freq, aCtx.currentTime);
+        gain.gain.setValueAtTime(0.035, aCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, aCtx.currentTime + 0.025);
+        osc.connect(gain);
+        gain.connect(aCtx.destination);
+        osc.start();
+        osc.stop(aCtx.currentTime + 0.025);
+      } catch (e) {}
+    }
+
+    // 1. 初始化
+    function init() {
+      bindFolioEvents();
+      updateFolioCassetteVisuals();
+      renderLevel();
+    }
+
+    // 2. 切换当前具象设计作品 (OPUS 01 / OPUS 02)
+    function switchOpus(idx) {
+      if (idx === currentOpusIdx) return;
+      playMicroTick(1020);
+      currentOpusIdx = idx;
+      currentCutIdx = 0;
+      loopProgress = 0;
+
+      // 更新罗盘卡片选中状态
+      if (cardOpus01 && cardOpus02) {
+        cardOpus01.classList.toggle("is-active", currentOpusIdx === 0);
+        cardOpus02.classList.toggle("is-active", currentOpusIdx === 1);
+        const st1 = document.getElementById("statusOpus01");
+        const st2 = document.getElementById("statusOpus02");
+        if (st1) {
+          st1.textContent = currentOpusIdx === 0 ? "● ACTIVE" : "○ SELECT";
+          st1.style.color = "";
+        }
+        if (st2) {
+          st2.textContent = currentOpusIdx === 1 ? "● ACTIVE" : "○ SELECT";
+          st2.style.color = "";
+        }
+      }
+
+      // 盘匣轻微跃迁微动并更新视觉
+      if (opusFolioCassette) {
+        opusFolioCassette.style.transform = "perspective(1000px) rotateY(15deg) scale(0.96)";
+        opusFolioCassette.style.opacity = "0.75";
+        setTimeout(() => {
+          updateFolioCassetteVisuals();
+          opusFolioCassette.style.transform = "";
+          opusFolioCassette.style.opacity = "";
+        }, 180);
+      }
+    }
+
+    // 更新中央盘匣视觉
+    function updateFolioCassetteVisuals() {
+      const opus = CINEMA_SPEC_DATA.concreteDesigns[currentOpusIdx];
+      if (!opusFolioCassette || !opus) return;
+
+      // 切换专属类名与粒子
+      if (currentOpusIdx === 0) {
+        opusFolioCassette.classList.remove("theme-marine");
+        opusFolioCassette.classList.add("theme-snow");
+        if (snowParticleLayer) snowParticleLayer.style.display = "block";
+        if (alpineRidgeContours) alpineRidgeContours.style.display = "block";
+      } else {
+        opusFolioCassette.classList.remove("theme-snow");
+        opusFolioCassette.classList.add("theme-marine");
+        if (snowParticleLayer) snowParticleLayer.style.display = "none";
+        if (alpineRidgeContours) alpineRidgeContours.style.display = "none";
+      }
+
+      // 铭牌与标题
+      if (folioCodeBadge) folioCodeBadge.textContent = opus.badgeText;
+      if (folioTitleZh) folioTitleZh.textContent = opus.titleZh;
+      if (folioTitleEn) folioTitleEn.textContent = `${opus.titleEn.toUpperCase()} · 2.39:1`;
+
+      // 中心物镜核心
+      if (sealFormula) sealFormula.textContent = opus.formula;
+      if (sealSigilIcon) sealSigilIcon.textContent = (currentOpusIdx === 0 ? "❄️" : "🌊");
+      if (sealMotto) sealMotto.textContent = opus.motto;
+
+      if (lightboxHalo) {
+        lightboxHalo.style.background = `radial-gradient(circle, ${opus.haloColor} 0%, rgba(8, 9, 13, 0) 72%)`;
+      }
+    }
+
+    // 3. 绑定理念场域典藏胶片盘匣交互（3D 视差微倾斜、时空折叠跃迁）
+    function bindFolioEvents() {
+      if (!opusFolioCassette) return;
+
+      const triggerChamber = () => {
+        if (navigator.vibrate) {
+          try { navigator.vibrate([15, 30, 20]); } catch (e) {}
+        }
+        playMicroTick(1060);
+        // 触发时空折叠跃迁过渡
+        opusFolioCassette.style.transform = "perspective(1000px) translateZ(120px) scale(1.08)";
+        opusFolioCassette.style.opacity = "0.7";
+        setTimeout(() => {
+          opusFolioCassette.style.transform = "";
+          opusFolioCassette.style.opacity = "";
+          openScreeningChamber(0);
+        }, 180);
+      };
+
+      opusFolioCassette.addEventListener("click", triggerChamber);
+      if (cardOpus01) cardOpus01.addEventListener("click", () => switchOpus(0));
+      if (cardOpus02) cardOpus02.addEventListener("click", () => switchOpus(1));
+
+      opusFolioCassette.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          triggerChamber();
+        }
+      });
+
+      // 桌面端 3D 视差微倾斜 (Parallax Tilt)
+      opusFolioCassette.addEventListener("mousemove", (e) => {
+        const rect = opusFolioCassette.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rx = -(y / (rect.height / 2)) * 6.5;
+        const ry = (x / (rect.width / 2)) * 7.5;
+        opusFolioCassette.style.transform = `perspective(1000px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+
+      opusFolioCassette.addEventListener("mouseleave", () => {
+        opusFolioCassette.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
+      });
+    }
+
+    // 4. 进入具象设计放映暗室
+    function openScreeningChamber(cutIdx = 0) {
+      playMicroTick(1060);
+      currentLevel = 2;
+      currentCutIdx = cutIdx;
+      loopProgress = 0;
+      if (timelineProgress) timelineProgress.style.width = "0%";
+      renderLevel();
+      startLoopTimer();
+    }
+
+    // 5. 退回理念场域巡礼大厅
+    function backToFolio() {
+      playMicroTick(620);
+      currentLevel = 1;
+      stopLoopTimer();
+      renderLevel();
+    }
+
+    // 6. 主层级渲染器
+    function renderLevel() {
+      const opus = CINEMA_SPEC_DATA.concreteDesigns[currentOpusIdx];
+      const cut = opus.cuts[currentCutIdx];
+
+      if (currentLevel === 1) {
+        // ========== Level 1: 理念场域巡礼 (3D 典藏胶片盘匣) ==========
+        if (domainFolioView) domainFolioView.style.display = "flex";
+        if (screeningChamberView) screeningChamberView.style.display = "none";
+
+        if (hudPillPrefix) hudPillPrefix.textContent = "PARADIGM";
+        if (hudStateTag) hudStateTag.textContent = CINEMA_SPEC_DATA.domain.paradigmTitle;
+
+        if (btnNavBack) {
+          btnNavBack.href = "./index.html";
+          btnNavBack.onclick = null;
+          btnNavBack.title = "返回主页";
+        }
+
+        updateFolioCassetteVisuals();
+
+      } else {
+        // ========== Level 2: 具象设计 2.39:1 变形宽银幕放映暗室 ==========
+        if (domainFolioView) domainFolioView.style.display = "none";
+        if (screeningChamberView) screeningChamberView.style.display = "flex";
+
+        if (hudPillPrefix) hudPillPrefix.textContent = opus.code;
+        if (hudStateTag) hudStateTag.textContent = `${opus.shortTitle} · ${cut.expNo}`;
+
+        if (btnNavBack) {
+          btnNavBack.href = "javascript:void(0);";
+          btnNavBack.onclick = (e) => {
+            e.preventDefault();
+            backToFolio();
+          };
+          btnNavBack.title = "退回典藏盘匣";
+        }
+
+        // 更新暗箱切片
+        if (screenBaseArt) {
+          screenBaseArt.style.opacity = "0.2";
+          setTimeout(() => {
+            screenBaseArt.src = cut.previewArt;
+            screenBaseArt.alt = cut.titleZh;
+            screenBaseArt.style.opacity = "0.92";
+          }, 120);
+        }
+
+        if (screeningHalo) {
+          screeningHalo.style.background = `radial-gradient(circle, ${opus.haloColor} 0%, rgba(8, 9, 13, 0) 72%)`;
+        }
+
+        if (screenExpBadge) screenExpBadge.textContent = `${cut.expNo} · ${cut.fps} FPS`;
+        if (motionSubjectIcon) motionSubjectIcon.textContent = cut.symbol;
+        if (motionSubjectTitle) motionSubjectTitle.textContent = cut.titleZh;
+        if (screenCutTitle) screenCutTitle.textContent = cut.titleZh;
+        if (screenCutMeta) screenCutMeta.textContent = `${cut.expNo} · ${cut.fps}FPS REEL`;
+        if (screenAlbumShortTitle) screenAlbumShortTitle.textContent = opus.shortTitle;
+
+        // 渲染 35mm 双侧链齿孔时间尺
+        renderCutsStrip(opus);
+      }
+    }
+
+    // 7. 渲染第三级动作切片菲林尺
+    function renderCutsStrip(opus) {
+      if (!cutsFilmStrip) return;
+      cutsFilmStrip.innerHTML = "";
+      opus.cuts.forEach((cut, idx) => {
+        const cell = document.createElement("div");
+        cell.className = `film-strip-cell ${idx === currentCutIdx ? 'is-active' : ''}`;
+        cell.innerHTML = `
+          <div class="strip-cell-header">
+            <span>${cut.expNo}</span>
+            <span style="color: var(--optic-cinema-gold);">${cut.symbol} ${cut.fps}F</span>
+          </div>
+          <div class="strip-cell-thumb">
+            <img src="${cut.previewArt}" alt="${cut.titleZh}" loading="lazy" />
+          </div>
+          <div class="strip-cell-footer">
+            <span class="strip-footer-title">${cut.titleZh}</span>
+            <span style="font-family: var(--font-mono); font-size: 8px; color: var(--optic-cinema-gold);">K5219</span>
+          </div>
+        `;
+        cell.addEventListener("click", () => {
+          playMicroTick(920);
+          currentCutIdx = idx;
+          loopProgress = 0;
+          renderLevel();
+        });
+        cutsFilmStrip.appendChild(cell);
+      });
+
+      const activeCell = cutsFilmStrip.querySelector(".film-strip-cell.is-active");
+      if (activeCell) {
+        activeCell.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+
+    // 8. 走带微循环时间进度
+    function startLoopTimer() {
+      stopLoopTimer();
+      loopTimer = setInterval(() => {
+        if (!isFlowPlaying) return;
+        loopProgress += 0.8;
+        if (loopProgress >= 100) {
+          loopProgress = 0;
+        }
+        if (timelineProgress) timelineProgress.style.width = `${loopProgress}%`;
+      }, 100);
+    }
+
+    function stopLoopTimer() {
+      if (loopTimer) clearInterval(loopTimer);
+    }
+
+    // 9. 播放/暂停
+    function togglePlay() {
+      isFlowPlaying = !isFlowPlaying;
+      playMicroTick(isFlowPlaying ? 840 : 540);
+      if (playIconSvg) {
+        if (isFlowPlaying) {
+          playIconSvg.innerHTML = `<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>`;
+        } else {
+          playIconSvg.innerHTML = `<polygon points="5 3 19 12 5 21 5 3"></polygon>`;
+        }
+      }
+
+      // 瞬态微光图符反馈
+      const pulseGlyph = document.getElementById("screenPulseGlyph");
+      const pulseSvg = document.getElementById("pulseGlyphSvg");
+      if (pulseGlyph && pulseSvg) {
+        if (isFlowPlaying) {
+          pulseSvg.innerHTML = `<polygon points="5 3 19 12 5 21 5 3"></polygon>`;
+        } else {
+          pulseSvg.innerHTML = `<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>`;
+        }
+        pulseGlyph.classList.add("is-flashing");
+        setTimeout(() => {
+          pulseGlyph.classList.remove("is-flashing");
+        }, 280);
+      }
+    }
+
+    if (cinemaScreenCard) cinemaScreenCard.addEventListener("click", togglePlay);
+    if (btnPlayPause) btnPlayPause.addEventListener("click", togglePlay);
+    if (btnBackToConsole) btnBackToConsole.addEventListener("click", backToFolio);
+
+    if (btnPrevCut) {
+      btnPrevCut.addEventListener("click", () => {
+        playMicroTick(780);
+        const cuts = CINEMA_SPEC_DATA.concreteDesigns[currentOpusIdx].cuts;
+        currentCutIdx = (currentCutIdx - 1 + cuts.length) % cuts.length;
+        loopProgress = 0;
+        renderLevel();
+      });
+    }
+
+    if (btnNextCut) {
+      btnNextCut.addEventListener("click", () => {
+        playMicroTick(820);
+        const cuts = CINEMA_SPEC_DATA.concreteDesigns[currentOpusIdx].cuts;
+        currentCutIdx = (currentCutIdx + 1) % cuts.length;
+        loopProgress = 0;
+        renderLevel();
+      });
+    }
+
+    // 11. 键盘盲操
+    window.addEventListener("keydown", (e) => {
+      if (currentLevel === 1) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openScreeningChamber(0);
+        }
+      } else {
+        if (e.key === "ArrowLeft" && btnPrevCut) btnPrevCut.click();
+        if (e.key === "ArrowRight" && btnNextCut) btnNextCut.click();
+        if (e.key === " " || e.key === "Spacebar") {
+          e.preventDefault();
+          togglePlay();
+        }
+        if (e.key === "Escape") {
+          backToFolio();
+        }
+      }
+    });
+
+    // 12. 双耳自然声场接入
+    if (window.ChronoSoundscape) {
+      window.ChronoSoundscape.init({
+        mode: 'cinema',
+        btnId: 'btnBinauralAudio',
+        dotId: 'audioDotCinema'
+      });
+    }
+
+    // 启动
+    window.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>

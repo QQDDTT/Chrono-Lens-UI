@@ -1,0 +1,610 @@
+/* ==========================================================================
+   Chrono-Lens (时空之镜) - 模块封面与主页白色渐变淡化展台系统
+   1. 模块封面独立性：封面色彩与主页完全不同（深邃星河、虚空星云魔盒与全景星穹）
+   2. 渐变淡化：封面向上自然淡化融入素白区域，在纯白部分以文学宋体展示标题与叙事
+   3. 艺术空间感：3D 悬浮透视、多层微磨砂与温润画廊呼吸感
+   ========================================================================== */
+:root {
+  color-scheme: light !important;
+  
+  /* 画廊素白底色 */
+  --bg-canvas: #f5f4ef;
+  --bg-gradient: radial-gradient(ellipse at 50% 0%, #ffffff 0%, #f6f5f0 45%, #ece8dd 100%);
+  --bg-card: #ffffff;
+  --bg-card-inactive: rgba(255, 255, 255, 0.92);
+  
+  /* 温润墨韵字色 (位于卡片白色区域) */
+  --text-main: #23272e;        /* 主标题深墨灰，柔和沉稳 */
+  --text-title: #22262d;       /* 卡片标题色 */
+  --text-body: #4c5361;        /* 正文叙事色 */
+  --text-muted: #6e7686;       /* 副题与辅助文字 */
+  --text-tag: #8892a2;         /* 章节标识 */
+  
+  /* 浅铂金与晨曦点缀 */
+  --accent-gold: #a68238;
+  --accent-gold-dark: #8f6d28;
+  --accent-gold-light: #faf5eb;
+  --accent-gold-border: rgba(166, 130, 56, 0.28);
+  
+  /* 艺术阴影与边框 */
+  --border-card: rgba(35, 39, 46, 0.08);
+  --border-card-active: rgba(166, 130, 56, 0.35);
+  --shadow-center: 0 24px 64px -14px rgba(35, 39, 46, 0.10), 0 8px 24px -4px rgba(35, 39, 46, 0.04);
+  --shadow-side: 0 16px 40px -10px rgba(35, 39, 46, 0.06);
+  
+  /* 字体栈 */
+  --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", "STSong", "FZShuSong-Z01S", serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-display-en: "Cormorant Garamond", "Cinzel", "Optima", "Baskerville", "Didot", "Georgia", serif;
+
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color-scheme: light !important;
+  background-color: var(--bg-canvas) !important;
+  background-image: var(--bg-gradient) !important;
+  background-attachment: fixed;
+  color: var(--text-main) !important;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.7;
+}
+
+/* 柔和环境漫反射艺术光斑 */
+.ambient-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.ambient-glow-1 {
+  position: absolute;
+  top: -22%;
+  left: 18%;
+  width: 65vw;
+  height: 52vw;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(245, 244, 239, 0) 70%);
+  filter: blur(70px);
+  opacity: 0.85;
+}
+.ambient-glow-2 {
+  position: absolute;
+  bottom: -15%;
+  right: 14%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(206, 175, 110, 0.06) 0%, rgba(245, 244, 239, 0) 70%);
+  filter: blur(90px);
+  opacity: 0.7;
+}
+
+/* 整体容器 */
+.site-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: max(16px, var(--safe-top)) 24px max(18px, var(--safe-bottom));
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 1. 顶栏：悬浮艺术导览岛 */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1100px;
+  margin: 8px auto 16px;
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(35, 39, 46, 0.06) !important;
+  border-radius: 999px;
+  box-shadow: 0 4px 20px -2px rgba(35, 39, 46, 0.03);
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  text-decoration: none !important;
+  color: var(--text-main) !important;
+}
+
+.brand-logo-img {
+  width: 34px;
+  height: 34px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.04));
+  transition: transform 0.6s var(--ease-cinematic);
+}
+
+.brand-link:hover .brand-logo-img {
+  transform: rotate(20deg) scale(1.05);
+}
+
+.brand-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title-main {
+  font-family: var(--font-display-en);
+  font-size: 1.12rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--text-main) !important;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.brand-title-sub {
+  font-family: var(--font-serif);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  color: var(--text-muted) !important;
+  font-weight: 400;
+}
+
+.header-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  background: var(--accent-gold-light);
+  border: 1px solid var(--accent-gold-border);
+  border-radius: 999px;
+  font-family: var(--font-serif);
+  font-size: 0.76rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--accent-gold-dark);
+  box-shadow: 0 2px 8px rgba(166, 130, 56, 0.04);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-gold);
+  box-shadow: 0 0 6px var(--accent-gold);
+  animation: pulseLight 3.2s ease-in-out infinite;
+}
+
+@keyframes pulseLight {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* 2. 主视界题记 */
+.hero-narrative {
+  text-align: center;
+  max-width: 820px;
+  margin: 18px auto 14px;
+  padding: 0 16px;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: 1.82rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  color: var(--text-main) !important;
+  margin-bottom: 8px;
+  line-height: 1.45;
+}
+
+.hero-desc {
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted) !important;
+  font-weight: 350;
+  line-height: 1.7;
+}
+
+/* 3. 3D 悬浮透视幻灯片展台 */
+.slider-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  perspective: 1400px;
+  perspective-origin: center center;
+  position: relative;
+  min-height: 500px;
+  margin: 8px 0 12px;
+}
+
+.slider-deck {
+  position: relative;
+  width: 100%;
+  height: 470px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+}
+
+/* 核心卡片容器：呈现“白色部分显示标题 + 渐变淡化到底部浓郁模块封面” */
+.slider-card {
+  position: absolute;
+  width: min(710px, 90vw);
+  height: 450px;
+  background: #ffffff;
+  border: 1px solid var(--border-card);
+  border-radius: 24px;
+  box-shadow: var(--shadow-center);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.75s var(--ease-cinematic), opacity 0.6s ease, filter 0.6s ease, border-color 0.45s ease, box-shadow 0.75s ease;
+  user-select: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* 核心视觉层 1：底层独立模块封面大片 (深邃神秘星空与虚空晶体魔盒) */
+.module-cover-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.module-cover-backdrop img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+  object-position: center 66%;
+  transition: transform 0.85s var(--ease-cinematic), filter 0.6s ease;
+}
+
+/* 核心视觉层 2：渐变淡化处理层 (自上而下从纯净白平滑淡化，魔盒在深邃星云中神秘升腾) */
+.module-cover-backdrop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #ffffff 32%,
+    rgba(255, 255, 255, 0.95) 45%,
+    rgba(255, 255, 255, 0.55) 62%,
+    rgba(255, 255, 255, 0.10) 80%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+  z-index: 2;
+}
+
+/* 核心视觉层 3：卡片前景内容架构 (标题位于纯净白色区域) */
+.card-foreground {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* 白色部分：显示标题、副标与生活叙事 */
+.card-white-zone {
+  padding: 34px 44px 10px;
+}
+
+.card-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.card-module-tag {
+  font-family: var(--font-display-en);
+  font-size: 0.86rem;
+  letter-spacing: 0.24em;
+  color: var(--text-tag);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.card-theme-pill {
+  font-family: var(--font-serif);
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  padding: 4px 13px;
+  background: var(--accent-gold-light);
+  border: 1px solid var(--accent-gold-border);
+  border-radius: 999px;
+  color: var(--accent-gold-dark);
+  font-weight: 400;
+}
+
+.card-title-zh {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: var(--text-title) !important;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.card-title-en {
+  font-family: var(--font-display-en);
+  font-size: 0.95rem;
+  letter-spacing: 0.22em;
+  color: var(--text-muted);
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.card-life-narrative {
+  font-family: var(--font-sans);
+  font-size: 1.02rem;
+  letter-spacing: 0.05em;
+  color: var(--text-body);
+  font-weight: 380;
+  line-height: 1.85;
+  max-width: 560px;
+}
+
+/* 底部区域：映衬在模块神秘封面之上，附带微磨砂暗夜光带 */
+.card-cover-zone {
+  padding: 15px 24px;
+  margin: 0 20px 18px;
+  background: rgba(14, 17, 24, 0.48);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.cover-zone-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-serif);
+  font-size: 0.84rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.cover-type-tag {
+  font-family: var(--font-display-en);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  padding: 2px 8px;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  background: rgba(212, 175, 55, 0.15);
+  border-radius: 4px;
+  color: #fce4a6;
+  text-transform: uppercase;
+}
+
+.cover-zone-state {
+  font-family: var(--font-serif);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: #f7d58b;
+  font-weight: 400;
+}
+
+/* 激活卡片动效：魔盒深邃悬浮呼吸感 */
+.slider-card.is-active {
+  transform: translate3d(0, 0, 0) scale(1);
+  opacity: 1;
+  filter: blur(0px);
+  z-index: 10;
+  border-color: var(--border-card-active);
+  box-shadow: var(--shadow-center), 0 0 0 1px rgba(166, 130, 56, 0.2);
+}
+.slider-card.is-active .module-cover-backdrop img {
+  transform: scale(1.04) translateY(-4px);
+}
+
+/* 侧翼后退卡片 */
+.slider-card.is-prev {
+  transform: translate3d(-52%, 0, -110px) rotateY(16deg) scale(0.87);
+  opacity: 0.62;
+  filter: blur(1.5px);
+  z-index: 5;
+  background: var(--bg-card-inactive);
+  box-shadow: var(--shadow-side);
+}
+.slider-card.is-prev:hover {
+  opacity: 0.92;
+  filter: blur(0px);
+  transform: translate3d(-50%, 0, -70px) rotateY(12deg) scale(0.90);
+}
+
+.slider-card.is-next {
+  transform: translate3d(52%, 0, -110px) rotateY(-16deg) scale(0.87);
+  opacity: 0.62;
+  filter: blur(1.5px);
+  z-index: 5;
+  background: var(--bg-card-inactive);
+  box-shadow: var(--shadow-side);
+}
+.slider-card.is-next:hover {
+  opacity: 0.92;
+  filter: blur(0px);
+  transform: translate3d(50%, 0, -70px) rotateY(-12deg) scale(0.90);
+}
+
+.slider-card.is-hidden {
+  transform: translate3d(0, 0, -260px) scale(0.7);
+  opacity: 0;
+  filter: blur(6px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 4. 控制器 */
+.slider-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: 18px;
+  z-index: 20;
+}
+
+.slider-arrow-btn {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(35, 39, 46, 0.1);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 300;
+  box-shadow: 0 4px 14px rgba(35, 39, 46, 0.03);
+  transition: all 0.3s var(--ease-cinematic);
+  outline: none;
+}
+
+.slider-arrow-btn:hover {
+  background: #ffffff;
+  border-color: var(--accent-gold);
+  color: var(--accent-gold-dark);
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(166, 130, 56, 0.15);
+}
+
+.slider-arrow-btn:active {
+  transform: scale(0.95);
+}
+
+.slider-dots-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider-dot-bar {
+  width: 26px;
+  height: 3px;
+  border-radius: 2px;
+  background-color: rgba(35, 39, 46, 0.14);
+  transition: all 0.45s var(--ease-cinematic);
+  cursor: pointer;
+}
+
+.slider-dot-bar:hover {
+  background-color: rgba(35, 39, 46, 0.3);
+}
+
+.slider-dot-bar.is-active {
+  background-color: var(--accent-gold);
+  width: 44px;
+}
+
+/* 5. 底栏 */
+.site-footer {
+  width: 100%;
+  max-width: 1100px;
+  margin: 18px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-card);
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-gold-dot {
+  color: var(--accent-gold);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .site-container {
+    padding: max(14px, var(--safe-top)) 16px max(14px, var(--safe-bottom));
+  }
+  .site-header {
+    border-radius: 20px;
+    padding: 8px 16px;
+  }
+  .hero-title {
+    font-size: 1.42rem;
+    letter-spacing: 0.12em;
+  }
+  .hero-desc {
+    font-size: 0.88rem;
+  }
+  .slider-deck {
+    height: 490px;
+  }
+  .slider-card {
+    height: 470px;
+    border-radius: 20px;
+  }
+  .card-white-zone {
+    padding: 26px 22px 8px;
+  }
+  .card-title-zh {
+    font-size: 1.85rem;
+  }
+  .card-life-narrative {
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .card-cover-zone {
+    margin: 0 14px 14px;
+    padding: 12px 16px;
+  }
+  .slider-card.is-prev {
+    transform: translate3d(-35%, 0, -70px) rotateY(12deg) scale(0.88);
+  }
+  .slider-card.is-next {
+    transform: translate3d(35%, 0, -70px) rotateY(-12deg) scale(0.88);
+  }
+  .site-footer {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}

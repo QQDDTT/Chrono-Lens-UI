@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>MODULE 04 · 重·温 | 私人时光金库 - Chrono-Lens</title>
+  <meta name="description" content="Chrono-Lens 重·温 私人时光金库：端到端纯前端加密、100% 拒绝 AI 虚构、35mm 真实胶片底片盒与暗房巴里塔相纸展陈。" />
+
+  <!-- 移动端全屏与安全区适配 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="重·温 金库" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#0a0c10" />
+
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="./favicon.svg" />
+  <link rel="manifest" href="./manifest.json" />
+  <script src="./assets/soundscape.js"></script>
+
+  <!-- 艺术字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Noto+Serif+SC:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       Chrono-Lens 子模块 04 · 重·温 专属暗房时光金库设计系统 (Obsidian Vault)
+       - 黑曜深邃金库暗调（#0a0c10）+ 暗房安全红光漫晕
+       - 35mm 真实齿孔底片装裱夹（Sprocket Holes & Edge Barcodes）
+       - Web Crypto 客户端零知识密码学与 5分钟闲置自动销毁闭环
+       ========================================================================== */
+    :root {
+      --bg-dark: #0a0c10;
+      --bg-box: #131720;
+      --text-pure: #ffffff;
+      --text-sub: rgba(255, 255, 255, 0.76);
+      --text-muted: rgba(255, 255, 255, 0.42);
+      --glass-bg: rgba(18, 22, 30, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --accent-copper: #c58648;
+      --accent-copper-glow: rgba(197, 134, 72, 0.22);
+      --accent-gold: #d4af37;
+      --safelight-red: rgba(180, 40, 30, 0.15);
+      --font-serif: "Noto Serif SC", "Songti SC", "SimSun", serif;
+      --font-en: "Cinzel", "Times New Roman", serif;
+      --font-mono: "Space Mono", "Courier New", monospace;
+      --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    *:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--accent-copper), 0 0 16px var(--accent-copper-glow);
+      border-radius: 4px;
+    }
+
+    /* 优雅微晶毛玻璃暗红安全光滚动条 */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 9999px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(197, 134, 72, 0.45);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 0%, var(--safelight-red) 0%, transparent 60%),
+        radial-gradient(circle at 80% 30%, rgba(197, 134, 72, 0.05) 0%, transparent 50%);
+      color: var(--text-pure);
+      font-family: var(--font-serif);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 标签与按键防折行 */
+    .hud-icon-btn, .vault-btn, .key-tag, .chip {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    @keyframes spatial-unfold {
+      0% {
+        opacity: 0;
+        transform: scale(1.05);
+        filter: blur(14px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+      }
+    }
+
+    .vault-stage {
+      position: relative;
+      width: 100%;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      animation: spatial-unfold 0.8s var(--ease-cinematic) forwards;
+      z-index: 2;
+    }
+
+    /* 顶部悬浮毛玻璃导览岛 */
+    .hud-top-bar {
+      position: fixed;
+      top: max(16px, calc(var(--safe-top) + 12px));
+      left: max(16px, calc(var(--safe-left) + 16px));
+      right: max(16px, calc(var(--safe-right) + 16px));
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .hud-button, .hud-icon-btn {
+      pointer-events: auto;
+      border-radius: 9999px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--text-pure);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s var(--ease-cinematic);
+      position: relative;
+    }
+
+    .hud-icon-btn {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0;
+    }
+
+    .hud-button {
+      height: 42px;
+      padding: 0 16px;
+      gap: 8px;
+    }
+
+    .hud-button:hover, .hud-icon-btn:hover {
+      border-color: var(--accent-copper);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-copper-glow);
+    }
+
+    .hud-center-title {
+      font-family: var(--font-en);
+      letter-spacing: 0.22em;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--text-sub);
+    }
+
+    .hud-badge-secure {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-gold);
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 8px #4ade80;
+    }
+
+    /* 主体容器 */
+    .content-container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: calc(var(--safe-top) + 80px) 24px calc(var(--safe-bottom) + 60px) 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .view-section {
+      width: 100%;
+      transition: opacity 0.5s var(--ease-cinematic), transform 0.5s var(--ease-cinematic);
+    }
+
+    .view-hidden {
+      display: none !important;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* 策展人题记 */
+    .curator-header {
+      text-align: center;
+      margin-bottom: 48px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .module-badge {
+      display: inline-block;
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.34em;
+      color: var(--accent-copper);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .curator-title {
+      font-size: clamp(28px, 4vw, 36px);
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      margin-bottom: 18px;
+      color: var(--text-pure);
+    }
+
+    .curator-quote {
+      font-size: 14px;
+      line-height: 2;
+      color: var(--text-sub);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      padding: 0 16px;
+    }
+
+    .curator-quote::before, .curator-quote::after {
+      content: "";
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent-copper);
+      opacity: 0.35;
+      margin: 14px auto;
+    }
+
+    /* 底片盒陈列网格 */
+    .box-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 36px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .box-card {
+      background: var(--bg-box);
+      border-radius: 14px;
+      padding: 16px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s var(--ease-cinematic);
+    }
+
+    .box-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      border-color: var(--accent-copper);
+      box-shadow: 0 18px 48px var(--accent-copper-glow);
+    }
+
+    .box-cover-wrapper {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      background: #000;
+    }
+
+    .box-cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s var(--ease-cinematic);
+    }
+
+    .box-card:hover .box-cover-img {
+      transform: scale(1.03);
+    }
+
+    .box-badge-top {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(10, 12, 16, 0.85);
+      backdrop-filter: blur(8px);
+      font-family: var(--font-en);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: #ffd885;
+      border: 0.5px solid rgba(255, 216, 133, 0.35);
+    }
+
+    .box-frames-tag {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(10, 12, 16, 0.85);
+      backdrop-filter: blur(8px);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #ffffff;
+      border: 0.5px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .box-info {
+      padding: 20px 8px 8px 8px;
+    }
+
+    .box-title {
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      color: var(--text-pure);
+    }
+
+    .box-curation {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-sub);
+      font-weight: 300;
+    }
+
+    /* ==========================================================================
+       Level 3 暗房底片展陈 (Darkroom Filmstrip Showcase)
+       ========================================================================== */
+    .filmstrip-view {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .sub-nav-bar {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .btn-back-vault {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-family: var(--font-serif);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+
+    .btn-back-vault:hover {
+      color: var(--accent-copper);
+      background: var(--accent-copper-glow);
+    }
+
+    /* 35mm 真实底片装裱夹 (The Sprocket Frame) */
+    .film-holder-wrapper {
+      position: relative;
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      background: #000;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(197, 134, 72, 0.15);
+      padding: 24px 0;
+      overflow: hidden;
+    }
+
+    /* 上下 35mm 胶卷齿孔带 (Sprocket Tracks) */
+    .sprocket-track {
+      height: 28px;
+      width: 100%;
+      background: #080a0e;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 12px;
+    }
+
+    .sprocket-hole {
+      width: 16px;
+      height: 12px;
+      background: #000000;
+      border-radius: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .sprocket-code {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #e2a868;
+      letter-spacing: 0.1em;
+      opacity: 0.85;
+    }
+
+    /* 胶卷视窗与巴里塔相纸质感 */
+    .film-viewport {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      max-height: 60vh;
+      margin: 14px 0;
+      background: #050608;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .film-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.4s ease;
+    }
+
+    /* 暗房巴里塔相纸微反光 */
+    .baryta-shine {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* 激光喷码 EXIF 烧录岛 */
+    .laser-exif-island {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px 24px;
+      padding: 10px 24px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 9999px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .laser-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .laser-label {
+      font-family: var(--font-en);
+      color: var(--accent-copper);
+      font-size: 11px;
+    }
+
+    .laser-val {
+      font-family: var(--font-mono);
+      color: var(--text-pure);
+    }
+
+    /* ==========================================================================
+       暗房黄铜日晷星盘与光学双影对焦解谜机关箱 (Cryptex Astrolabe Chamber)
+       ========================================================================== */
+    .cryptex-modal {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(180, 40, 30, 0.22) 0%, rgba(5, 7, 10, 0.94) 75%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      perspective: 1200px;
+    }
+
+    /* 机关箱全屏模态框左上角返回按钮 (避让顶部安全区，44x44px 触控友好) */
+    .chamber-back-btn {
+      position: absolute;
+      top: calc(var(--safe-top) + 16px);
+      left: 16px;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 9999px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-pure);
+      cursor: pointer;
+      z-index: 120;
+      transition: all 0.3s var(--ease-cinematic);
+    }
+    .chamber-back-btn:hover {
+      border-color: var(--accent-copper);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-copper-glow);
+    }
+    .chamber-back-btn:active {
+      transform: scale(0.95);
+    }
+
+    .cryptex-chamber-box {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      background: #11141b;
+      border: 1.5px solid rgba(197, 134, 72, 0.4);
+      border-radius: 20px;
+      box-shadow: 
+        0 24px 70px rgba(0, 0, 0, 0.95),
+        0 0 40px rgba(197, 134, 72, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      padding: 24px 20px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-style: preserve-3d;
+      transition: transform 0.6s var(--ease-cinematic), opacity 0.6s ease;
+    }
+
+    /* 机关箱内右上角黄铜返回/关闭微钮 */
+    .chamber-box-close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      background: rgba(18, 22, 30, 0.6);
+      border: 1px solid rgba(197, 134, 72, 0.35);
+      color: #ffd885;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.25s var(--ease-cinematic);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .chamber-box-close-btn:hover {
+      background: rgba(197, 134, 72, 0.2);
+      border-color: #ffd885;
+      transform: scale(1.08);
+      box-shadow: 0 0 12px rgba(255, 216, 133, 0.35);
+    }
+    .chamber-box-close-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* 机关箱四角拉丝黄铜包角饰件 */
+    .cryptex-corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--accent-copper);
+      pointer-events: none;
+    }
+    .cryptex-corner.top-left { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+    .cryptex-corner.top-right { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+    .cryptex-corner.bottom-left { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+    .cryptex-corner.bottom-right { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+
+    /* 顶部金针卡榫顶标指示器 */
+    .detent-indicator-needle {
+      position: relative;
+      margin-bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      z-index: 5;
+    }
+    .needle-point {
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 10px solid #ffd885;
+      filter: drop-shadow(0 0 6px rgba(255, 216, 133, 0.8));
+    }
+    .needle-hairline {
+      width: 1px;
+      height: 8px;
+      background: linear-gradient(to bottom, #ffd885, transparent);
+    }
+    /* 真实的机械跳跃擒纵棘爪 (Ratchet Escapement Pawl) */
+    .ratchet-pawl {
+      position: absolute;
+      top: -10px;
+      width: 24px;
+      height: 14px;
+      pointer-events: none;
+      transform-origin: 50% 0;
+      transition: transform 0.08s ease-out;
+    }
+    .pawl-tooth {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 8px;
+      background: linear-gradient(135deg, #ffd885, #c58648);
+      border-radius: 1px;
+      transform: translateX(-50%);
+      box-shadow: 0 0 4px rgba(255, 216, 133, 0.5);
+    }
+    .pawl-spring {
+      position: absolute;
+      top: -3px;
+      left: 50%;
+      width: 14px;
+      height: 2px;
+      background: rgba(197, 134, 72, 0.6);
+      transform: translateX(-50%);
+      border-radius: 1px;
+    }
+    .ratchet-pawl.ratchet-snap {
+      animation: pawl-strike 0.22s var(--ease-cinematic);
+    }
+    @keyframes pawl-strike {
+      0% { transform: translateY(0) scaleY(1); }
+      35% { transform: translateY(-4px) scaleY(0.85); }
+      70% { transform: translateY(1.5px) scaleY(1.05); }
+      100% { transform: translateY(0) scaleY(1); }
+    }
+
+    /* 三轴同心机械星盘转盘容器 */
+    .astrolabe-housing {
+      position: relative;
+      width: min(340px, 86vw);
+      height: min(340px, 86vw);
+      border-radius: 50%;
+      background: radial-gradient(circle, #0e1117 30%, #080a0e 100%);
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.8),
+        inset 0 0 20px rgba(0, 0, 0, 0.9),
+        0 0 0 1px rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      user-select: none;
+      overflow: hidden;
+      touch-action: none;
+      cursor: grab;
+    }
+    .astrolabe-housing:active {
+      cursor: grabbing;
+    }
+
+    /* 背景主啮合齿圈与刻轨 (Master Ring Gear Teeth) */
+    .gear-master-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .gear-teeth-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* 行星啮合副齿轮 (Planetary Pinion Gears) */
+    .planet-gear {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      pointer-events: none;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s linear;
+      will-change: transform;
+    }
+    .planet-gear-1 { top: 12%; left: 12%; }
+    .planet-gear-2 { top: 12%; right: 12%; }
+    .planet-gear-3 { bottom: 12%; left: 12%; }
+    .planet-gear-4 { bottom: 12%; right: 12%; }
+
+    .gear-pinion {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: 
+        radial-gradient(circle, #2a2015 35%, #14100c 70%),
+        repeating-conic-gradient(from 0deg, #c58648 0deg 15deg, #18120d 15deg 30deg);
+      border: 1px solid rgba(255, 216, 133, 0.4);
+      box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.8),
+        inset 0 0 4px rgba(255, 216, 133, 0.3);
+      position: relative;
+    }
+    .gear-bolt {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffd885 20%, #7a5420 90%);
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* 差速微型传动副齿轮 (Secondary Spur Gears) */
+    .spur-gear {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      pointer-events: none;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s linear;
+      will-change: transform;
+    }
+    .spur-gear-1 { top: 50%; left: 15%; margin-top: -11px; }
+    .spur-gear-2 { top: 50%; right: 15%; margin-top: -11px; }
+
+    .spur-pinion {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: repeating-conic-gradient(from 0deg, #d4af37 0deg 22.5deg, #100e0b 22.5deg 45deg);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.85);
+      position: relative;
+    }
+    .spur-bolt {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 10%, #bf8f47 90%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* 同心刻度环公共结构 (手势直接拖拽旋转) */
+    .dial-ring {
+      position: absolute;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      will-change: transform;
+      z-index: 3;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .dial-ring.is-snapping {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .dial-ring.is-dragging {
+      transition: none !important;
+      cursor: grabbing;
+      filter: brightness(1.12);
+    }
+    .dial-ring:active {
+      cursor: grabbing;
+    }
+
+    /* 外环 · 天体秘符环 (Outer Dial) */
+    .dial-outer {
+      width: 98%;
+      height: 98%;
+      border: 1.5px solid rgba(197, 134, 72, 0.35);
+      box-shadow: inset 0 0 12px rgba(197, 134, 72, 0.15);
+      background: conic-gradient(from 0deg, rgba(25, 29, 40, 0.4), rgba(15, 18, 24, 0.8), rgba(25, 29, 40, 0.4));
+    }
+
+    /* 中环 · 晶核光轨环 (Middle Dial) */
+    .dial-middle {
+      width: 72%;
+      height: 72%;
+      border: 1.5px solid rgba(160, 175, 195, 0.25);
+      background: conic-gradient(from 45deg, rgba(20, 24, 32, 0.6), rgba(12, 14, 20, 0.9), rgba(20, 24, 32, 0.6));
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+
+    /* 内环 · 流动图元环 (Inner Dial) */
+    .dial-inner {
+      width: 46%;
+      height: 46%;
+      border: 1.5px solid rgba(212, 175, 55, 0.45);
+      background: radial-gradient(circle, #251214 0%, #12090b 85%);
+      box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.2);
+    }
+
+    /* 纯符号刻度微雕节点 (剥离所有阿拉伯数字与英文字母) */
+    .dial-tick-item {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-origin: 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .dial-tick-symbol {
+      font-size: 15px;
+      line-height: 1;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+      color: rgba(255, 255, 255, 0.55);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+      user-select: none;
+    }
+    .dial-outer .dial-tick-symbol {
+      font-size: 16px;
+      color: rgba(255, 216, 133, 0.65);
+    }
+    .dial-middle .dial-tick-symbol {
+      font-size: 15px;
+      color: rgba(200, 220, 245, 0.65);
+    }
+    .dial-inner .dial-tick-symbol {
+      font-size: 14px;
+      color: rgba(245, 170, 160, 0.65);
+    }
+    .dial-tick-symbol.active {
+      color: #ffd885 !important;
+      font-weight: bold;
+      transform: translate(-50%, -50%) scale(1.24);
+      filter: drop-shadow(0 0 8px rgba(255, 216, 133, 0.9));
+    }
+
+    /* 莱卡黄斑双影光学对焦观察窗 (Eyepiece Rangefinder Lens) */
+    .eyepiece-lens {
+      position: absolute;
+      width: 25%;
+      height: 25%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(230, 160, 80, 0.18) 0%, rgba(10, 12, 16, 0.95) 75%);
+      border: 2px solid var(--accent-copper);
+      box-shadow: 
+        0 0 16px rgba(0, 0, 0, 0.9),
+        inset 0 0 12px rgba(226, 168, 104, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    /* 冷银基准十字星标 */
+    .silver-crosshair {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .silver-crosshair::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 15%;
+      right: 15%;
+      height: 1px;
+      background: rgba(200, 220, 240, 0.7);
+    }
+    .silver-crosshair::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 15%;
+      bottom: 15%;
+      width: 1px;
+      background: rgba(200, 220, 240, 0.7);
+    }
+
+    /* 暖金虚焦光斑 (Golden Ghost Image) */
+    .golden-ghost-spot {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 216, 133, 0.85) 0%, rgba(226, 168, 104, 0.2) 70%, transparent 100%);
+      transform: translate(14px, -12px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    /* 琥珀神圣对焦光晕 (Optical Bloom) */
+    .optical-bloom {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 216, 133, 0.9) 0%, rgba(226, 168, 104, 0.4) 50%, transparent 80%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      mix-blend-mode: screen;
+    }
+    .optical-bloom.blooming {
+      opacity: 1;
+      box-shadow: 0 0 24px rgba(255, 216, 133, 0.9);
+    }
+
+    /* 做旧黄铜微雕铭牌线索 (Diegetic Plaque) */
+    .diegetic-clue-plaque {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(32, 24, 18, 0.8) 0%, rgba(18, 14, 12, 0.9) 100%);
+      border: 1px solid rgba(197, 134, 72, 0.45);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      text-align: center;
+      position: relative;
+    }
+    .diegetic-clue-plaque::before, .diegetic-clue-plaque::after {
+      content: "•";
+      position: absolute;
+      color: var(--accent-copper);
+      font-size: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .diegetic-clue-plaque::before { left: 8px; }
+    .diegetic-clue-plaque::after { right: 8px; }
+    .clue-inscription-text {
+      font-family: var(--font-serif);
+      font-size: 12px;
+      line-height: 1.6;
+      color: #ffd885;
+      font-style: italic;
+      letter-spacing: 0.08em;
+      opacity: 0.9;
+    }
+
+    /* 黄铜卡榫拉杆模组 (Tumbler Release Lever) */
+    .tumbler-lever-module {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .lever-track-housing {
+      position: relative;
+      width: 100%;
+      height: 48px;
+      background: #080a0e;
+      border-radius: 24px;
+      border: 1.5px solid rgba(197, 134, 72, 0.3);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      padding: 4px;
+      overflow: hidden;
+    }
+    .lever-track-hint {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+      text-transform: uppercase;
+    }
+    .tumbler-slider-handle {
+      position: relative;
+      height: 40px;
+      padding: 0 18px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #d49a5b 0%, #9e642c 100%);
+      border: 1px solid #ffd885;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      color: #11141b;
+      font-family: var(--font-serif);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
+      z-index: 2;
+      user-select: none;
+      touch-action: pan-y;
+    }
+    .tumbler-slider-handle:hover {
+      background: linear-gradient(180deg, #e5ab6d 0%, #b57738 100%);
+      box-shadow: 0 0 16px rgba(226, 168, 104, 0.5);
+    }
+    .lever-brass-ridges {
+      display: flex;
+      gap: 2px;
+    }
+    .lever-ridge {
+      width: 2px;
+      height: 12px;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 1px;
+    }
+
+    /* 关闭放弃按钮 */
+    .btn-abandon-chamber {
+      margin-top: 8px;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.38);
+      font-family: var(--font-en);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      padding: 6px 12px;
+      transition: color 0.3s;
+    }
+    .btn-abandon-chamber:hover {
+      color: var(--text-pure);
+    }
+
+    /* 创伤震颤动画 (Trauma Shake) */
+    @keyframes trauma-shake {
+      0% { transform: translateX(0) rotate(0deg); }
+      20% { transform: translateX(-9px) rotate(-1.5deg); }
+      40% { transform: translateX(8px) rotate(1.2deg); }
+      60% { transform: translateX(-5px) rotate(-0.8deg); }
+      80% { transform: translateX(3px) rotate(0.4deg); }
+      100% { transform: translateX(0) rotate(0deg); }
+    }
+    .cryptex-chamber-box.trauma-shake {
+      animation: trauma-shake 0.45s ease-out forwards;
+      border-color: #ef4444;
+      box-shadow: 0 0 35px rgba(239, 68, 68, 0.45);
+    }
+
+    /* 机械展开解锁序列 (Mechanical Unfolding Sequence) */
+    @keyframes unfold-sink-open {
+      0% { transform: translateZ(0) scale(1); opacity: 1; }
+      40% { transform: translateZ(-30px) scale(0.96); opacity: 0.9; }
+      100% { transform: translateZ(100px) scale(1.08); opacity: 0; filter: blur(8px); }
+    }
+    .cryptex-chamber-box.unfold-success {
+      animation: unfold-sink-open 1.0s var(--ease-cinematic) forwards;
+      pointer-events: none;
+    }
+
+    /* 底部胶卷尺 */
+    .filmstrip-reel {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
+      max-width: 100%;
+      overflow-x: auto;
+      scrollbar-width: none;
+      touch-action: pan-x;
+    }
+    .filmstrip-reel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .reel-thumb {
+      width: 60px;
+      height: 75px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1.5px solid transparent;
+      opacity: 0.45;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .reel-thumb.active {
+      opacity: 1;
+      border-color: var(--accent-copper);
+      transform: translateY(-3px);
+    }
+
+    .reel-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部极简浮空导览 (Ghost Glyphs，纯净去框去文字) -->
+  <header class="hud-top-bar">
+    <a href="./index.html" class="hud-icon-btn" title="返回">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7" />
+      </svg>
+    </a>
+
+    <div class="hud-center-title" style="opacity: 0.35; font-size: 11px; letter-spacing: 0.3em;">
+      TRUE FOOTPRINTS
+    </div>
+
+    <div class="hud-right-controls" style="display: flex; align-items: center; gap: 8px;">
+      <button class="hud-icon-btn" id="btnVaultSound" title="时光声景">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18V5l12-2v13"></path>
+          <circle cx="6" cy="18" r="3"></circle>
+          <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+        <span id="soundDotVault" style="position: absolute; top: 6px; right: 6px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent-copper, #e2a868); opacity: 0; box-shadow: 0 0 6px var(--accent-copper); transition: opacity 0.3s;"></span>
+      </button>
+      <div class="hud-icon-btn" title="端到端零知识加密保护">
+        <span class="pulse-dot"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 场景主体 -->
+  <main class="vault-stage">
+    <div class="content-container">
+
+      <!-- ==========================================================================
+           视图 1：Level 2【重·温】时光金库大厅 (Vault Salon View)
+           ========================================================================== -->
+      <section class="view-section" id="vaultSalonView">
+        <div class="curator-header" style="margin-bottom: 36px;">
+          <h1 class="curator-title" style="font-weight: 300; letter-spacing: 0.22em;">重温那一刻</h1>
+          <p class="curator-quote" style="font-size: 13px; opacity: 0.52; letter-spacing: 0.1em; line-height: 1.8;">
+            岁月无声，光影如初。每一次按下快门，皆是真实的足迹。
+          </p>
+        </div>
+
+        <div class="box-grid" id="boxGrid">
+          <!-- 动态注入底片盒卡片 -->
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           视图 2：Level 3 暗房胶片展陈空间 (Darkroom Filmstrip Showcase)
+           ========================================================================== -->
+      <section class="view-section view-hidden" id="darkroomView">
+        <div class="sub-nav-bar">
+          <button class="hud-icon-btn" id="btnBackToVault" title="返回" style="width: 36px; height: 36px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <span style="font-size: 13px; color: var(--text-muted); opacity: 0.65; letter-spacing: 0.15em;" id="activeBoxTitle">底片盒</span>
+        </div>
+
+        <!-- 35mm 真实底片装裱夹 -->
+        <div class="film-holder-wrapper">
+          <!-- 上方 35mm 齿孔带 -->
+          <div class="sprocket-track">
+            <span class="sprocket-code" id="filmStockTop">KODAK SAFETY FILM 400</span>
+            <div class="sprocket-hole"></div>
+            <div class="sprocket-hole"></div>
+            <div class="sprocket-hole"></div>
+            <span class="sprocket-code" id="frameNumberTop">▶ 01A</span>
+            <div class="sprocket-hole"></div>
+            <div class="sprocket-hole"></div>
+            <div class="sprocket-hole"></div>
+          </div>
+
+          <!-- 胶卷视窗 -->
+          <div class="film-viewport">
+            <img src="" alt="" class="film-image" id="filmImage" />
+            <div class="baryta-shine"></div>
+          </div>
+
+          <!-- 下方 35mm 齿孔带 -->
+          <div class="sprocket-track">
+            <div class="sprocket-hole"></div>
+            <div class="sprocket-hole"></div>
+            <span class="sprocket-code" id="auditCode">SHA256-LEICA-M11-89FA</span>
+            <div class="sprocket-hole"></div>
+            <div class="sprocket-hole"></div>
+            <span class="sprocket-code">100% OPTICAL MEMORY</span>
+            <div class="sprocket-hole"></div>
+          </div>
+        </div>
+
+        <!-- 激光喷码 EXIF 烧录岛 -->
+        <div class="laser-exif-island">
+          <div class="laser-item">
+            <span class="laser-label">STOCK</span>
+            <span class="laser-val" id="exifStock">KODAK PORTRA 400</span>
+          </div>
+          <div class="laser-item">
+            <span class="laser-label">FRAME</span>
+            <span class="laser-val" id="exifFrame">▶ 01A</span>
+          </div>
+          <div class="laser-item">
+            <span class="laser-label">CRYPTO</span>
+            <span class="laser-val" style="color: #4ade80;">AES-256-GCM / PBKDF2</span>
+          </div>
+        </div>
+
+        <!-- 胶卷尺 -->
+        <div class="filmstrip-reel" id="filmstripReel">
+          <!-- 胶卷缩略图 -->
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- 暗房黄铜日晷星盘与光学双影解谜机关箱 (The Room 风格) -->
+  <div class="cryptex-modal view-hidden" id="cryptexModal">
+    <!-- 模态框左上角返回键 (移动端避让安全区，44x44px 触控友好) -->
+    <button class="chamber-back-btn" id="btnChamberModalBack" aria-label="返回选盒大厅" title="返回">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <div class="cryptex-chamber-box" id="cryptexChamberBox">
+      <!-- 机关箱右上角关闭返回微钮 -->
+      <button class="chamber-box-close-btn" id="btnCloseChamberBox" aria-label="关闭机关箱" title="关闭返回">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- 四角黄铜包角 -->
+      <div class="cryptex-corner top-left"></div>
+      <div class="cryptex-corner top-right"></div>
+      <div class="cryptex-corner bottom-left"></div>
+      <div class="cryptex-corner bottom-right"></div>
+
+      <!-- 顶部金针与机械擒纵棘爪指示器 -->
+      <div class="detent-indicator-needle">
+        <div class="needle-point"></div>
+        <div class="needle-hairline"></div>
+        <div class="ratchet-pawl" id="ratchetPawl">
+          <div class="pawl-tooth"></div>
+          <div class="pawl-spring"></div>
+        </div>
+      </div>
+
+      <!-- 三轴同心机械星盘转盘 (内嵌精密行星传动机械结构) -->
+      <div class="astrolabe-housing" id="astrolabeHousing">
+        <!-- 背景精密黄铜主齿圈与齿条 -->
+        <div class="gear-master-ring" aria-hidden="true">
+          <svg class="gear-teeth-svg" viewBox="0 0 340 340">
+            <circle cx="170" cy="170" r="166" fill="none" stroke="rgba(197, 134, 72, 0.22)" stroke-width="2" />
+            <circle cx="170" cy="170" r="162" fill="none" stroke="rgba(255, 216, 133, 0.45)" stroke-width="2.5" stroke-dasharray="3 5" />
+            <circle cx="170" cy="170" r="124" fill="none" stroke="rgba(197, 134, 72, 0.3)" stroke-width="2" stroke-dasharray="2 4" />
+            <circle cx="170" cy="170" r="82" fill="none" stroke="rgba(212, 175, 55, 0.35)" stroke-width="2" stroke-dasharray="2 3" />
+          </svg>
+        </div>
+
+        <!-- 4 颗反向啮合行星副齿轮 (45°, 135°, 225°, 315°) -->
+        <div class="planet-gear planet-gear-1" id="planetGear1" aria-hidden="true">
+          <div class="gear-pinion"></div>
+          <div class="gear-bolt"></div>
+        </div>
+        <div class="planet-gear planet-gear-2" id="planetGear2" aria-hidden="true">
+          <div class="gear-pinion"></div>
+          <div class="gear-bolt"></div>
+        </div>
+        <div class="planet-gear planet-gear-3" id="planetGear3" aria-hidden="true">
+          <div class="gear-pinion"></div>
+          <div class="gear-bolt"></div>
+        </div>
+        <div class="planet-gear planet-gear-4" id="planetGear4" aria-hidden="true">
+          <div class="gear-pinion"></div>
+          <div class="gear-bolt"></div>
+        </div>
+
+        <!-- 2 颗差速微型传动副齿轮 (90°, 270°) -->
+        <div class="spur-gear spur-gear-1" id="spurGear1" aria-hidden="true">
+          <div class="spur-pinion"></div>
+          <div class="spur-bolt"></div>
+        </div>
+        <div class="spur-gear spur-gear-2" id="spurGear2" aria-hidden="true">
+          <div class="spur-pinion"></div>
+          <div class="spur-bolt"></div>
+        </div>
+
+        <!-- 外环：天体星轨秘符环 (纯符号无字化) -->
+        <div class="dial-ring dial-outer" id="dialOuter"></div>
+
+        <!-- 中环：几何晶核光轨环 (纯符号无字化) -->
+        <div class="dial-ring dial-middle" id="dialMiddle"></div>
+
+        <!-- 内环：流转图元印章环 (纯符号无字化) -->
+        <div class="dial-ring dial-inner" id="dialInner"></div>
+
+        <!-- 莱卡黄斑双影光学对焦观察窗 -->
+        <div class="eyepiece-lens" id="eyepieceLens" title="轻敲三次唤醒快速对焦">
+          <div class="silver-crosshair"></div>
+          <div class="golden-ghost-spot" id="ghostSpot"></div>
+          <div class="optical-bloom" id="opticalBloom"></div>
+        </div>
+      </div>
+
+
+      <!-- 做旧黄铜微雕铭牌线索 -->
+      <div class="diegetic-clue-plaque">
+        <p class="clue-inscription-text" id="clueInscriptionText">『始于微风拂庭之岁，光敛于四，岁月方醒。』</p>
+      </div>
+
+      <!-- 黄铜卡榫拉杆模组 -->
+      <div class="tumbler-lever-module">
+        <div class="lever-track-housing" id="leverTrackHousing">
+          <div class="lever-track-hint">SLIDE TO RELEASE • 推动卡榫释放</div>
+          <div class="tumbler-slider-handle" id="tumblerSliderHandle">
+            <div class="lever-brass-ridges">
+              <span class="lever-ridge"></span>
+              <span class="lever-ridge"></span>
+              <span class="lever-ridge"></span>
+            </div>
+            <span>释放底片</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 放弃关闭按钮 -->
+      <button class="btn-abandon-chamber" id="btnAbandonChamber">放弃离开</button>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       Chrono-Lens 重·温 金库暗室与黄铜日晷解谜逻辑
+       ========================================================================== */
+
+    const DEFAULT_VAULT_DATA = {
+      id: "hall_04_vault",
+      nameZh: "重·温",
+      albums: [
+        {
+          albumId: "box_04_courtyard",
+          titleZh: "二〇二四 · 庭院微风与日常纪事",
+          curation: "真实按下快门的日常记录，无任何AI虚构的纯粹生活记忆。",
+          coverImage: "./assets/artworks/cover-04-vault-seal.svg",
+          clueText: "『 ☉ 日曜凌空 · ◈ 晶核微聚 · ❖ 凝光微尘 』",
+          solution: { outer: 0, middle: 0, inner: 0 }, // ☉ + ◈ + ❖
+          works: [
+            {
+              workId: "mem_2024_01_courtyard",
+              titleZh: "庭院微风午后",
+              frameNumber: "▶ 14A",
+              filmStock: "KODAK PORTRA 400",
+              mediaUrl: "./data/media/mem_2024_01_courtyard.jpg",
+              previewUrl: "./data/media/mem_2024_01_courtyard.jpg"
+            },
+            {
+              workId: "mem_2024_02_tea_table",
+              titleZh: "案前清茶与手记",
+              frameNumber: "▶ 23",
+              filmStock: "FUJICOLOR PRO 400H",
+              mediaUrl: "./data/media/mem_2024_02_tea_table.jpg",
+              previewUrl: "./data/media/mem_2024_02_tea_table.jpg"
+            }
+          ]
+        },
+        {
+          albumId: "box_04_travel",
+          titleZh: "远方旅人 · 大陆漫游底片卷",
+          curation: "跨越千里山河的真实行者足迹，GPS 硬件元数据封存。",
+          coverImage: "./assets/artworks/cover-04-vault-seal.svg",
+          clueText: "『 ☽ 弦月悬夜 · ⎈ 罗盘指北 · ♾ 行者无疆 』",
+          solution: { outer: 1, middle: 7, inner: 3 }, // ☽ + ⎈ + ♾
+          works: [
+            {
+              workId: "mem_2024_03_station_dawn",
+              titleZh: "晨曦候车长椅",
+              frameNumber: "▶ 07A",
+              filmStock: "ILFORD HP5 PLUS 400",
+              mediaUrl: "./data/media/mem_2024_03_station_dawn.jpg",
+              previewUrl: "./data/media/mem_2024_03_station_dawn.jpg"
+            }
+          ]
+        }
+      ]
+    };
+
+    // 刻度盘纯符号数据体系 (剥离所有文字，改用高雅精工天文与几何图腾，杜绝三角形重复)
+    const DIAL_DATA = {
+      outer: [
+        { symbol: "☉", title: "日" },
+        { symbol: "☽", title: "月" },
+        { symbol: "✦", title: "星" },
+        { symbol: "✧", title: "曜" },
+        { symbol: "★", title: "极" },
+        { symbol: "⚝", title: "秘" }
+      ],
+      middle: [
+        { symbol: "◈", title: "菱" },
+        { symbol: "⬡", title: "晶" },
+        { symbol: "◬", title: "棱" },
+        { symbol: "⊛", title: "同" },
+        { symbol: "◒", title: "弧" },
+        { symbol: "◓", title: "冠" },
+        { symbol: "⌬", title: "环" },
+        { symbol: "⎈", title: "舵" }
+      ],
+      inner: [
+        { symbol: "❖", title: "藻井" },
+        { symbol: "◎", title: "年轮" },
+        { symbol: "⧖", title: "沙漏" },
+        { symbol: "♾", title: "无限" },
+        { symbol: "⚜", title: "鸢尾" },
+        { symbol: "⚙", title: "齿轮" }
+      ]
+    };
+
+    let moduleData = DEFAULT_VAULT_DATA;
+    let pendingBox = null;
+    let currentBox = null;
+    let currentFrameIdx = 0;
+
+    // 当前转盘刻度索引状态
+    let currentDialState = {
+      outer: 2,
+      middle: 1,
+      inner: 4
+    };
+
+    // 机械传动副齿轮角度状态 (物理齿轮比联动)
+    let planetGearAngle = 0;
+    let spurGearAngle = 0;
+
+    // 自动重锁计时器
+    let autoRelockTimer = null;
+    const AUTO_RELOCK_MS = 5 * 60 * 1000; // 5分钟
+
+    // DOM 节点引用
+    const vaultSalonView = document.getElementById("vaultSalonView");
+    const darkroomView = document.getElementById("darkroomView");
+    const boxGrid = document.getElementById("boxGrid");
+    const btnBackToVault = document.getElementById("btnBackToVault");
+    const activeBoxTitle = document.getElementById("activeBoxTitle");
+
+    // 解谜机关箱 DOM
+    const cryptexModal = document.getElementById("cryptexModal");
+    const cryptexChamberBox = document.getElementById("cryptexChamberBox");
+    const dialOuter = document.getElementById("dialOuter");
+    const dialMiddle = document.getElementById("dialMiddle");
+    const dialInner = document.getElementById("dialInner");
+    const ghostSpot = document.getElementById("ghostSpot");
+    const opticalBloom = document.getElementById("opticalBloom");
+    const eyepieceLens = document.getElementById("eyepieceLens");
+    const clueInscriptionText = document.getElementById("clueInscriptionText");
+    const tumblerSliderHandle = document.getElementById("tumblerSliderHandle");
+    const btnAbandonChamber = document.getElementById("btnAbandonChamber");
+
+    // 机械齿轮与擒纵结构 DOM
+    const planetGear1 = document.getElementById("planetGear1");
+    const planetGear2 = document.getElementById("planetGear2");
+    const planetGear3 = document.getElementById("planetGear3");
+    const planetGear4 = document.getElementById("planetGear4");
+    const spurGear1 = document.getElementById("spurGear1");
+    const spurGear2 = document.getElementById("spurGear2");
+    const ratchetPawl = document.getElementById("ratchetPawl");
+
+
+    // 胶片展陈 DOM
+    const filmImage = document.getElementById("filmImage");
+    const filmStockTop = document.getElementById("filmStockTop");
+    const frameNumberTop = document.getElementById("frameNumberTop");
+    const exifStock = document.getElementById("exifStock");
+    const exifFrame = document.getElementById("exifFrame");
+    const filmstripReel = document.getElementById("filmstripReel");
+
+    // 触觉反馈封装 (Web Vibration API + 亚像素动效降级)
+    function triggerHaptic(pattern, illusionClass = '') {
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        try {
+          navigator.vibrate(pattern);
+        } catch (e) {}
+      }
+      if (illusionClass && cryptexChamberBox) {
+        cryptexChamberBox.classList.remove(illusionClass);
+        void cryptexChamberBox.offsetWidth; // 触发 reflow
+        cryptexChamberBox.classList.add(illusionClass);
+      }
+    }
+
+    // 1. 初始化
+    async function init() {
+      try {
+        const res = await fetch("./data/catalog.json");
+        if (res.ok) {
+          const list = await res.json();
+          const target = list.find(item => item.id === "hall_04_vault");
+          if (target && target.albums && target.albums.length > 0) {
+            // 合并线索与答案，确保封面始终为加密锁画面
+            target.albums.forEach((alb, i) => {
+              alb.coverImage = "./assets/artworks/cover-04-vault-seal.svg";
+              if (DEFAULT_VAULT_DATA.albums[i]) {
+                alb.clueText = DEFAULT_VAULT_DATA.albums[i].clueText;
+                alb.solution = DEFAULT_VAULT_DATA.albums[i].solution;
+              }
+            });
+            moduleData = target;
+          }
+        }
+      } catch (e) {
+        console.warn("使用内置底片盒数据", e);
+      }
+      buildDialElements();
+      renderBoxGrid();
+      setupDialControls();
+      setupTripleTapFastPath();
+      setupUserActivityListener();
+    }
+
+    // 2. 渲染底片盒网格 (理念场域纯加密锁画面，绝对禁止提前显示作品内容)
+    function renderBoxGrid() {
+      boxGrid.innerHTML = "";
+      moduleData.albums.forEach(box => {
+        const card = document.createElement("div");
+        card.className = "box-card";
+        card.innerHTML = `
+          <div class="box-cover-wrapper">
+            <span class="box-badge-top">LOCKED VAULT</span>
+            <span class="box-frames-tag">${(box.works && box.works.length) || box.worksCount || 2} FRAMES</span>
+            <img src="${box.coverImage || './assets/artworks/cover-04-vault-seal.svg'}" alt="绝密暗盒金属密码锁具" class="box-cover-img" loading="lazy" />
+          </div>
+          <div class="box-info">
+            <h3 class="box-title">${box.titleZh}</h3>
+            <p class="box-curation">${box.curation}</p>
+          </div>
+        `;
+        card.addEventListener("click", () => promptUnlock(box));
+        boxGrid.appendChild(card);
+      });
+    }
+
+    // 3. 构建三轴转盘 DOM 节点 (纯符号微雕刻画)
+    function buildDialElements() {
+      // 外环构建 (6分度天体秘符)
+      dialOuter.innerHTML = "";
+      const outerCount = DIAL_DATA.outer.length;
+      DIAL_DATA.outer.forEach((item, idx) => {
+        const angle = (idx * 360) / outerCount;
+        const tick = document.createElement("div");
+        tick.className = "dial-tick-item";
+        tick.style.transform = `rotate(${angle}deg) translate(0, -145px) rotate(-${angle}deg)`;
+        tick.innerHTML = `<span class="dial-tick-symbol" data-idx="${idx}" title="${item.title}">${item.symbol}</span>`;
+        dialOuter.appendChild(tick);
+      });
+
+      // 中环构建 (8分度晶核光轨)
+      dialMiddle.innerHTML = "";
+      const midCount = DIAL_DATA.middle.length;
+      DIAL_DATA.middle.forEach((item, idx) => {
+        const angle = (idx * 360) / midCount;
+        const tick = document.createElement("div");
+        tick.className = "dial-tick-item";
+        tick.style.transform = `rotate(${angle}deg) translate(0, -102px) rotate(-${angle}deg)`;
+        tick.innerHTML = `<span class="dial-tick-symbol" data-idx="${idx}" title="${item.title}">${item.symbol}</span>`;
+        dialMiddle.appendChild(tick);
+      });
+
+      // 内环构建 (6分度流转图元)
+      dialInner.innerHTML = "";
+      const inCount = DIAL_DATA.inner.length;
+      DIAL_DATA.inner.forEach((item, idx) => {
+        const angle = (idx * 360) / inCount;
+        const tick = document.createElement("div");
+        tick.className = "dial-tick-item";
+        tick.style.transform = `rotate(${angle}deg) translate(0, -60px) rotate(-${angle}deg)`;
+        tick.innerHTML = `<span class="dial-tick-symbol" data-idx="${idx}" title="${item.title}">${item.symbol}</span>`;
+        dialInner.appendChild(tick);
+      });
+    }
+
+    // 三轴同心物理角度状态与手势拖动系统
+    let dialAngles = {
+      outer: 0,
+      middle: 0,
+      inner: 0
+    };
+
+    let activeDragRing = null; // 'outer' | 'middle' | 'inner' | null
+    let dragStartAngle = 0;
+    let dragBaseDialAngle = 0;
+    let isDragging = false;
+
+    // 各环分度与几何判定配置
+    const RING_CONFIG = {
+      outer: { elem: dialOuter, count: 6, step: 60, minRatio: 0.74 },
+      middle: { elem: dialMiddle, count: 8, step: 45, minRatio: 0.48 },
+      inner: { elem: dialInner, count: 6, step: 60, minRatio: 0.22 }
+    };
+
+    // 4. 更新转盘视觉、复杂机械齿轮联动与双影对焦位移
+    function updateDialVisuals(animate = true) {
+      if (!isDragging) {
+        dialAngles.outer = -(currentDialState.outer * 360) / DIAL_DATA.outer.length;
+        dialAngles.middle = -(currentDialState.middle * 360) / DIAL_DATA.middle.length;
+        dialAngles.inner = -(currentDialState.inner * 360) / DIAL_DATA.inner.length;
+
+        dialOuter.style.transform = `rotate(${dialAngles.outer}deg)`;
+        dialMiddle.style.transform = `rotate(${dialAngles.middle}deg)`;
+        dialInner.style.transform = `rotate(${dialAngles.inner}deg)`;
+      }
+
+      // 机械齿轮差速反向咬合旋转驱动
+      updateGearElements();
+
+      // 高亮金针下方纯符号刻度
+      highlightActiveTick(dialOuter, currentDialState.outer);
+      highlightActiveTick(dialMiddle, currentDialState.middle);
+      highlightActiveTick(dialInner, currentDialState.inner);
+
+      // 计算双影对焦偏差
+      updateFocusBloom();
+    }
+
+    function updateGearElements() {
+      const planetGears = [planetGear1, planetGear2, planetGear3, planetGear4];
+      planetGears.forEach((gear, idx) => {
+        if (gear) {
+          const direction = (idx % 2 === 0) ? 1 : -1;
+          gear.style.transform = `rotate(${planetGearAngle * direction}deg)`;
+        }
+      });
+      if (spurGear1) spurGear1.style.transform = `rotate(${spurGearAngle}deg)`;
+      if (spurGear2) spurGear2.style.transform = `rotate(${-spurGearAngle}deg)`;
+    }
+
+    function updateFocusBloom() {
+      if (pendingBox && pendingBox.solution) {
+        const sol = pendingBox.solution;
+        const diffO = getCircularDiff(currentDialState.outer, sol.outer, DIAL_DATA.outer.length);
+        const diffM = getCircularDiff(currentDialState.middle, sol.middle, DIAL_DATA.middle.length);
+        const diffI = getCircularDiff(currentDialState.inner, sol.inner, DIAL_DATA.inner.length);
+        const totalError = diffO + diffM + diffI;
+
+        if (totalError === 0) {
+          // 严丝合缝合焦瞬间
+          ghostSpot.style.transform = "translate(0, 0)";
+          ghostSpot.style.opacity = "0.95";
+          opticalBloom.classList.add("blooming");
+          triggerHaptic([15, 25, 20]);
+          if (window.ChronoSoundscape) {
+            window.ChronoSoundscape.playSFX("focus_bloom");
+          }
+        } else {
+          // 虚焦漂移
+          const dx = (diffO * 9 - diffI * 6);
+          const dy = -(diffM * 7 - diffO * 4);
+          ghostSpot.style.transform = `translate(${dx}px, ${dy}px)`;
+          ghostSpot.style.opacity = "0.55";
+          opticalBloom.classList.remove("blooming");
+        }
+      }
+    }
+
+    function highlightActiveTick(dialElem, activeIdx) {
+      dialElem.querySelectorAll(".dial-tick-symbol").forEach(el => {
+        const idx = parseInt(el.getAttribute("data-idx"), 10);
+        el.classList.toggle("active", idx === activeIdx);
+      });
+    }
+
+    function getCircularDiff(cur, target, len) {
+      const diff = Math.abs(cur - target);
+      return Math.min(diff, len - diff);
+    }
+
+    // 触发顶部擒纵棘爪机械弹动
+    function triggerRatchet() {
+      if (ratchetPawl) {
+        ratchetPawl.classList.remove("ratchet-snap");
+        void ratchetPawl.offsetWidth; // reflow
+        ratchetPawl.classList.add("ratchet-snap");
+      }
+    }
+
+    // 5. 手势与鼠标直接旋转转盘控制器 (Direct Rotary Gestures Engine)
+    function setupDialControls() {
+      const housing = document.getElementById("astrolabeHousing");
+      if (!housing) return;
+
+      function getPointerPolar(e) {
+        const rect = housing.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const r = Math.hypot(dx, dy);
+        const ratio = r / (rect.width / 2);
+        const deg = Math.atan2(dy, dx) * (180 / Math.PI);
+        return { dx, dy, r, ratio, deg };
+      }
+
+      function detectRing(ratio) {
+        if (ratio <= 0.23) return null; // 中心透镜对焦窗
+        if (ratio <= 0.50) return "inner";  // 内环 (流转图元)
+        if (ratio <= 0.76) return "middle"; // 中环 (晶核光轨)
+        return "outer";                     // 外环 (天体秘符)
+      }
+
+      housing.addEventListener("pointerdown", e => {
+        const polar = getPointerPolar(e);
+        const ring = detectRing(polar.ratio);
+        if (!ring) return; // 处于透镜区域，交给透镜处理
+
+        activeDragRing = ring;
+        isDragging = true;
+        dragStartAngle = polar.deg;
+        dragBaseDialAngle = dialAngles[ring];
+
+        const cfg = RING_CONFIG[ring];
+        cfg.elem.classList.remove("is-snapping");
+        cfg.elem.classList.add("is-dragging");
+
+        try {
+          housing.setPointerCapture(e.pointerId);
+        } catch (err) {}
+
+        triggerHaptic([8]);
+      });
+
+      housing.addEventListener("pointermove", e => {
+        if (!isDragging || !activeDragRing) return;
+
+        const polar = getPointerPolar(e);
+        let deltaDeg = polar.deg - dragStartAngle;
+        if (deltaDeg > 180) deltaDeg -= 360;
+        if (deltaDeg < -180) deltaDeg += 360;
+
+        const newAngle = dragBaseDialAngle + deltaDeg;
+        const instantDelta = newAngle - dialAngles[activeDragRing];
+        dialAngles[activeDragRing] = newAngle;
+
+        // 真实机械传动比啮合反向旋转
+        if (activeDragRing === "outer") {
+          planetGearAngle -= instantDelta * 2.2;
+          spurGearAngle += instantDelta * 0.8;
+        } else if (activeDragRing === "middle") {
+          planetGearAngle += instantDelta * 1.5;
+          spurGearAngle -= instantDelta * 1.8;
+        } else if (activeDragRing === "inner") {
+          spurGearAngle += instantDelta * 2.5;
+        }
+
+        const cfg = RING_CONFIG[activeDragRing];
+        cfg.elem.style.transform = `rotate(${newAngle}deg)`;
+        updateGearElements();
+
+        // 实时计算当前刻度索引并发出清脆齿轮音效与微棘爪卡跳
+        let norm = (-newAngle) % 360;
+        if (norm < 0) norm += 360;
+        const hoverIdx = Math.round(norm / cfg.step) % cfg.count;
+        if (hoverIdx !== currentDialState[activeDragRing]) {
+          currentDialState[activeDragRing] = hoverIdx;
+          highlightActiveTick(cfg.elem, hoverIdx);
+          triggerRatchet();
+          triggerHaptic([10]);
+          if (window.ChronoSoundscape) {
+            window.ChronoSoundscape.playSFX("gear_click");
+          }
+          updateFocusBloom();
+        }
+      });
+
+      function onPointerEnd(e) {
+        if (!isDragging || !activeDragRing) return;
+        const ring = activeDragRing;
+        const cfg = RING_CONFIG[ring];
+
+        cfg.elem.classList.remove("is-dragging");
+        cfg.elem.classList.add("is-snapping");
+
+        // 磁吸到最近刻度
+        let norm = (-dialAngles[ring]) % 360;
+        if (norm < 0) norm += 360;
+        const finalIdx = Math.round(norm / cfg.step) % cfg.count;
+        currentDialState[ring] = finalIdx;
+
+        const targetSnapAngle = -(finalIdx * cfg.step);
+        dialAngles[ring] = targetSnapAngle;
+        cfg.elem.style.transform = `rotate(${targetSnapAngle}deg)`;
+
+        triggerRatchet();
+        triggerHaptic([18]);
+        if (window.ChronoSoundscape) {
+          window.ChronoSoundscape.playSFX("ball_detent");
+        }
+
+        updateDialVisuals(true);
+
+        try {
+          housing.releasePointerCapture(e.pointerId);
+        } catch (err) {}
+
+        activeDragRing = null;
+        isDragging = false;
+      }
+
+      housing.addEventListener("pointerup", onPointerEnd);
+      housing.addEventListener("pointercancel", onPointerEnd);
+
+      // 滑杆释放拉脱验证
+      tumblerSliderHandle.addEventListener("click", attemptUnlock);
+
+      // 关闭并退出机关箱返回选盒大厅
+      function closeCryptexModal() {
+        cryptexModal.classList.add("view-hidden");
+        pendingBox = null;
+        triggerHaptic([12]);
+        if (window.ChronoSoundscape) {
+          window.ChronoSoundscape.playSFX("lever_reset");
+        }
+      }
+
+      btnAbandonChamber.addEventListener("click", closeCryptexModal);
+
+      const btnChamberModalBack = document.getElementById("btnChamberModalBack");
+      if (btnChamberModalBack) {
+        btnChamberModalBack.addEventListener("click", closeCryptexModal);
+      }
+
+      const btnCloseChamberBox = document.getElementById("btnCloseChamberBox");
+      if (btnCloseChamberBox) {
+        btnCloseChamberBox.addEventListener("click", closeCryptexModal);
+      }
+
+      // 点击遮罩空白背景平滑返回
+      cryptexModal.addEventListener("click", (e) => {
+        if (e.target === cryptexModal) {
+          closeCryptexModal();
+        }
+      });
+    }
+
+    // 6. 验证密码与机械展开
+    function attemptUnlock() {
+      if (!pendingBox || !pendingBox.solution) return;
+      const sol = pendingBox.solution;
+      const diffO = getCircularDiff(currentDialState.outer, sol.outer, DIAL_DATA.outer.length);
+      const diffM = getCircularDiff(currentDialState.middle, sol.middle, DIAL_DATA.middle.length);
+      const diffI = getCircularDiff(currentDialState.inner, sol.inner, DIAL_DATA.inner.length);
+
+      if (diffO === 0 && diffM === 0 && diffI === 0) {
+        // 成功解锁：沉重锁舌回缩，阶梯递增重质震动
+        triggerHaptic([20, 30, 35, 40, 50, 50, 80]);
+        if (window.ChronoSoundscape) {
+          window.ChronoSoundscape.playSFX("tumbler_draw");
+        }
+        tumblerSliderHandle.style.transform = "translateX(140px)";
+
+        // 机关箱机械展开动画
+        cryptexChamberBox.classList.add("unfold-success");
+        setTimeout(() => {
+          cryptexModal.classList.add("view-hidden");
+          cryptexChamberBox.classList.remove("unfold-success");
+          tumblerSliderHandle.style.transform = "translateX(0)";
+          openDarkroom(pendingBox);
+        }, 900);
+      } else {
+        // 卡滞受阻：创伤震颤
+        triggerHaptic([45, 50, 40, 60, 35], "trauma-shake");
+        if (window.ChronoSoundscape) {
+          window.ChronoSoundscape.playSFX("jam_thud");
+        }
+        tumblerSliderHandle.style.transform = "translateX(36px)";
+        setTimeout(() => {
+          tumblerSliderHandle.style.transform = "translateX(0)";
+          cryptexChamberBox.classList.remove("trauma-shake");
+        }, 450);
+      }
+    }
+
+    // 7. 轻敲 3 次快捷盲操通道
+    function setupTripleTapFastPath() {
+      let tapCount = 0;
+      let tapTimer = null;
+      eyepieceLens.addEventListener("click", e => {
+        e.stopPropagation();
+        tapCount++;
+        clearTimeout(tapTimer);
+        tapTimer = setTimeout(() => {
+          tapCount = 0;
+        }, 500);
+
+        if (tapCount >= 3) {
+          tapCount = 0;
+          if (pendingBox && pendingBox.solution) {
+            // 学者快捷通道：自动旋正至合焦点
+            currentDialState = { ...pendingBox.solution };
+            ['outer', 'middle', 'inner'].forEach(r => {
+              const cfg = RING_CONFIG[r];
+              cfg.elem.classList.add("is-snapping");
+              dialAngles[r] = -(currentDialState[r] * cfg.step);
+              cfg.elem.style.transform = `rotate(${dialAngles[r]}deg)`;
+            });
+            updateDialVisuals(true);
+            triggerHaptic([15, 25, 20]);
+            if (window.ChronoSoundscape) {
+              window.ChronoSoundscape.playSFX("focus_bloom");
+            }
+          }
+        }
+      });
+    }
+
+    // 8. 触发解密仪式
+    function promptUnlock(box) {
+      pendingBox = box;
+      // 随机给一个非答案初态
+      const sol = box.solution || { outer: 0, middle: 0, inner: 0 };
+      currentDialState = {
+        outer: (sol.outer + 2) % DIAL_DATA.outer.length,
+        middle: (sol.middle + 3) % DIAL_DATA.middle.length,
+        inner: (sol.inner + 1) % DIAL_DATA.inner.length
+      };
+
+      dialAngles.outer = -(currentDialState.outer * 360) / DIAL_DATA.outer.length;
+      dialAngles.middle = -(currentDialState.middle * 360) / DIAL_DATA.middle.length;
+      dialAngles.inner = -(currentDialState.inner * 360) / DIAL_DATA.inner.length;
+
+      clueInscriptionText.textContent = box.clueText || "『岁月无声，光影如初，意会方显真容。』";
+      cryptexModal.classList.remove("view-hidden");
+      updateDialVisuals(false);
+    }
+
+    // 9. 打开暗房展陈空间
+    function openDarkroom(box) {
+      currentBox = box;
+      currentFrameIdx = 0;
+      vaultSalonView.classList.add("view-hidden");
+      darkroomView.classList.remove("view-hidden");
+      activeBoxTitle.textContent = box.titleZh;
+
+      renderReel();
+      loadFrame(0);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      resetAutoRelockTimer();
+    }
+
+    btnBackToVault.addEventListener("click", () => {
+      darkroomView.classList.add("view-hidden");
+      vaultSalonView.classList.remove("view-hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      clearTimeout(autoRelockTimer);
+    });
+
+    // 10. 渲染底片胶卷缩略图
+    function renderReel() {
+      filmstripReel.innerHTML = "";
+      if (!currentBox || !currentBox.works) return;
+
+      currentBox.works.forEach((frame, idx) => {
+        const thumb = document.createElement("div");
+        thumb.className = `reel-thumb ${idx === currentFrameIdx ? 'active' : ''}`;
+        thumb.innerHTML = `<img src="${frame.previewUrl || frame.mediaUrl}" alt="${frame.titleZh}" />`;
+        thumb.addEventListener("click", () => {
+          loadFrame(idx);
+          resetAutoRelockTimer();
+        });
+        filmstripReel.appendChild(thumb);
+      });
+    }
+
+    // 11. 加载具体底片帧
+    function loadFrame(idx) {
+      if (!currentBox || !currentBox.works || !currentBox.works[idx]) return;
+      currentFrameIdx = idx;
+      const frame = currentBox.works[idx];
+
+      filmImage.style.opacity = "0.2";
+      setTimeout(() => {
+        filmImage.src = frame.mediaUrl;
+        filmImage.style.opacity = "1";
+      }, 200);
+
+      filmStockTop.textContent = frame.filmStock || "KODAK PORTRA 400";
+      frameNumberTop.textContent = frame.frameNumber || "▶ 01A";
+      exifStock.textContent = frame.filmStock || "KODAK PORTRA 400";
+      exifFrame.textContent = frame.frameNumber || "▶ 01A";
+
+      const thumbs = filmstripReel.querySelectorAll(".reel-thumb");
+      thumbs.forEach((t, i) => t.classList.toggle("active", i === idx));
+    }
+
+    // 12. 5分钟闲置自动重锁闭环
+    function resetAutoRelockTimer() {
+      clearTimeout(autoRelockTimer);
+      autoRelockTimer = setTimeout(() => {
+        if (!darkroomView.classList.contains("view-hidden")) {
+          // 执行自动重锁
+          darkroomView.classList.add("view-hidden");
+          vaultSalonView.classList.remove("view-hidden");
+          triggerHaptic([60]);
+          if (window.ChronoSoundscape) {
+            window.ChronoSoundscape.playSFX("auto_relock");
+          }
+        }
+      }, AUTO_RELOCK_MS);
+    }
+
+    function setupUserActivityListener() {
+      ["touchstart", "mousemove", "keydown", "click"].forEach(ev => {
+        window.addEventListener(ev, () => {
+          if (!darkroomView.classList.contains("view-hidden")) {
+            resetAutoRelockTimer();
+          }
+        }, { passive: true });
+      });
+    }
+
+    // 启动
+    window.addEventListener("DOMContentLoaded", () => {
+      init();
+      if (window.ChronoSoundscape) {
+        window.ChronoSoundscape.init({
+          mode: 'vault',
+          btnId: 'btnVaultSound',
+          dotId: 'soundDotVault'
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="background-color: #f5f4ef !important; color-scheme: light !important;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <title>Chrono-Lens · 时空之镜 | 记录生活的真实光影</title>
+  
+  <meta name="description" content="Chrono-Lens（时空之镜）：记录山野微风、城市斜阳与身边真实世界的全景生活影像空间。" />
+  
+  <!-- 强制锁定浅色模式，杜绝暗色模式异常反色 -->
+  <meta name="theme-color" content="#f5f4ef" />
+  <meta name="color-scheme" content="light" />
+  <meta name="supported-color-schemes" content="light" />
+  
+  <!-- 移动端与全屏兼容：苹果 iOS WebClip、安卓 Chrome、X5 内核 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Chrono-Lens" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="screen-orientation" content="portrait" />
+  <meta name="x5-orientation" content="portrait" />
+  <meta name="x5-fullscreen" content="true" />
+  
+  <!-- 图标与 PWA 清单 -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="./favicon.svg" />
+  <link rel="manifest" href="./manifest.json" />
+  <script src="./assets/soundscape.js"></script>
+
+  <!-- 引入高品位艺术宋体与四大模块专属定制排版字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Fredoka:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500;600&family=Playfair+Display:ital,wght@1,400;1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       Chrono-Lens · 模块封面与主页白色渐变淡化展台系统
+       1. 模块封面独立性：封面色彩与主页完全不同（深邃星河、虚空星云魔盒与全景星穹）
+       2. 渐变淡化：封面向上自然淡化融入素白区域，在纯白部分以文学宋体展示标题与叙事
+       3. 艺术空间感：3D 悬浮透视、多层微磨砂与温润画廊呼吸感
+       ========================================================================== */
+    :root {
+      color-scheme: light !important;
+      
+      /* 画廊素白底色 */
+      --bg-canvas: #f5f4ef;
+      --bg-gradient: radial-gradient(ellipse at 50% 0%, #ffffff 0%, #f6f5f0 45%, #ece8dd 100%);
+      --bg-card: #ffffff;
+      --bg-card-inactive: rgba(255, 255, 255, 0.92);
+      
+      /* 温润墨韵字色 (位于卡片白色区域) */
+      --text-main: #23272e;        /* 主标题深墨灰，柔和沉稳 */
+      --text-title: #22262d;       /* 卡片标题色 */
+      --text-body: #4c5361;        /* 正文叙事色 */
+      --text-muted: #6e7686;       /* 副题与辅助文字 */
+      --text-tag: #8892a2;         /* 章节标识 */
+      
+      /* 浅铂金与晨曦点缀 */
+      --accent-gold: #a68238;
+      --accent-gold-dark: #8f6d28;
+      --accent-gold-light: #faf5eb;
+      --accent-gold-border: rgba(166, 130, 56, 0.28);
+      
+      /* 艺术阴影与边框 */
+      --border-card: rgba(35, 39, 46, 0.08);
+      --border-card-active: rgba(166, 130, 56, 0.35);
+      --shadow-center: 0 24px 64px -14px rgba(35, 39, 46, 0.10), 0 8px 24px -4px rgba(35, 39, 46, 0.04);
+      --shadow-side: 0 16px 40px -10px rgba(35, 39, 46, 0.06);
+      
+      /* 字体栈 */
+      --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", "STSong", "FZShuSong-Z01S", serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --font-display-en: "Cormorant Garamond", "Cinzel", "Optima", "Baskerville", "Didot", "Georgia", serif;
+
+      --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    *:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--accent-gold), 0 0 16px rgba(166, 130, 56, 0.35);
+      border-radius: 4px;
+    }
+
+    /* 画廊素白极细微晶毛玻璃滚动条 */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(35, 39, 46, 0.15);
+      border-radius: 9999px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(166, 130, 56, 0.45);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden !important;
+      overscroll-behavior: none !important;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(35, 39, 46, 0.15) transparent;
+      position: fixed;
+      inset: 0;
+      touch-action: pan-x; /* 关键：底层约束仅允许横向移动，彻底禁止任何纵向滚动与回弹 */
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      color-scheme: light !important;
+      background-color: var(--bg-canvas) !important;
+      background-image: var(--bg-gradient) !important;
+      background-attachment: fixed;
+      color: var(--text-main) !important;
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.7;
+    }
+
+    /* 按钮与标签防折行与抗抖动 */
+    .module-card, .btn-action, .soundscape-toggle, .pill, .header-badge, .dot {
+      white-space: nowrap;
+      flex-shrink: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* 柔和环境漫反射艺术光斑 */
+    .ambient-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .ambient-glow-1 {
+      position: absolute;
+      top: -22%;
+      left: 18%;
+      width: 65vw;
+      height: 52vw;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(245, 244, 239, 0) 70%);
+      filter: blur(70px);
+      opacity: 0.85;
+    }
+    .ambient-glow-2 {
+      position: absolute;
+      bottom: -15%;
+      right: 14%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(206, 175, 110, 0.06) 0%, rgba(245, 244, 239, 0) 70%);
+      filter: blur(90px);
+      opacity: 0.7;
+    }
+
+    /* 整体容器：全屏锁死，杜绝任何纵向位移 */
+    .site-container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden !important;
+      overscroll-behavior: none !important;
+      touch-action: pan-x;
+      padding: max(14px, var(--safe-top)) 24px max(16px, var(--safe-bottom));
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* 1. 顶栏：悬浮艺术导览岛 */
+    .site-header {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      margin: 10px auto 16px;
+      padding: 8px 24px;
+      background: rgba(255, 255, 255, 0.85) !important;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(35, 39, 46, 0.06) !important;
+      border-radius: 999px;
+      box-shadow: 0 4px 20px -2px rgba(35, 39, 46, 0.03);
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      text-decoration: none !important;
+      color: var(--text-main) !important;
+    }
+
+    .brand-logo-img {
+      width: 34px;
+      height: 34px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.04));
+      transition: transform 0.6s var(--ease-cinematic);
+    }
+
+    .brand-link:hover .brand-logo-img {
+      transform: rotate(20deg) scale(1.05);
+    }
+
+    .brand-titles {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title-main {
+      font-family: var(--font-display-en);
+      font-size: 1.12rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      color: var(--text-main) !important;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .brand-title-sub {
+      font-family: var(--font-serif);
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      color: var(--text-muted) !important;
+      font-weight: 400;
+    }
+
+    .header-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      background: var(--accent-gold-light);
+      border: 1px solid var(--accent-gold-border);
+      border-radius: 999px;
+      font-family: var(--font-serif);
+      font-size: 0.76rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--accent-gold-dark);
+      box-shadow: 0 2px 8px rgba(166, 130, 56, 0.04);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--accent-gold);
+      box-shadow: 0 0 6px var(--accent-gold);
+      animation: pulseLight 3.2s ease-in-out infinite;
+    }
+
+    @keyframes pulseLight {
+      0%, 100% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+
+    /* 2. 主视界题记 */
+    .hero-narrative {
+      text-align: center;
+      max-width: 820px;
+      margin: 18px auto 14px;
+      padding: 0 16px;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: 1.76rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      color: var(--text-main) !important;
+      margin-bottom: 8px;
+      line-height: 1.45;
+      white-space: nowrap;
+    }
+
+    .hero-desc {
+      font-family: var(--font-sans);
+      font-size: 0.90rem;
+      letter-spacing: 0.12em;
+      color: var(--text-muted) !important;
+      font-weight: 350;
+      line-height: 1.6;
+      white-space: nowrap;
+    }
+
+    /* 3. 3D 悬浮透视幻灯片展台 */
+    .slider-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      perspective: 1400px;
+      perspective-origin: center center;
+      position: relative;
+      min-height: 500px;
+      margin: 8px 0 12px;
+    }
+
+    .slider-deck {
+      position: relative;
+      width: 100%;
+      height: 470px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+    }
+
+    /* 核心卡片容器：呈现“白色部分显示标题 + 渐变淡化到底部浓郁模块封面” */
+    .slider-card {
+      position: absolute;
+      width: min(710px, 90vw);
+      height: 450px;
+      background: #ffffff;
+      border: 1px solid var(--border-card);
+      border-radius: 24px;
+      box-shadow: var(--shadow-center);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.75s var(--ease-cinematic), opacity 0.6s ease, filter 0.6s ease, border-color 0.45s ease, box-shadow 0.75s ease;
+      user-select: none;
+      cursor: pointer;
+      overflow: hidden;
+      text-decoration: none !important;
+      color: inherit !important;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* 激活卡片行动徽标 */
+    .card-action-bar {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 44px 22px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .card-enter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: rgba(24, 28, 36, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      color: #ffffff;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      transition: all 0.3s var(--ease-cinematic);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-enter-btn.locked {
+      background: rgba(24, 28, 36, 0.45);
+      border-color: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .slider-card.is-active:hover .card-enter-btn:not(.locked) {
+      background: rgba(166, 130, 56, 0.95);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateX(4px);
+      box-shadow: 0 6px 20px rgba(166, 130, 56, 0.35);
+    }
+
+    /* 核心视觉层 1：底层独立模块封面大片 (深邃神秘星空与虚空晶体魔盒) */
+    .module-cover-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .module-cover-backdrop img {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 70%;
+      object-fit: cover;
+      object-position: center 66%;
+      transition: transform 0.85s var(--ease-cinematic), filter 0.6s ease;
+    }
+
+    /* 核心视觉层 2：渐变淡化处理层 (自上而下从纯净白平滑淡化，魔盒在深邃星云中神秘升腾) */
+    .module-cover-backdrop::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        #ffffff 0%,
+        #ffffff 32%,
+        rgba(255, 255, 255, 0.95) 45%,
+        rgba(255, 255, 255, 0.55) 62%,
+        rgba(255, 255, 255, 0.10) 80%,
+        rgba(255, 255, 255, 0.0) 100%
+      );
+      z-index: 2;
+    }
+
+    /* 核心视觉层 3：卡片前景内容架构 (标题位于纯净白色区域) */
+    .card-foreground {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    /* 白色部分：显示标题、副标与生活叙事 */
+    .card-white-zone {
+      padding: 34px 44px 10px;
+    }
+
+    .card-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .card-module-tag {
+      font-family: var(--font-display-en);
+      font-size: 0.86rem;
+      letter-spacing: 0.24em;
+      color: var(--text-tag);
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .card-theme-pill {
+      font-family: var(--font-serif);
+      font-size: 0.76rem;
+      letter-spacing: 0.1em;
+      padding: 4px 13px;
+      background: var(--accent-gold-light);
+      border: 1px solid var(--accent-gold-border);
+      border-radius: 999px;
+      color: var(--accent-gold-dark);
+      font-weight: 400;
+    }
+
+    .card-title-zh {
+      font-family: var(--font-serif);
+      font-size: 2.25rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      color: var(--text-title) !important;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .card-title-en {
+      font-family: var(--font-display-en);
+      font-size: 0.95rem;
+      letter-spacing: 0.22em;
+      color: var(--text-muted);
+      font-weight: 400;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .card-life-narrative {
+      font-family: var(--font-sans);
+      font-size: 1.02rem;
+      letter-spacing: 0.05em;
+      color: var(--text-body);
+      font-weight: 380;
+      line-height: 1.85;
+      max-width: 560px;
+    }
+
+    /* ==========================================================================
+       各模块专属构图渐变与主题字体系统 (Theme-Tailored Gradient & Typography)
+       铁律：无论渐变方向是左右、斜向还是分栏，标题文字区域一定是在纯净象牙白区域！
+       ========================================================================== */
+
+    /* -------------------------------------------------------------
+       MODULE 01 · 穹·极 (theme-cosmos): 斜对角 128° 天球时空折叠渐变
+       - 字体：现代当代高雅几何空间体 + Cinzel 罗马古典星轨西文
+       ------------------------------------------------------------- */
+    .theme-cosmos .module-cover-backdrop img {
+      width: 72%;
+      height: 90%;
+      right: -2%;
+      bottom: -4%;
+      left: auto;
+      object-fit: cover;
+      object-position: center 60%;
+    }
+
+    .theme-cosmos .module-cover-backdrop::before {
+      background: linear-gradient(
+        128deg,
+        #ffffff 0%,
+        #ffffff 44%,
+        rgba(255, 255, 255, 0.98) 54%,
+        rgba(255, 255, 255, 0.45) 68%,
+        rgba(255, 255, 255, 0) 84%
+      );
+    }
+
+    .theme-cosmos .card-white-zone {
+      max-width: 580px;
+      width: 72%;
+    }
+
+    .theme-cosmos .card-title-zh {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.16em !important;
+      color: #171a21 !important;
+    }
+
+    .theme-cosmos .card-title-en {
+      font-family: "Cinzel", "Cormorant Garamond", serif !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.32em !important;
+      color: #a68238 !important;
+    }
+
+    .theme-cosmos .card-theme-pill {
+      background: rgba(166, 130, 56, 0.09) !important;
+      border-color: rgba(166, 130, 56, 0.32) !important;
+      color: #8c6a24 !important;
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 02 · 晨·昏 (theme-dawn): 左右斜切 105° 奇幻魔盒右侧升腾渐变
+       - 构图：魔盒在右侧破茧升腾，左侧纯白晨曦展现标题，互不遮挡
+       - 字体：圆润梦幻的奇幻童话风 + Fredoka 可爱立体西文
+       ------------------------------------------------------------- */
+    .theme-dawn .module-cover-backdrop img {
+      width: 56%;
+      height: 100%;
+      right: 0;
+      top: 0;
+      bottom: auto;
+      left: auto;
+      object-fit: cover;
+      object-position: 45% center;
+    }
+
+    .theme-dawn .module-cover-backdrop::before {
+      background: linear-gradient(
+        105deg,
+        #ffffff 0%,
+        #ffffff 48%,
+        rgba(255, 255, 255, 0.98) 58%,
+        rgba(255, 255, 255, 0.35) 75%,
+        rgba(255, 255, 255, 0) 90%
+      );
+    }
+
+    .theme-dawn .card-white-zone {
+      max-width: 500px;
+      width: 60%;
+    }
+
+    .theme-dawn .card-title-zh {
+      font-family: system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif !important;
+      font-weight: 550 !important;
+      letter-spacing: 0.14em !important;
+      color: #2b233a !important;
+      text-shadow: 0 1px 2px rgba(138, 88, 191, 0.06);
+    }
+
+    .theme-dawn .card-title-en {
+      font-family: "Fredoka", cursive, sans-serif !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.22em !important;
+      color: #8b56c6 !important;
+      font-size: 1.02rem !important;
+    }
+
+    .theme-dawn .card-theme-pill {
+      background: rgba(139, 86, 198, 0.09) !important;
+      border-color: rgba(139, 86, 198, 0.28) !important;
+      color: #7944b5 !important;
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 03 · 瞬·息 (theme-breeze): 斜对角 142° 流动微风泛水渐变
+       - 构图：微风吹拂的流体呼吸感，左上纯白舒展，右下魔盒隐现
+       - 字体：纤细优雅的流动宋体 + Playfair Display 诗意斜体花西文
+       ------------------------------------------------------------- */
+    .theme-breeze .module-cover-backdrop img {
+      width: 64%;
+      height: 92%;
+      right: -2%;
+      bottom: 0;
+      top: auto;
+      left: auto;
+      object-fit: cover;
+      object-position: center 65%;
+    }
+
+    .theme-breeze .module-cover-backdrop::before {
+      background: linear-gradient(
+        142deg,
+        #ffffff 0%,
+        #ffffff 46%,
+        rgba(255, 255, 255, 0.96) 56%,
+        rgba(255, 255, 255, 0.35) 72%,
+        rgba(255, 255, 255, 0) 88%
+      );
+    }
+
+    .theme-breeze .card-white-zone {
+      max-width: 530px;
+      width: 65%;
+    }
+
+    .theme-breeze .card-title-zh {
+      font-family: "Noto Serif SC", "Source Han Serif SC", serif !important;
+      font-weight: 300 !important;
+      letter-spacing: 0.24em !important;
+      color: #1a272b !important;
+    }
+
+    .theme-breeze .card-title-en {
+      font-family: "Playfair Display", Georgia, serif !important;
+      font-style: italic !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.26em !important;
+      color: #3b7479 !important;
+      font-size: 1.05rem !important;
+    }
+
+    .theme-breeze .card-theme-pill {
+      background: rgba(59, 116, 121, 0.08) !important;
+      border-color: rgba(59, 116, 121, 0.28) !important;
+      color: #2f656a !important;
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 04 · 重·温 (theme-memory): 横向偏斜 88° 纪实暗房分栏渐变
+       - 构图：严谨的左文右图分栏，左侧素白承载文字，右侧展现底片魔盒
+       - 字体：厚重纪实金石风宋体 + Space Mono 复古打字机时间戳西文
+       ------------------------------------------------------------- */
+    .theme-memory .module-cover-backdrop img {
+      width: 54%;
+      height: 100%;
+      right: 0;
+      top: 0;
+      bottom: auto;
+      left: auto;
+      object-fit: cover;
+      object-position: center center;
+    }
+
+    .theme-memory .module-cover-backdrop::before {
+      background: linear-gradient(
+        88deg,
+        #ffffff 0%,
+        #ffffff 50%,
+        rgba(255, 255, 255, 0.98) 58%,
+        rgba(255, 255, 255, 0.3) 76%,
+        rgba(255, 255, 255, 0) 92%
+      );
+    }
+
+    .theme-memory .card-white-zone {
+      max-width: 510px;
+      width: 60%;
+    }
+
+    .theme-memory .card-title-zh {
+      font-family: "Noto Serif SC", "Songti SC", "SimSun", serif !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.16em !important;
+      color: #241f19 !important;
+    }
+
+    .theme-memory .card-title-en {
+      font-family: "Space Mono", "Courier New", monospace !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.26em !important;
+      color: #835d35 !important;
+      font-size: 0.88rem !important;
+    }
+
+    .theme-memory .card-theme-pill {
+      background: rgba(131, 93, 53, 0.08) !important;
+      border-color: rgba(131, 93, 53, 0.28) !important;
+      color: #724e28 !important;
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 05 · 重·构 (theme-studio): 斜对角 115° 先锋实验与光谱解构渐变
+       - 构图：表现主义冷青与品红波普对撞，左上象牙素白纯净题记，右下展现高温裂变光谱
+       - 字体：极简先锋现代等宽西文 + 现代艺术几何无衬线
+       ------------------------------------------------------------- */
+    .theme-studio .module-cover-backdrop img {
+      width: 60%;
+      height: 95%;
+      right: -2%;
+      bottom: 0;
+      top: auto;
+      left: auto;
+      object-fit: cover;
+      object-position: center 60%;
+    }
+
+    .theme-studio .module-cover-backdrop::before {
+      background: linear-gradient(
+        115deg,
+        #ffffff 0%,
+        #ffffff 48%,
+        rgba(255, 255, 255, 0.98) 58%,
+        rgba(255, 255, 255, 0.35) 75%,
+        rgba(255, 255, 255, 0) 90%
+      );
+    }
+
+    .theme-studio .card-white-zone {
+      max-width: 530px;
+      width: 65%;
+    }
+
+    .theme-studio .card-title-zh {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.18em !important;
+      color: #161920 !important;
+    }
+
+    .theme-studio .card-title-en {
+      font-family: "Space Mono", monospace !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.28em !important;
+      color: #008fa8 !important;
+      font-size: 0.92rem !important;
+    }
+
+    .theme-studio .card-theme-pill {
+      background: rgba(0, 160, 190, 0.08) !important;
+      border-color: rgba(0, 160, 190, 0.28) !important;
+      color: #00768c !important;
+    }
+
+    /* 底部区域：映衬在模块神秘封面之上，附带微磨砂暗夜光带 */
+    .card-cover-zone {
+      padding: 15px 24px;
+      margin: 0 20px 18px;
+      background: rgba(14, 17, 24, 0.48);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    .cover-zone-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-serif);
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .cover-type-tag {
+      font-family: var(--font-display-en);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      padding: 2px 8px;
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      background: rgba(212, 175, 55, 0.15);
+      border-radius: 4px;
+      color: #fce4a6;
+      text-transform: uppercase;
+    }
+
+    /* 激活卡片动效：整卡作为入口，支持悬停浮升与手型 */
+    .slider-card.is-active {
+      cursor: pointer;
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+      filter: blur(0px);
+      z-index: 10;
+      border-color: var(--border-card-active);
+      box-shadow: var(--shadow-center), 0 0 0 1px rgba(166, 130, 56, 0.2);
+      transition: transform 0.6s var(--ease-cinematic), box-shadow 0.6s var(--ease-cinematic), border-color 0.4s ease;
+    }
+    .slider-card.is-active:hover {
+      transform: translate3d(0, -6px, 15px) scale(1.02);
+      box-shadow: 0 36px 80px -16px rgba(24, 28, 36, 0.18), 0 0 32px rgba(184, 142, 62, 0.18);
+      border-color: rgba(184, 142, 62, 0.45);
+    }
+    .slider-card.is-active:hover .module-cover-backdrop img {
+      transform: scale(1.07) translateY(-6px);
+    }
+
+    /* 全局时空折叠转场遮罩层 (Cinematic Portal Transition) */
+    .portal-transition-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      pointer-events: none;
+      opacity: 0;
+      background: #08090d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .portal-transition-layer.is-active {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    /* 视界中心膨胀光球 */
+    .portal-bloom-core {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(220, 165, 85, 0.95) 0%, rgba(160, 105, 35, 0.5) 45%, rgba(8, 9, 13, 0) 72%);
+      filter: blur(10px);
+      transform: scale(0.1);
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.65s ease;
+      opacity: 0;
+    }
+
+    .portal-transition-layer.is-active .portal-bloom-core {
+      transform: scale(20);
+      opacity: 1;
+    }
+
+    /* 星芒与空间轨道光环 */
+    .portal-orbit-ring {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border: 1px solid rgba(220, 165, 85, 0.3);
+      border-radius: 50%;
+      box-shadow: 0 0 40px rgba(220, 165, 85, 0.25);
+      transform: scale(0.2) rotate(0deg);
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+      opacity: 0;
+    }
+
+    .portal-transition-layer.is-active .portal-orbit-ring {
+      transform: scale(4.5) rotate(45deg);
+      opacity: 0.6;
+    }
+
+    /* 模块名称光影瞬间 */
+    .portal-title-flash {
+      position: relative;
+      z-index: 10;
+      font-family: var(--font-display-en);
+      font-size: clamp(1.4rem, 3.2vw, 2.2rem);
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: #faebd7;
+      opacity: 0;
+      transform: translateY(15px) scale(0.95);
+      transition: opacity 0.4s ease 0.15s, transform 0.5s var(--ease-cinematic) 0.15s, color 0.35s ease;
+    }
+
+    .portal-transition-layer.is-active .portal-title-flash {
+      opacity: 0.95;
+      transform: translateY(0) scale(1);
+    }
+
+    /* ==========================================================================
+       五大理念场域专属转场色彩规则 (与目标理念场域哲学与色彩 100% 绝对一致)
+       ========================================================================== */
+
+    /* 理念场域 01 ·「穹·极」无界之境：景泰蓝深邃星穹底色 + 珐琅碧蓝星辉 */
+    .portal-transition-layer.theme-domain-panorama {
+      background: #050811 !important;
+    }
+    .portal-transition-layer.theme-domain-panorama .portal-bloom-core {
+      background: radial-gradient(circle, rgba(70, 140, 240, 0.95) 0%, rgba(20, 60, 140, 0.6) 45%, rgba(5, 8, 17, 0) 72%) !important;
+    }
+    .portal-transition-layer.theme-domain-panorama .portal-orbit-ring {
+      border-color: rgba(90, 160, 255, 0.45) !important;
+      box-shadow: 0 0 50px rgba(70, 140, 240, 0.35) !important;
+    }
+    .portal-transition-layer.theme-domain-panorama .portal-title-flash {
+      color: #dbeafe !important;
+      text-shadow: 0 0 20px rgba(96, 165, 250, 0.6) !important;
+    }
+
+    /* 理念场域 02 ·「晨·昏」晨光与暮色：廿四时相暗暖底色 + 莫奈日出晨曦金粉 */
+    .portal-transition-layer.theme-domain-dawn {
+      background: #15120e !important;
+    }
+    .portal-transition-layer.theme-domain-dawn .portal-bloom-core {
+      background: radial-gradient(circle, rgba(245, 190, 105, 0.95) 0%, rgba(195, 120, 40, 0.55) 45%, rgba(21, 18, 14, 0) 72%) !important;
+    }
+    .portal-transition-layer.theme-domain-dawn .portal-orbit-ring {
+      border-color: rgba(245, 195, 120, 0.4) !important;
+      box-shadow: 0 0 50px rgba(245, 185, 95, 0.35) !important;
+    }
+    .portal-transition-layer.theme-domain-dawn .portal-title-flash {
+      color: #fef3c7 !important;
+      text-shadow: 0 0 20px rgba(245, 158, 11, 0.5) !important;
+    }
+
+    /* 理念场域 03 ·「瞬·息」慢速微影：35mm 摄影暗房黑曜石底色 + 3200K 电影暖琥珀透光 */
+    .portal-transition-layer.theme-domain-cinema {
+      background: #08090d !important;
+    }
+    .portal-transition-layer.theme-domain-cinema .portal-bloom-core {
+      background: radial-gradient(circle, rgba(220, 165, 85, 0.9) 0%, rgba(145, 95, 30, 0.55) 45%, rgba(8, 9, 13, 0) 72%) !important;
+    }
+    .portal-transition-layer.theme-domain-cinema .portal-orbit-ring {
+      border-color: rgba(212, 175, 55, 0.38) !important;
+      box-shadow: 0 0 45px rgba(212, 165, 85, 0.3) !important;
+    }
+    .portal-transition-layer.theme-domain-cinema .portal-title-flash {
+      color: #faebd7 !important;
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.55) !important;
+    }
+
+    /* 理念场域 04 ·「重·温」重温那一刻：重型黑曜石保险库炭黑 + 密闭机械火漆青铜古金 */
+    .portal-transition-layer.theme-domain-vault {
+      background: #07080a !important;
+    }
+    .portal-transition-layer.theme-domain-vault .portal-bloom-core {
+      background: radial-gradient(circle, rgba(185, 135, 65, 0.9) 0%, rgba(110, 75, 25, 0.55) 45%, rgba(7, 8, 10, 0) 72%) !important;
+    }
+    .portal-transition-layer.theme-domain-vault .portal-orbit-ring {
+      border-color: rgba(180, 130, 60, 0.38) !important;
+      box-shadow: 0 0 45px rgba(180, 130, 60, 0.28) !important;
+    }
+    .portal-transition-layer.theme-domain-vault .portal-title-flash {
+      color: #f5eedc !important;
+      text-shadow: 0 0 20px rgba(180, 130, 60, 0.5) !important;
+    }
+
+    /* 理念场域 05 ·「重·构」时空重构：先锋石墨冷黑 + 波普光谱绯红 */
+    .portal-transition-layer.theme-domain-studio {
+      background: #09090e !important;
+    }
+    .portal-transition-layer.theme-domain-studio .portal-bloom-core {
+      background: radial-gradient(circle, rgba(230, 55, 95, 0.9) 0%, rgba(130, 20, 50, 0.55) 45%, rgba(9, 9, 14, 0) 72%) !important;
+    }
+    .portal-transition-layer.theme-domain-studio .portal-orbit-ring {
+      border-color: rgba(230, 60, 100, 0.4) !important;
+      box-shadow: 0 0 50px rgba(225, 50, 90, 0.32) !important;
+    }
+    .portal-transition-layer.theme-domain-studio .portal-title-flash {
+      color: #ffe4e6 !important;
+      text-shadow: 0 0 20px rgba(244, 63, 94, 0.6) !important;
+    }
+
+    /* 页面穿越时的虚化与缩进 */
+    body.is-traversing .site-header,
+    body.is-traversing .hero-narrative,
+    body.is-traversing .slider-nav-controls,
+    body.is-traversing .site-footer,
+    body.is-traversing .slider-card:not(.is-traversing) {
+      transition: opacity 0.45s ease, filter 0.45s ease, transform 0.45s var(--ease-cinematic);
+      opacity: 0 !important;
+      filter: blur(16px) !important;
+      transform: scale(0.92) !important;
+      pointer-events: none;
+    }
+
+    .slider-card.is-traversing {
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease, opacity 0.6s ease !important;
+      transform: scale(2.8) translateZ(350px) !important;
+      opacity: 0.15 !important;
+      filter: blur(8px) !important;
+      z-index: 100 !important;
+      pointer-events: none;
+    }
+
+    /* 侧翼后退卡片 */
+    .slider-card.is-prev {
+      transform: translate3d(-52%, 0, -110px) rotateY(16deg) scale(0.87);
+      opacity: 0.62;
+      filter: blur(1.5px);
+      z-index: 5;
+      background: var(--bg-card-inactive);
+      box-shadow: var(--shadow-side);
+    }
+    .slider-card.is-prev:hover {
+      opacity: 0.92;
+      filter: blur(0px);
+      transform: translate3d(-50%, 0, -70px) rotateY(12deg) scale(0.90);
+    }
+
+    .slider-card.is-next {
+      transform: translate3d(52%, 0, -110px) rotateY(-16deg) scale(0.87);
+      opacity: 0.62;
+      filter: blur(1.5px);
+      z-index: 5;
+      background: var(--bg-card-inactive);
+      box-shadow: var(--shadow-side);
+    }
+    .slider-card.is-next:hover {
+      opacity: 0.92;
+      filter: blur(0px);
+      transform: translate3d(50%, 0, -70px) rotateY(-12deg) scale(0.90);
+    }
+
+    .slider-card.is-hidden {
+      transform: translate3d(0, 0, -260px) scale(0.7);
+      opacity: 0;
+      filter: blur(6px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* 4. 控制器 (纯粹极简微圆点) */
+    .slider-nav-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 14px;
+      z-index: 20;
+    }
+
+    .slider-dots-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 8px;
+    }
+
+    .slider-dot-bar {
+      position: relative;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: rgba(35, 39, 46, 0.16);
+      transition: all 0.4s var(--ease-cinematic);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 移动端 44x44px 隐形安全触控热区垫 */
+    .slider-dot-bar::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      pointer-events: auto;
+    }
+
+    .slider-dot-bar:hover {
+      background-color: rgba(35, 39, 46, 0.4);
+      transform: scale(1.3);
+    }
+
+    .slider-dot-bar.is-active {
+      background-color: var(--accent-gold);
+      width: 7px;
+      height: 7px;
+      box-shadow: 0 0 6px rgba(166, 130, 56, 0.45);
+      transform: scale(1.15);
+    }
+
+    /* 5. 底栏 */
+    .site-footer {
+      width: 100%;
+      max-width: 1100px;
+      margin: 18px auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-card);
+      font-family: var(--font-serif);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-gold-dot {
+      color: var(--accent-gold);
+      font-size: 0.75rem;
+    }
+
+    /* ==========================================================================
+       移动端全适配系统 (iOS Safari / Android Chrome / 各种竖屏与横屏全面兼容)
+       ========================================================================== */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+        overflow: hidden !important;
+        overscroll-behavior: none !important;
+        position: fixed;
+        inset: 0;
+        touch-action: pan-x;
+      }
+
+      .site-container {
+        height: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+        overflow: hidden !important;
+        overscroll-behavior: none !important;
+        padding: max(12px, env(safe-area-inset-top)) 20px max(14px, env(safe-area-inset-bottom)) 20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0;
+        touch-action: pan-x;
+      }
+
+      .site-header {
+        width: fit-content;
+        margin: 2px auto 8px;
+        padding: 5px 18px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.85) !important;
+        box-shadow: 0 2px 10px rgba(35, 39, 46, 0.03);
+      }
+
+      .brand-link {
+        gap: 10px;
+      }
+
+      .brand-logo-img {
+        width: 28px;
+        height: 28px;
+      }
+
+      .brand-title-main {
+        font-size: 0.95rem;
+        letter-spacing: 0.16em;
+      }
+
+      .brand-title-sub {
+        font-size: 0.64rem;
+        letter-spacing: 0.12em;
+      }
+
+      .hero-narrative {
+        margin: 0 auto 8px;
+        padding: 0 12px;
+        max-width: 95%;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-size: clamp(1.0rem, 4.3vw, 1.22rem);
+        letter-spacing: 0.14em;
+        line-height: 1.35;
+        font-weight: 400;
+        margin-bottom: 4px;
+        white-space: nowrap;
+      }
+
+      .hero-desc {
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        line-height: 1.5;
+        color: rgba(35, 39, 46, 0.45) !important;
+        margin-top: 0;
+        white-space: nowrap;
+      }
+
+      .slider-stage {
+        flex: 1;
+        min-height: unset;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0;
+      }
+
+      .slider-deck {
+        height: min(410px, 48dvh);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .slider-card {
+        width: min(320px, calc(100vw - 52px));
+        max-width: 330px;
+        height: 100%;
+        border-radius: 26px;
+        box-shadow: 0 16px 44px -10px rgba(35, 39, 46, 0.08), 0 4px 14px -2px rgba(35, 39, 46, 0.03);
+      }
+
+      .card-white-zone {
+        padding: 18px 18px 4px !important;
+      }
+
+      .card-meta-row {
+        margin-bottom: 5px;
+      }
+
+      .card-module-tag {
+        font-size: 0.70rem;
+        letter-spacing: 0.16em;
+      }
+
+      .card-theme-pill {
+        font-size: 0.66rem;
+        padding: 2px 8px;
+      }
+
+      .card-title-zh {
+        font-size: 1.48rem !important;
+        margin-bottom: 2px;
+      }
+
+      .card-title-en {
+        font-size: 0.70rem;
+        letter-spacing: 0.16em;
+        margin-bottom: 6px;
+      }
+
+      .card-life-narrative {
+        font-size: 0.78rem;
+        line-height: 1.58;
+        letter-spacing: 0.02em;
+        color: var(--text-body);
+      }
+
+      .theme-cosmos .card-white-zone,
+      .theme-dawn .card-white-zone,
+      .theme-breeze .card-white-zone,
+      .theme-memory .card-white-zone,
+      .theme-studio .card-white-zone {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 18px 18px 4px !important;
+      }
+
+      /* 移动端统一采用 126deg 强对比度斜对角，魔盒与星穹靠右下露出，文字100%居白区 */
+      .theme-dawn .module-cover-backdrop img,
+      .theme-breeze .module-cover-backdrop img,
+      .theme-memory .module-cover-backdrop img,
+      .theme-studio .module-cover-backdrop img {
+        width: 58% !important;
+        height: 58% !important;
+        bottom: 8px !important;
+        right: 8px !important;
+        top: auto !important;
+        object-fit: contain !important;
+      }
+
+      .theme-dawn .module-cover-backdrop::before,
+      .theme-breeze .module-cover-backdrop::before,
+      .theme-memory .module-cover-backdrop::before,
+      .theme-studio .module-cover-backdrop::before {
+        background: linear-gradient(
+          126deg,
+          #ffffff 0%,
+          #ffffff 48%,
+          rgba(255, 255, 255, 0.98) 60%,
+          rgba(255, 255, 255, 0.35) 80%,
+          transparent 95%
+        ) !important;
+      }
+
+      .module-cover-backdrop img {
+        height: 60%;
+        object-position: center 70%;
+      }
+
+      /* 侧翼卡片适度缩进，杜绝横向滚动溢出，同时保持极佳的 3D 层叠暗示 */
+      .slider-card.is-prev {
+        transform: translate3d(-25%, 0, -60px) rotateY(10deg) scale(0.86);
+      }
+
+      .slider-card.is-next {
+        transform: translate3d(25%, 0, -60px) rotateY(-10deg) scale(0.86);
+      }
+
+      .slider-nav-controls {
+        margin-top: 12px;
+      }
+
+      .slider-dots-group {
+        gap: 8px;
+        padding: 3px 6px;
+      }
+
+      .slider-dot-bar {
+        width: 5px;
+        height: 5px;
+      }
+
+      .slider-dot-bar.is-active {
+        width: 6px;
+        height: 6px;
+      }
+
+      .site-footer {
+        flex-direction: column;
+        gap: 3px;
+        text-align: center;
+        margin-top: 8px;
+        padding-top: 8px;
+        font-size: 0.66rem;
+        opacity: 0.45;
+        border-top: 1px solid rgba(35, 39, 46, 0.05);
+      }
+    }
+
+    /* 超小屏幕针对性微调 (如 iPhone SE, 375px 及以下) */
+    @media (max-width: 380px) {
+      .hero-title {
+        font-size: 0.94rem !important;
+        letter-spacing: 0.10em !important;
+      }
+      .hero-desc {
+        font-size: 0.66rem !important;
+        letter-spacing: 0.05em !important;
+      }
+      .slider-deck {
+        height: min(390px, 46dvh);
+      }
+      .slider-card {
+        width: min(300px, calc(100vw - 36px));
+      }
+      .card-white-zone {
+        padding: 15px 14px 4px !important;
+      }
+      .card-title-zh {
+        font-size: 1.38rem !important;
+      }
+      .card-life-narrative {
+        font-size: 0.75rem;
+        line-height: 1.52;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 柔和环境漫反射艺术微光 -->
+  <div class="ambient-glow" aria-hidden="true">
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+  </div>
+
+  <div class="site-container">
+    
+    <!-- 1. 顶栏：极简浮空导览 (Ghost Glyphs，纯净去框) -->
+    <header class="site-header" style="background: transparent !important; box-shadow: none !important; border: none !important; padding: 4px 8px; margin: 6px auto 14px;">
+      <a href="./" class="brand-link" aria-label="Chrono-Lens 首页" style="min-height: 44px; display: inline-flex; align-items: center;">
+        <img src="./assets/images/logo.svg" alt="Chrono-Lens" class="brand-logo-img" width="30" height="30" />
+        <div class="brand-titles">
+          <span class="brand-title-main" style="letter-spacing: 0.24em; font-size: 0.96rem; opacity: 0.85;">CHRONO-LENS</span>
+        </div>
+      </a>
+      <div style="width: 1px; height: 14px; background: rgba(35, 39, 46, 0.08); margin: 0 16px;"></div>
+      <button id="btnSoundCapsule" aria-label="声景开关" title="声景" style="background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(35, 39, 46, 0.08); width: 44px; height: 44px; min-width: 44px; min-height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; color: var(--text-muted); transition: all 0.4s; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M9 18V5l12-2v13"></path>
+          <circle cx="6" cy="18" r="3"></circle>
+          <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+        <span id="soundActiveDot" style="position: absolute; top: 10px; right: 10px; width: 4px; height: 4px; border-radius: 50%; background: #c59b48; opacity: 0; box-shadow: 0 0 6px #c59b48; transition: opacity 0.3s;"></span>
+      </button>
+    </header>
+
+    <!-- 2. 文学宋体极简题记 (彻底剔除说明说教，最大化呼吸留白) -->
+    <div class="hero-narrative" style="margin: 4px auto 18px;">
+      <h1 class="hero-title" style="font-weight: 300; letter-spacing: 0.22em; opacity: 0.88;">生活的光与影 · 于此定格</h1>
+    </div>
+
+    <!-- 3. 3D 悬浮透视幻灯片展台 (渐变淡化，白色部分呈现标题) -->
+    <main class="slider-stage">
+      <div class="slider-deck" id="sliderDeck" role="region" aria-label="子模块光影展台">
+        
+        <!-- 展厅 01: 360° 全景空间大厅 (特色封面：景泰蓝掐丝珐琅天球仪) -->
+        <a href="./panorama.html" class="slider-card is-active theme-cosmos" data-index="0" data-url="./panorama.html" data-title="MODULE 01 · 穹·极" data-theme="cosmos" aria-label="进入 MODULE 01 · 穹·极 360° 全景空间大厅">
+          <div class="module-cover-backdrop" aria-hidden="true">
+            <img src="./assets/artworks/cover-01-panoramic-enamel.svg" alt="景泰蓝掐丝天球仪特色封面" />
+          </div>
+          <div class="card-foreground">
+            <div class="card-white-zone">
+              <div class="card-meta-row">
+                <span class="card-module-tag">展厅 01 · 穹·极</span>
+                <span class="card-theme-pill">360° 全景大厅</span>
+              </div>
+              <h2 class="card-title-zh">无界之境</h2>
+              <div class="card-title-en">Boundless Horizon</div>
+              <p class="card-life-narrative">站在山巅吹过身边的微风、黄昏海边的金色波浪，或是熟悉的街角。转动视线，把那一天整片天空与身边的所有细节完整重温。</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- 展厅 02: 自然光影大厅 (特色封面：莫奈日出印象派光斑) -->
+        <a href="./daylight-salon.html" class="slider-card is-next theme-dawn" data-index="1" data-url="./daylight-salon.html" data-title="MODULE 02 · 晨·昏" data-theme="dawn" aria-label="进入 MODULE 02 · 晨·昏 自然光影大厅">
+          <div class="module-cover-backdrop" aria-hidden="true">
+            <img src="./assets/artworks/cover-02-daylight-monet.svg" alt="莫奈日出印象派光斑封面" />
+          </div>
+          <div class="card-foreground">
+            <div class="card-white-zone">
+              <div class="card-meta-row">
+                <span class="card-module-tag">展厅 02 · 晨·昏</span>
+                <span class="card-theme-pill">自然光影展厅</span>
+              </div>
+              <h2 class="card-title-zh">晨光与暮色</h2>
+              <div class="card-title-en">Daylight & Dusk</div>
+              <p class="card-life-narrative">清晨洒进窗台的第一束柔和晨曦，微风吹乱树荫时留下的斑驳光点。不加多余滤镜，只专注留存生活里最舒服的自然质感。</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- 展厅 03: 慢速微影大厅 (特色封面：高山极速粉雪破雪飞溅) -->
+        <a href="./cinema.html" class="slider-card is-hidden theme-breeze" data-index="2" data-url="./cinema.html" data-title="MODULE 03 · 瞬·息" data-theme="breeze" aria-label="进入 MODULE 03 · 瞬·息 慢速微影大厅">
+          <div class="module-cover-backdrop" aria-hidden="true">
+            <img src="./assets/artworks/cover_ski_powder_spray.jpg" alt="高山极速粉雪破雪飞溅母版作品" />
+          </div>
+          <div class="card-foreground">
+            <div class="card-white-zone">
+              <div class="card-meta-row">
+                <span class="card-module-tag">展厅 03 · 瞬·息</span>
+                <span class="card-theme-pill">慢速微影大厅</span>
+              </div>
+              <h2 class="card-title-zh">慢速微影</h2>
+              <div class="card-title-en">Slow Motion Reel</div>
+              <p class="card-life-narrative">高山粉雪破雪飞溅的动态微晶，山巅索道缆车起滑出发的开阔纵深。从用户实拍动作素材中提炼出的 120FPS 慢速视界。</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- 展厅 04: 时光金库大厅 (特色封面：重型钛金古铜金库密闭机械锁具) -->
+        <a href="./vault.html" class="slider-card is-hidden theme-memory" data-index="3" data-url="./vault.html" data-title="MODULE 04 · 重·温" data-theme="memory" aria-label="进入 MODULE 04 · 重·温 时光金库大厅">
+          <div class="module-cover-backdrop" aria-hidden="true">
+            <img src="./assets/artworks/cover-04-vault-seal.svg" alt="重型钛金古铜金库密闭机械锁具封面" />
+          </div>
+          <div class="card-foreground">
+            <div class="card-white-zone">
+              <div class="card-meta-row">
+                <span class="card-module-tag">展厅 04 · 重·温</span>
+                <span class="card-theme-pill">时光金库大厅</span>
+              </div>
+              <h2 class="card-title-zh">重温那一刻</h2>
+              <div class="card-title-en">True Footprints</div>
+              <p class="card-life-narrative">每一次按下快门，都是对真实日常的一份郑重收藏。没有AI凭空生成的虚构，只为给未来的自己留下一份最干净、最真切的回忆。</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- 展厅 05: 先锋实验大厅 (特色封面：高温裂变珐琅与波普光谱) -->
+        <a href="./studio.html" class="slider-card is-prev theme-studio" data-index="4" data-url="./studio.html" data-title="MODULE 05 · 重·构" data-theme="studio" aria-label="进入 MODULE 05 · 重·构 先锋实验大厅">
+          <div class="module-cover-backdrop" aria-hidden="true">
+            <img src="./assets/artworks/cover-05-avantgarde-pop.svg" alt="高温裂变珐琅与波普光谱封面" />
+          </div>
+          <div class="card-foreground">
+            <div class="card-white-zone">
+              <div class="card-meta-row">
+                <span class="card-module-tag">展厅 05 · 重·构</span>
+                <span class="card-theme-pill">先锋实验大厅</span>
+              </div>
+              <h2 class="card-title-zh">重塑与先锋</h2>
+              <div class="card-title-en">Avant-Garde Studio</div>
+              <p class="card-life-narrative">当真实记录被重新审视，艺术在重塑中诞生。从纯净母版迈入超现实的色彩解构与质感实验，让每一步探索都拥有回溯真实的刻度。</p>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- 4. 极简微圆点指示器 (5大展厅) -->
+      <nav class="slider-nav-controls" aria-label="子模块切换导航">
+        <div class="slider-dots-group" id="slideDotsGroup">
+          <span class="slider-dot-bar is-active" data-index="0" role="button" aria-label="第 1 模块"></span>
+          <span class="slider-dot-bar" data-index="1" role="button" aria-label="第 2 模块"></span>
+          <span class="slider-dot-bar" data-index="2" role="button" aria-label="第 3 模块"></span>
+          <span class="slider-dot-bar" data-index="3" role="button" aria-label="第 4 模块"></span>
+          <span class="slider-dot-bar" data-index="4" role="button" aria-label="第 5 模块"></span>
+        </div>
+      </nav>
+    </main>
+
+  </div>
+
+  <!-- 时空折叠转场遮罩层 (Cinematic Portal Transition Layer) -->
+  <div class="portal-transition-layer" id="portalTransitionLayer" aria-hidden="true">
+    <div class="portal-bloom-core"></div>
+    <div class="portal-orbit-ring"></div>
+    <div class="portal-title-flash" id="portalTitleFlash"></div>
+  </div>
+
+  <!-- 6. 核心交互引擎：全通道无缝交互与时空穿越跳转响应 -->
+  <script>
+    (function () {
+      let currentIndex = 0;
+      const totalCards = 5;
+
+      let touchStartX = 0;
+      let touchEndX = 0;
+      let isTraversing = false;
+
+      const deck = document.getElementById('sliderDeck');
+      const prevBtn = document.getElementById('slidePrevBtn');
+      const nextBtn = document.getElementById('slideNextBtn');
+      const dotsGroup = document.getElementById('slideDotsGroup');
+
+      function updateCards() {
+        if (!deck) return;
+        const cards = deck.querySelectorAll('.slider-card');
+        const dots = dotsGroup ? dotsGroup.querySelectorAll('.slider-dot-bar') : [];
+
+        cards.forEach((card, idx) => {
+          card.classList.remove('is-active', 'is-prev', 'is-next', 'is-hidden');
+          card.style.transform = '';
+
+          if (idx === currentIndex) {
+            card.classList.add('is-active');
+            card.setAttribute('aria-hidden', 'false');
+          } else if (idx === (currentIndex - 1 + totalCards) % totalCards) {
+            card.classList.add('is-prev');
+            card.setAttribute('aria-hidden', 'true');
+          } else if (idx === (currentIndex + 1) % totalCards) {
+            card.classList.add('is-next');
+            card.setAttribute('aria-hidden', 'true');
+          } else {
+            card.classList.add('is-hidden');
+            card.setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('is-active', idx === currentIndex);
+        });
+      }
+
+      function goToSlide(target) {
+        if (isTraversing) return;
+        currentIndex = (target + totalCards) % totalCards;
+        updateCards();
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        goToSlide(currentIndex - 1);
+      }
+
+      // 时空折叠穿越转场 (Cinematic Portal Transition)
+      function triggerPortalTransition(card) {
+        if (isTraversing) return;
+        isTraversing = true;
+
+        const targetUrl = card.getAttribute('href') || card.dataset.url || './panorama.html';
+        const title = card.dataset.title || '';
+
+        try {
+          // 1. 触发卡片与背景时空虚化推进状态
+          document.body.classList.add('is-traversing');
+          card.classList.add('is-traversing');
+
+          // 2. 唤起对应理念场域专属主题色彩的全屏光晕与星轨
+          const portal = document.getElementById('portalTransitionLayer');
+          const titleFlash = document.getElementById('portalTitleFlash');
+          if (titleFlash) titleFlash.textContent = title;
+          
+          if (portal) {
+            const theme = card.dataset.theme || '';
+            const themeMap = {
+              'cosmos': 'theme-domain-panorama',
+              'panorama': 'theme-domain-panorama',
+              'dawn': 'theme-domain-dawn',
+              'breeze': 'theme-domain-cinema',
+              'cinema': 'theme-domain-cinema',
+              'memory': 'theme-domain-vault',
+              'vault': 'theme-domain-vault',
+              'studio': 'theme-domain-studio'
+            };
+            const domainThemeClass = themeMap[theme] || 'theme-domain-cinema';
+            portal.className = 'portal-transition-layer is-active ' + domainThemeClass;
+          }
+
+          // 3. 极速 380ms 电影级推进完成后无缝跳转进入子模块页面
+          setTimeout(() => {
+            window.location.assign(targetUrl);
+          }, 380);
+
+          // 4. 双重安全兜底：如果 750ms 尚未跳出，强制直跳并解除锁死
+          setTimeout(() => {
+            window.location.href = targetUrl;
+            isTraversing = false;
+          }, 750);
+        } catch (err) {
+          console.error("转场动效异常，执行降级直跳:", err);
+          window.location.assign(targetUrl);
+        }
+      }
+
+      function initInteraction() {
+        if (prevBtn) {
+          prevBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            prevSlide();
+          });
+        }
+        if (nextBtn) {
+          nextBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            nextSlide();
+          });
+        }
+
+        if (dotsGroup) {
+          dotsGroup.querySelectorAll('.slider-dot-bar').forEach((dot) => {
+            dot.addEventListener('click', function () {
+              const idx = parseInt(this.dataset.index, 10);
+              if (!isNaN(idx)) {
+                goToSlide(idx);
+              }
+            });
+          });
+        }
+
+        if (deck) {
+          let hasSwiped = false;
+
+          // 点击卡片：侧翼卡片则平滑切换聚焦，中心激活卡片则触发时空折叠进入子模块
+          deck.querySelectorAll('.slider-card').forEach((card) => {
+            card.addEventListener('click', function (e) {
+              // 若刚刚发生了横向滑动手势，严密阻断后续点击，绝不误触发进入子页面！
+              if (hasSwiped) {
+                e.preventDefault();
+                e.stopPropagation();
+                hasSwiped = false;
+                return;
+              }
+
+              const idx = parseInt(this.dataset.index, 10);
+              if (isNaN(idx)) return;
+
+              // 点击侧翼未激活卡片：切换至该卡片
+              if (idx !== currentIndex) {
+                e.preventDefault();
+                goToSlide(idx);
+                return;
+              }
+
+              // 点击已激活卡片：若有有效目标地址则执行理念场域时空穿梭跳转
+              const url = this.getAttribute('href') || this.dataset.url;
+              if (url && url !== '#' && url !== '') {
+                e.preventDefault();
+                triggerPortalTransition(this);
+              }
+            });
+
+            // 键盘可访问性回车键
+            card.addEventListener('keydown', function (e) {
+              if (e.key === 'Enter' || e.key === ' ') {
+                const idx = parseInt(this.dataset.index, 10);
+                if (idx === currentIndex) {
+                  const url = this.getAttribute('href') || this.dataset.url;
+                  if (url && url !== '#' && url !== '') {
+                    e.preventDefault();
+                    triggerPortalTransition(this);
+                  }
+                }
+              }
+            });
+          });
+
+          // ==========================================================================
+          // 核心手势引擎：禁止主页纵向移动，横向移动仅仅切换卡片
+          // ==========================================================================
+          const gestureTarget = document.querySelector('.slider-stage') || deck;
+          let touchStartX = 0;
+          let touchStartY = 0;
+          let touchStartTime = 0;
+          let isHorizontalGesture = false;
+
+          // 1. 全局监听 touchmove，坚决阻断任何浏览器的纵向拉扯与橡皮筋回弹
+          document.addEventListener('touchmove', function (e) {
+            if (e.cancelable) {
+              e.preventDefault();
+            }
+          }, { passive: false });
+
+          // 2. 触控开始
+          gestureTarget.addEventListener('touchstart', function (e) {
+            if (isTraversing) return;
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            touchStartTime = Date.now();
+            hasSwiped = false;
+            isHorizontalGesture = false;
+          }, { passive: false });
+
+          // 3. 触控移动：精准区分横向与纵向
+          gestureTarget.addEventListener('touchmove', function (e) {
+            if (isTraversing) return;
+            const touch = e.touches[0];
+            const dx = touch.clientX - touchStartX;
+            const dy = touch.clientY - touchStartY;
+
+            // 彻底阻止任何纵向或默认滚动
+            if (e.cancelable) {
+              e.preventDefault();
+            }
+
+            // 当水平位移明显大于垂直位移且超过 8px 时，锁定为横向手势
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) {
+              isHorizontalGesture = true;
+            }
+          }, { passive: false });
+
+          // 4. 触控结束：仅在明确横向移动时切换卡片
+          gestureTarget.addEventListener('touchend', function (e) {
+            if (isTraversing) return;
+            const touch = e.changedTouches[0];
+            const dx = touch.clientX - touchStartX;
+            const dy = touch.clientY - touchStartY;
+            const dt = Date.now() - touchStartTime;
+
+            // 判定条件：水平位移明显大于垂直位移，且位移达到有效阈值（滑动超过 32px 或快速轻拂滑动）
+            if (Math.abs(dx) > Math.abs(dy) && (Math.abs(dx) > 32 || (Math.abs(dx) > 18 && dt < 280))) {
+              hasSwiped = true;
+              if (dx < 0) {
+                // 手指向左滑 -> 切换到下一张
+                nextSlide();
+              } else {
+                // 手指向右滑 -> 切换到上一张
+                prevSlide();
+              }
+              // 400ms 后释放滑动锁
+              setTimeout(() => {
+                hasSwiped = false;
+              }, 400);
+            }
+          }, { passive: false });
+
+          // 5. 桌面端鼠标按住水平拖拽兼容
+          let isMouseDown = false;
+          let mouseStartX = 0;
+          let mouseStartY = 0;
+
+          gestureTarget.addEventListener('mousedown', function (e) {
+            if (e.button !== 0 || isTraversing) return;
+            isMouseDown = true;
+            mouseStartX = e.clientX;
+            mouseStartY = e.clientY;
+            hasSwiped = false;
+          });
+
+          window.addEventListener('mousemove', function (e) {
+            if (!isMouseDown || isTraversing) return;
+            const dx = e.clientX - mouseStartX;
+            const dy = e.clientY - mouseStartY;
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+              hasSwiped = true;
+            }
+          });
+
+          window.addEventListener('mouseup', function (e) {
+            if (!isMouseDown) return;
+            isMouseDown = false;
+            if (isTraversing) return;
+            const dx = e.clientX - mouseStartX;
+            const dy = e.clientY - mouseStartY;
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 38) {
+              hasSwiped = true;
+              if (dx < 0) {
+                nextSlide();
+              } else {
+                prevSlide();
+              }
+              setTimeout(() => {
+                hasSwiped = false;
+              }, 300);
+            }
+          });
+
+          // 鼠标 3D 悬浮视差
+          deck.addEventListener('mousemove', function (e) {
+            if (isTraversing || isMouseDown) return;
+            const activeCard = deck.querySelector('.slider-card.is-active');
+            if (!activeCard) return;
+            const rect = activeCard.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            const rotateX = -(y / rect.height) * 4.5;
+            const rotateY = (x / rect.width) * 4.5;
+            activeCard.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale(1.01)`;
+          });
+
+          deck.addEventListener('mouseleave', function () {
+            const activeCard = deck.querySelector('.slider-card.is-active');
+            if (activeCard) {
+              activeCard.style.transform = '';
+            }
+          });
+        }
+
+        window.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowRight') {
+            nextSlide();
+          } else if (e.key === 'ArrowLeft') {
+            prevSlide();
+          }
+        });
+
+        // 声景胶囊微交互 (接入 ChronoSoundscape 艺术声景引擎)
+        if (window.ChronoSoundscape) {
+          window.ChronoSoundscape.init({
+            mode: 'grand_hall',
+            btnId: 'btnSoundCapsule',
+            dotId: 'soundActiveDot'
+          });
+        }
+
+        updateCards();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initInteraction);
+      } else {
+        initInteraction();
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>MODULE 01 · 穹·极 | 360° 空间大厅 - Chrono-Lens</title>
+  <meta name="description" content="Chrono-Lens 穹·极 360° 空间视界展厅：收录富士山巅浩瀚云海、静谧原始森林古木等 360° 原生全景母版。" />
+  
+  <!-- 移动端全屏与安全区适配 -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="穹·极 空间大厅" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#07080b" />
+  
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="./favicon.svg" />
+  <link rel="manifest" href="./manifest.json" />
+  <script src="./assets/soundscape.js"></script>
+
+  <!-- 艺术字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Noto+Serif+SC:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       Chrono-Lens 子模块 01 · 穹·极 专属全景空间大厅设计系统
+       - Level 2 选廊清单视图与 Level 3 沉浸天球视界双级架构
+       - 深邃黑曜深空（#07080b）+ 掐丝珐琅与印象派非具象艺术微装裱
+       - 彻底贯彻《感官释放与极致留白宪章》：Icon-Only 纯微图符微纽、极致留白
+       ========================================================================== */
+    :root {
+      --bg-dark: #07080b;
+      --bg-card: rgba(14, 18, 26, 0.88);
+      --glass-bg: rgba(14, 18, 26, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.14);
+      --glass-glow: rgba(226, 185, 104, 0.25);
+      --accent-gold: #e2b968;
+      --accent-gold-bright: #ffd885;
+      --text-pure: #ffffff;
+      --text-sub: rgba(255, 255, 255, 0.82);
+      --text-muted: rgba(255, 255, 255, 0.48);
+      --font-serif: "Noto Serif SC", "Songti SC", "SimSun", serif;
+      --font-en: "Cinzel", "Times New Roman", serif;
+      --font-mono: "Space Mono", "Courier New", monospace;
+      --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    *:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--accent-gold), 0 0 16px var(--glass-glow);
+      border-radius: 4px;
+    }
+
+    /* 优雅微晶毛玻璃滚动条 */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 9999px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(226, 185, 104, 0.45);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 80% 20%, rgba(226, 185, 104, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(56, 189, 248, 0.04) 0%, transparent 60%);
+      color: var(--text-pure);
+      font-family: var(--font-serif);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+      overflow-x: hidden;
+    }
+
+    /* 按键与标签防折行 */
+    .hud-pill, .hud-icon-btn, .pano-card, .meta-tag, .chip {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .view-hidden {
+      display: none !important;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* 顶部悬浮微胶囊导览岛 */
+    .hud-top-bar {
+      position: fixed;
+      top: max(16px, calc(var(--safe-top) + 12px));
+      left: max(16px, calc(var(--safe-left) + 16px));
+      right: max(16px, calc(var(--safe-right) + 16px));
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .hud-pill, .hud-icon-btn {
+      pointer-events: auto;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 999px;
+      color: var(--text-pure);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s var(--ease-cinematic);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .hud-icon-btn {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0;
+    }
+
+    .hud-icon-btn:hover {
+      border-color: var(--accent-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--glass-glow);
+    }
+
+    .hud-center-title {
+      font-family: var(--font-en);
+      letter-spacing: 0.28em;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.38);
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      box-shadow: 0 0 8px var(--accent-gold);
+      animation: pulse-dot 2.2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* ==========================================================================
+       Level 2:【穹·极】全景空间大厅 (Salon View) - 3D 环状天体展陈系统
+       ========================================================================== */
+    .salon-container {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: calc(var(--safe-top) + 76px) 20px calc(var(--safe-bottom) + 40px) 20px;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.6s var(--ease-cinematic) forwards;
+      position: relative;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.98); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .curator-header {
+      text-align: center;
+      margin-bottom: 24px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      pointer-events: none;
+    }
+
+    .curator-title {
+      font-size: clamp(24px, 3.8vw, 32px);
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      margin-bottom: 10px;
+      color: var(--text-pure);
+    }
+
+    .curator-quote {
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      font-weight: 300;
+    }
+
+    /* 3D 环状天球展陈舞台系统 */
+    .orbit-stage-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 980px;
+      height: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      perspective: 1300px;
+      perspective-origin: 50% 48%;
+      margin: 10px auto 0 auto;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 空间背景中的天球星轨环与引力微光 */
+    .orbit-celestial-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 0;
+    }
+
+    .orbit-ring-guide {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .orbit-ring-guide.ring-equator {
+      width: 820px;
+      height: 820px;
+      border: 1px dashed rgba(226, 185, 104, 0.15);
+      transform: rotateX(72deg) translateY(40px);
+      box-shadow: 0 0 50px rgba(226, 185, 104, 0.04);
+      animation: orbitGuideSpin 120s linear infinite;
+    }
+
+    .orbit-ring-guide.ring-latitude-1 {
+      width: 580px;
+      height: 580px;
+      border: 1px solid rgba(56, 189, 248, 0.1);
+      transform: rotateX(72deg) translateY(120px);
+      animation: orbitGuideSpinRev 90s linear infinite;
+    }
+
+    @keyframes orbitGuideSpin {
+      100% { transform: rotateX(72deg) translateY(40px) rotate(360deg); }
+    }
+    @keyframes orbitGuideSpinRev {
+      100% { transform: rotateX(72deg) translateY(120px) rotate(-360deg); }
+    }
+
+    .orbit-center-glow {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(226, 185, 104, 0.08) 0%, transparent 70%);
+      filter: blur(40px);
+    }
+
+    /* 3D 旋转主体 */
+    .orbit-stage {
+      position: relative;
+      width: 100%;
+      height: 360px;
+      transform-style: preserve-3d;
+      cursor: grab;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .orbit-stage:active {
+      cursor: grabbing;
+    }
+
+    .orbit-rotator {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    /* 3D 卡片实体 */
+    .orbit-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 340px;
+      margin-top: -160px;
+      margin-left: -170px;
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 16px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transition: border-color 0.4s var(--ease-cinematic), box-shadow 0.4s var(--ease-cinematic), opacity 0.4s var(--ease-cinematic), filter 0.4s var(--ease-cinematic);
+    }
+
+    /* 激活聚焦卡片（正前方） */
+    .orbit-card.is-focused {
+      border-color: rgba(226, 185, 104, 0.48);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(226, 185, 104, 0.22);
+    }
+
+    .orbit-card:hover {
+      border-color: var(--accent-gold);
+    }
+
+    /* 卡片动作角标 */
+    .orbit-card-action {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.7);
+      transition: all 0.3s var(--ease-cinematic);
+      pointer-events: none;
+    }
+
+    .orbit-card.is-focused .orbit-card-action {
+      background: rgba(226, 185, 104, 0.16);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold-bright);
+    }
+
+    /* 抽象艺术封面视窗 (2:1 全景微曲视口) */
+    .album-cover-box {
+      width: 100%;
+      aspect-ratio: 2 / 1;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      background: #040508;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 封面 1：景泰蓝掐丝珐琅深蓝天球仪 */
+    .art-enamel {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, #0f1c30 0%, #050811 100%);
+      overflow: hidden;
+    }
+    .art-enamel .ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px solid rgba(226, 185, 104, 0.35);
+      box-shadow: 0 0 14px rgba(226, 185, 104, 0.2);
+    }
+    .art-enamel .r1 { width: 140px; height: 140px; border-style: dashed; animation: spinClockwise 32s linear infinite; }
+    .art-enamel .r2 { width: 90px; height: 90px; border-color: rgba(56, 189, 248, 0.45); animation: spinAntiClockwise 24s linear infinite; }
+    .art-enamel .core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffd885 0%, #d4af37 70%);
+      box-shadow: 0 0 20px #ffd885, 0 0 40px rgba(226, 185, 104, 0.4);
+    }
+
+    /* 封面 2：印象派厚涂点彩光斑与翠绿/鹅黄流光林冠 */
+    .art-canopy {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 40% 40%, rgba(34, 197, 94, 0.2) 0%, transparent 60%),
+                  radial-gradient(circle at 70% 60%, rgba(234, 179, 8, 0.15) 0%, transparent 50%),
+                  #040a08;
+      overflow: hidden;
+    }
+    .art-canopy .swirl {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(28px);
+      opacity: 0.6;
+      animation: pulse-swirl 8s ease-in-out infinite alternate;
+    }
+    .art-canopy .s1 { width: 160px; height: 160px; top: 10%; left: 20%; background: #22c55e; }
+    .art-canopy .s2 { width: 120px; height: 120px; bottom: 10%; right: 25%; background: #eab308; }
+
+    /* 封面 3：极简流体天弧与星轨 */
+    .art-cinema {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, #160e22 0%, #06040a 100%);
+      overflow: hidden;
+    }
+    .art-cinema .arc {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(25deg);
+      width: 220px;
+      height: 80px;
+      border-radius: 50%;
+      border-top: 2px solid rgba(244, 63, 94, 0.6);
+      border-bottom: 1.5px solid rgba(56, 189, 248, 0.5);
+      filter: drop-shadow(0 0 10px rgba(244, 63, 94, 0.4));
+      animation: spinClockwise 20s linear infinite;
+    }
+
+    @keyframes spinClockwise { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+    @keyframes spinAntiClockwise { 100% { transform: translate(-50%, -50%) rotate(-360deg); } }
+    @keyframes pulse-swirl { 0% { transform: scale(0.9); } 100% { transform: scale(1.15); } }
+
+    .album-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      color: var(--accent-gold);
+      border: 1px solid rgba(226, 185, 104, 0.3);
+    }
+
+    .album-count {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      color: var(--text-sub);
+    }
+
+    .album-info {
+      padding: 16px 6px 4px 6px;
+    }
+
+    .album-name {
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--text-pure);
+      margin-bottom: 6px;
+    }
+
+    .album-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* 天体艺术装饰物节点 (Orbital Celestial Relic Nodes) */
+    .orbit-relic {
+      background: rgba(10, 14, 22, 0.68);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      cursor: default;
+    }
+
+    .orbit-relic.is-focused {
+      border-color: rgba(56, 189, 248, 0.35);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.15);
+    }
+
+    /* 装饰物 1：浑天金环 */
+    .relic-armillary {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, #101926 0%, #04060a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .armillary-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(226, 185, 104, 0.4);
+    }
+    .armillary-ring.r-outer {
+      width: 130px;
+      height: 130px;
+      border-style: dotted;
+      animation: spinClockwise 28s linear infinite;
+    }
+    .armillary-ring.r-tilt {
+      width: 100px;
+      height: 100px;
+      border-color: rgba(244, 214, 140, 0.55);
+      transform: rotateX(60deg) rotateY(25deg);
+      animation: spinArmillary 18s linear infinite;
+    }
+    .armillary-ring.r-inner {
+      width: 60px;
+      height: 60px;
+      border-color: rgba(56, 189, 248, 0.5);
+      animation: spinAntiClockwise 14s linear infinite;
+    }
+    .armillary-spark {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ffd885;
+      box-shadow: 0 0 16px #ffd885, 0 0 30px rgba(226, 185, 104, 0.6);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes spinArmillary {
+      100% { transform: rotateX(60deg) rotateY(25deg) rotate(360deg); }
+    }
+
+    /* 装饰物 2：引力透镜棱镜 */
+    .relic-prism {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, #0e1e24 0%, #03080b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .prism-shape {
+      width: 72px;
+      height: 72px;
+      border: 1.5px solid rgba(56, 189, 248, 0.55);
+      transform: rotate(45deg);
+      box-shadow: inset 0 0 20px rgba(56, 189, 248, 0.25), 0 0 25px rgba(56, 189, 248, 0.2);
+      animation: pulsePrism 6s ease-in-out infinite alternate;
+    }
+    .prism-beam {
+      position: absolute;
+      width: 180px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.7), transparent);
+      transform: rotate(-30deg);
+      filter: blur(0.5px);
+      animation: beamSweep 12s linear infinite;
+    }
+    @keyframes pulsePrism {
+      0% { transform: rotate(45deg) scale(0.92); opacity: 0.7; }
+      100% { transform: rotate(45deg) scale(1.08); opacity: 1; }
+    }
+    @keyframes beamSweep {
+      100% { transform: rotate(330deg); }
+    }
+
+    /* 装饰物 3：星脉信标 */
+    .relic-pulsar {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, #1e1329 0%, #07040a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .pulsar-wave {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(192, 132, 252, 0.4);
+      animation: pulsarExpand 4s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+    }
+    .pulsar-wave.w2 { animation-delay: 1.3s; border-color: rgba(244, 114, 182, 0.35); }
+    .pulsar-wave.w3 { animation-delay: 2.6s; border-color: rgba(56, 189, 248, 0.3); }
+    @keyframes pulsarExpand {
+      0% { width: 10px; height: 10px; opacity: 1; }
+      100% { width: 180px; height: 180px; opacity: 0; }
+    }
+
+    @media (max-width: 768px) {
+      .orbit-stage-wrapper {
+        height: 420px;
+        perspective: 900px;
+      }
+      .orbit-stage {
+        height: 320px;
+      }
+      .orbit-card {
+        width: 280px;
+        margin-left: -140px;
+        margin-top: -140px;
+        padding: 12px;
+      }
+      .orbit-ring-guide.ring-equator {
+        width: 520px;
+        height: 520px;
+      }
+      .orbit-ring-guide.ring-latitude-1 {
+        width: 360px;
+        height: 360px;
+      }
+    }
+
+    /* ==========================================================================
+       Level 3: 全画幅 360° 空间视界展陈 (Celestial Stage View)
+       ========================================================================== */
+    .celestial-stage {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      z-index: 100;
+      background: var(--bg-dark);
+      animation: spatial-unfold 0.75s var(--ease-cinematic) forwards;
+    }
+
+    @keyframes spatial-unfold {
+      0% { opacity: 0; transform: scale(1.06); filter: blur(14px); }
+      100% { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+
+    #panoCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+      touch-action: none;
+      z-index: 1;
+    }
+
+    #panoCanvas:active {
+      cursor: grabbing;
+    }
+
+    .hud-stage-top {
+      position: absolute;
+      top: max(16px, calc(var(--safe-top) + 12px));
+      left: max(16px, calc(var(--safe-left) + 16px));
+      right: max(16px, calc(var(--safe-right) + 16px));
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .hud-center-capsule {
+      pointer-events: auto;
+      padding: 7px 18px;
+      gap: 12px;
+    }
+
+    .hud-module-label {
+      font-family: var(--font-en);
+      font-size: 0.76rem;
+      letter-spacing: 0.22em;
+      color: var(--accent-gold);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .hud-divider {
+      width: 1px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .hud-current-scene {
+      font-size: 0.84rem;
+      letter-spacing: 0.1em;
+      color: var(--text-pure);
+      font-weight: 400;
+      max-width: 260px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hud-gesture-hint {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      background: rgba(8, 11, 16, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      padding: 12px 26px;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 0.86rem;
+      letter-spacing: 0.14em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+      transition: opacity 1.0s var(--ease-cinematic), transform 1.0s var(--ease-cinematic);
+      z-index: 30;
+    }
+
+    .hud-gesture-hint.is-hidden {
+      opacity: 0;
+      transform: translate(-50%, -40%) scale(0.94);
+    }
+
+    /* 底部悬浮控制台 */
+    .hud-bottom-bar {
+      position: absolute;
+      bottom: max(18px, calc(var(--safe-bottom) + 14px));
+      left: max(16px, calc(var(--safe-left) + 16px));
+      right: max(16px, calc(var(--safe-right) + 16px));
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      pointer-events: none;
+    }
+
+    .hud-telemetry {
+      pointer-events: auto;
+      background: rgba(10, 13, 18, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 6px 14px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: rgba(255, 255, 255, 0.65);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hud-telemetry-val {
+      color: var(--accent-gold);
+      font-weight: 500;
+    }
+
+    .hud-scene-selector {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(10, 13, 18, 0.7);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      padding: 5px;
+      border-radius: 999px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+      max-width: calc(100vw - 32px);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .hud-scene-selector::-webkit-scrollbar {
+      display: none;
+    }
+
+    .scene-pill-btn {
+      flex-shrink: 0;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 8px 18px;
+      color: rgba(255, 255, 255, 0.72);
+      font-family: var(--font-serif);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.25s var(--ease-cinematic);
+      outline: none;
+      white-space: nowrap;
+    }
+
+    .scene-pill-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .scene-pill-btn.active {
+      background: rgba(226, 185, 104, 0.18);
+      border-color: var(--accent-gold);
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(226, 185, 104, 0.25);
+    }
+
+    .scene-pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      transition: all 0.25s ease;
+    }
+
+    .scene-pill-btn.active .scene-pill-dot {
+      background: var(--accent-gold);
+      box-shadow: 0 0 8px var(--accent-gold);
+    }
+
+    .hud-icon-btn.is-active {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 14px var(--glass-glow);
+      color: var(--accent-gold-bright);
+    }
+
+    @media (max-width: 768px) {
+      .hud-center-capsule { display: none; }
+      .hud-telemetry { display: none; }
+      .hud-bottom-bar { justify-content: center; }
+      .hud-scene-selector { width: 100%; justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       视图 1：Level 2【穹·极】全景空间大厅清单 (Panoramic Salon View)
+       ========================================================================== -->
+  <section id="salonView">
+    <!-- 顶部导览微岛 -->
+    <header class="hud-top-bar">
+      <a href="./index.html" class="hud-icon-btn" title="返回主展馆大厅">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+      </a>
+
+      <div class="hud-center-title">
+        MODULE 01 · CELESTIAL
+      </div>
+
+      <button class="hud-icon-btn" id="btnCelestialSound" title="天体声景">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18V5l12-2v13"></path>
+          <circle cx="6" cy="18" r="3"></circle>
+          <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+        <span id="soundDotCelestial" style="position: absolute; top: 6px; right: 6px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent-gold); opacity: 0; box-shadow: 0 0 6px var(--accent-gold); transition: opacity 0.3s;"></span>
+      </button>
+    </header>
+
+    <!-- 大厅内容容器 -->
+    <main class="salon-container">
+      <div class="curator-header">
+        <h1 class="curator-title">身临其境 · 现场</h1>
+        <p class="curator-quote">
+          空间并非平面切片，而是万物共生的容器。转动视界，重返真实驻足之地。
+        </p>
+      </div>
+
+      <!-- 3D 环状天体展陈系统 (Orbital Sphere Carousel) -->
+      <div class="orbit-stage-wrapper" id="orbitStageWrapper">
+        <!-- 空间背景中的天球星轨环 -->
+        <div class="orbit-celestial-bg" aria-hidden="true">
+          <div class="orbit-ring-guide ring-equator"></div>
+          <div class="orbit-ring-guide ring-latitude-1"></div>
+          <div class="orbit-center-glow"></div>
+        </div>
+
+        <!-- 3D 环状旋转舞台 -->
+        <div class="orbit-stage" id="orbitStage">
+          <div class="orbit-rotator" id="orbitRotator">
+            <!-- 节点 0：相册 · 极巅之境 -->
+            <article class="orbit-card is-focused" data-album="peaks" data-index="0" data-type="album">
+              <div class="album-cover-box">
+                <div class="art-enamel">
+                  <div class="ring r1"></div>
+                  <div class="ring r2"></div>
+                  <div class="core"></div>
+                </div>
+                <span class="album-tag">360° PHOTO ALBUM</span>
+                <span class="album-count">2 PANORAMAS</span>
+              </div>
+              <div class="album-info">
+                <h2 class="album-name">极巅之境 · 高山全景集</h2>
+                <p class="album-desc">秋日正午开阔天穹，群山远眺与浩瀚云海原生天球母版。</p>
+              </div>
+              <div class="orbit-card-action">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </div>
+            </article>
+
+            <!-- 节点 1：装饰装置 · 浑天金环 -->
+            <article class="orbit-card orbit-relic" data-index="1" data-type="relic">
+              <div class="album-cover-box">
+                <div class="relic-armillary">
+                  <div class="armillary-ring r-outer"></div>
+                  <div class="armillary-ring r-tilt"></div>
+                  <div class="armillary-ring r-inner"></div>
+                  <div class="armillary-spark"></div>
+                </div>
+                <span class="album-tag" style="color: rgba(226, 185, 104, 0.7); border-color: rgba(226, 185, 104, 0.2);">CELESTIAL RELIC</span>
+                <span class="album-count">ARMILLARY</span>
+              </div>
+              <div class="album-info">
+                <h2 class="album-name" style="color: rgba(255, 255, 255, 0.88);">天球经纬 · 浑天金环</h2>
+                <p class="album-desc">双轴赤道天轨与极光流转，锚定三维时空全景参考坐标。</p>
+              </div>
+            </article>
+
+            <!-- 节点 2：相册 · 深林秘境 -->
+            <article class="orbit-card" data-album="canopy" data-index="2" data-type="album">
+              <div class="album-cover-box">
+                <div class="art-canopy">
+                  <div class="swirl s1"></div>
+                  <div class="swirl s2"></div>
+                </div>
+                <span class="album-tag">360° PHOTO ALBUM</span>
+                <span class="album-count">1 PANORAMA</span>
+              </div>
+              <div class="album-info">
+                <h2 class="album-name">深林秘境 · 古木天顶集</h2>
+                <p class="album-desc">森林古木阴翳，阳光穿透参天林冠与静谧空气质感。</p>
+              </div>
+              <div class="orbit-card-action">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </div>
+            </article>
+
+            <!-- 节点 3：装饰装置 · 引力棱镜 -->
+            <article class="orbit-card orbit-relic" data-index="3" data-type="relic">
+              <div class="album-cover-box">
+                <div class="relic-prism">
+                  <div class="prism-shape"></div>
+                  <div class="prism-beam"></div>
+                </div>
+                <span class="album-tag" style="color: rgba(56, 189, 248, 0.8); border-color: rgba(56, 189, 248, 0.25);">OPTICAL PRISM</span>
+                <span class="album-count">GRAVITY LENS</span>
+              </div>
+              <div class="album-info">
+                <h2 class="album-name" style="color: rgba(255, 255, 255, 0.88);">引力折叠 · 虚空透镜</h2>
+                <p class="album-desc">多维光锥几何微折射，将深空弥散光斑聚敛为全息投影。</p>
+              </div>
+            </article>
+
+            <!-- 节点 4：放映厅 · 流动时空 -->
+            <article class="orbit-card" data-album="cinema" data-index="4" data-type="album">
+              <div class="album-cover-box">
+                <div class="art-cinema">
+                  <div class="arc"></div>
+                </div>
+                <span class="album-tag">360° CINEMA PAVILION</span>
+                <span class="album-count">CURATION PREVIEW</span>
+              </div>
+              <div class="album-info">
+                <h2 class="album-name">流动时空 · 360° 视频放映厅</h2>
+                <p class="album-desc">5.7K 原生双目全景流动长卷，记录环境光影与动态风声。</p>
+              </div>
+              <div class="orbit-card-action">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </div>
+            </article>
+
+            <!-- 节点 5：装饰装置 · 星脉信标 -->
+            <article class="orbit-card orbit-relic" data-index="5" data-type="relic">
+              <div class="album-cover-box">
+                <div class="relic-pulsar">
+                  <div class="pulsar-wave w1"></div>
+                  <div class="pulsar-wave w2"></div>
+                  <div class="pulsar-wave w3"></div>
+                </div>
+                <span class="album-tag" style="color: rgba(192, 132, 252, 0.8); border-color: rgba(192, 132, 252, 0.25);">ASTRAL PULSAR</span>
+                <span class="album-count">BEACON</span>
+              </div>
+              <div class="album-info">
+                <h2 class="album-name" style="color: rgba(255, 255, 255, 0.88);">星脉律动 · 时空信标</h2>
+                <p class="album-desc">微周期等离子脉冲光辐射，呼应星际穿越与虚空引力场。</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+
+
+  <!-- ==========================================================================
+       视图 2：Level 3 全画幅 360° 空间视界展陈 (Celestial Showcase View)
+       ========================================================================== -->
+  <section class="celestial-stage view-hidden" id="celestialView">
+    <!-- WebGL 天球画布 -->
+    <canvas id="panoCanvas"></canvas>
+
+    <!-- 顶部悬浮控制微岛 -->
+    <header class="hud-stage-top">
+      <button class="hud-icon-btn" id="btnBackToSalon" title="返回空间大厅清单">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+
+      <div class="hud-pill hud-center-capsule">
+        <span class="hud-module-label" id="currentAlbumLabel">CELESTIAL</span>
+        <span class="hud-divider"></span>
+        <span class="hud-current-scene" id="sceneTitleText">富士山巅浩瀚云海 (4K 自然天穹)</span>
+      </div>
+
+      <div style="pointer-events: auto; display: flex; align-items: center; gap: 10px;">
+        <button class="hud-icon-btn" id="gyroBtn" title="手机陀螺仪感应">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"/><circle cx="12" cy="17" r="1"/></svg>
+        </button>
+        <button class="hud-icon-btn" id="fullscreenBtn" title="全屏沉浸模式">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+        </button>
+        <div class="hud-icon-btn" style="pointer-events: none;" title="实时全景渲染">
+          <span class="live-dot"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 首次手势提示微气泡 -->
+    <div class="hud-gesture-hint" id="gestureHint">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8l4 4-4 4M8 12h8"/></svg>
+      <span>按住拖拽环顾视界 · 滚轮或双指缩放</span>
+    </div>
+
+    <!-- 底部悬浮控制台 -->
+    <footer class="hud-bottom-bar">
+      <div class="hud-telemetry" id="telemetryBox">
+        <span>YAW: <strong class="hud-telemetry-val" id="valYaw">185°</strong></span>
+        <span>PITCH: <strong class="hud-telemetry-val" id="valPitch">8°</strong></span>
+        <span>FOV: <strong class="hud-telemetry-val" id="valFov">75°</strong></span>
+      </div>
+
+      <nav class="hud-scene-selector" id="sceneSelector" role="tablist" aria-label="全景切片选择">
+        <!-- 动态注入场景切片按钮 -->
+      </nav>
+    </footer>
+  </section>
+
+  <!-- ==========================================================================
+       WebGL 360° 天球渲染与层级联动驱动引擎
+       ========================================================================== -->
+  <script>
+    (function () {
+      "use strict";
+
+      // 相册与场景数据库
+      const albums = {
+        peaks: {
+          title: "极巅之境 · 高山全景集",
+          scenes: [
+            {
+              id: "fuji_cloudsea",
+              title: "01. 富士山巅浩瀚云海 (4K 自然)",
+              src: "./data/media/fuji_cloudsea_seamless_4k.jpg",
+              initYaw: 0.0,
+              initPitch: 0.0
+            },
+            {
+              id: "mountain_lookout",
+              title: "02. 高山观景长廊远眺 (4K 群山)",
+              src: "./data/media/mountain_lookout_seamless_4k.jpg",
+              initYaw: 0.0,
+              initPitch: 0.0
+            }
+          ]
+        },
+        canopy: {
+          title: "深林秘境 · 古木天顶集",
+          scenes: [
+            {
+              id: "ancient_forest",
+              title: "01. 静谧原始森林古木 (4K 林冠)",
+              src: "./data/media/ancient_forest_seamless_4k.jpg",
+              initYaw: 0.0,
+              initPitch: 0.12
+            }
+          ]
+        },
+        cinema: {
+          title: "流动时空 · 360° 视频放映厅",
+          scenes: [
+            {
+              id: "celestial_prologue",
+              title: "01. 艺术序章·星穹天球 (母版预览)",
+              src: "./assets/images/panorama-module-cover.jpg",
+              initYaw: 0.0,
+              initPitch: 0.0
+            }
+          ]
+        }
+      };
+
+      // 视图控制
+      const salonView = document.getElementById("salonView");
+      const celestialView = document.getElementById("celestialView");
+      const btnBackToSalon = document.getElementById("btnBackToSalon");
+      const currentAlbumLabel = document.getElementById("currentAlbumLabel");
+      const sceneTitleText = document.getElementById("sceneTitleText");
+      const sceneSelector = document.getElementById("sceneSelector");
+
+      let currentAlbumKey = "peaks";
+      let isViewerActive = false;
+
+      // WebGL 引擎状态
+      let gl = null;
+      let program = null;
+      let uResolutionLoc, uYawLoc, uPitchLoc, uFovLoc, uCrossfadeLoc;
+      let currentTex = null, nextTex = null;
+      let currentYaw = 0.0, targetYaw = 0.0;
+      let currentPitch = 0.0, targetPitch = 0.0;
+      let currentFov = 75.0 * (Math.PI / 180.0), targetFov = currentFov;
+      let crossfade = 0.0, isTransitioning = false;
+      let animFrameId = null;
+
+      // 初始化 WebGL
+      function initWebGL() {
+        const canvas = document.getElementById("panoCanvas");
+        gl = canvas.getContext("webgl", { antialias: true, alpha: false, depth: false });
+        if (!gl) {
+          console.error("WebGL 无法初始化");
+          return;
+        }
+
+        const vsSource = `
+          attribute vec2 aPosition;
+          varying vec2 vUv;
+          void main() {
+            vUv = (aPosition + 1.0) * 0.5;
+            gl_Position = vec4(aPosition, 0.0, 1.0);
+          }
+        `;
+
+        const fsSource = `
+          precision highp float;
+          varying vec2 vUv;
+          uniform vec2 uResolution;
+          uniform float uYaw;
+          uniform float uPitch;
+          uniform float uFov;
+          uniform sampler2D uTexture;
+          uniform float uCrossfade;
+          uniform sampler2D uNextTexture;
+
+          #define PI 3.14159265359
+
+          mat3 rotationMatrix(float pitch, float yaw) {
+            float cp = cos(pitch);
+            float sp = sin(pitch);
+            float cy = cos(yaw);
+            float sy = sin(yaw);
+
+            mat3 rotX = mat3(
+              1.0, 0.0, 0.0,
+              0.0, cp, -sp,
+              0.0, sp, cp
+            );
+
+            mat3 rotY = mat3(
+              cy, 0.0, sy,
+              0.0, 1.0, 0.0,
+              -sy, 0.0, cy
+            );
+
+            return rotY * rotX;
+          }
+
+          vec4 sampleEquirect(sampler2D tex, vec3 worldRay) {
+            float lon = atan(worldRay.x, worldRay.z);
+            float lat = asin(clamp(worldRay.y, -1.0, 1.0));
+            vec2 panoUv = vec2(
+              0.5 - lon / (2.0 * PI),
+              0.5 - lat / PI
+            );
+            return texture2D(tex, panoUv);
+          }
+
+          void main() {
+            vec2 screenPos = (gl_FragCoord.xy / uResolution) * 2.0 - 1.0;
+            float aspect = uResolution.x / uResolution.y;
+            screenPos.x *= aspect;
+
+            float tanFov = tan(uFov * 0.5);
+            vec3 rayDir = normalize(vec3(screenPos.x * tanFov, screenPos.y * tanFov, 1.0));
+
+            mat3 rot = rotationMatrix(uPitch, uYaw);
+            vec3 worldRay = rot * rayDir;
+
+            vec4 colA = sampleEquirect(uTexture, worldRay);
+            vec4 colB = sampleEquirect(uNextTexture, worldRay);
+
+            gl_FragColor = mix(colA, colB, uCrossfade);
+          }
+        `;
+
+        function createShader(gl, type, source) {
+          const shader = gl.createShader(type);
+          gl.shaderSource(shader, source);
+          gl.compileShader(shader);
+          return shader;
+        }
+
+        const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
+        const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+        program = gl.createProgram();
+        gl.attachShader(program, vs);
+        gl.attachShader(program, fs);
+        gl.linkProgram(program);
+
+        const quadVertices = new Float32Array([
+          -1.0, -1.0,  1.0, -1.0, -1.0,  1.0,
+          -1.0,  1.0,  1.0, -1.0,  1.0,  1.0
+        ]);
+        const quadBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, quadVertices, gl.STATIC_DRAW);
+
+        const aPositionLoc = gl.getAttribLocation(program, "aPosition");
+        gl.enableVertexAttribArray(aPositionLoc);
+        gl.vertexAttribPointer(aPositionLoc, 2, gl.FLOAT, false, 0, 0);
+
+        uResolutionLoc = gl.getUniformLocation(program, "uResolution");
+        uYawLoc = gl.getUniformLocation(program, "uYaw");
+        uPitchLoc = gl.getUniformLocation(program, "uPitch");
+        uFovLoc = gl.getUniformLocation(program, "uFov");
+        uCrossfadeLoc = gl.getUniformLocation(program, "uCrossfade");
+        const uTextureLoc = gl.getUniformLocation(program, "uTexture");
+        const uNextTextureLoc = gl.getUniformLocation(program, "uNextTexture");
+
+        gl.useProgram(program);
+        gl.uniform1i(uTextureLoc, 0);
+        gl.uniform1i(uNextTextureLoc, 1);
+
+        currentTex = gl.createTexture();
+        nextTex = gl.createTexture();
+
+        setupControls(canvas);
+        window.addEventListener("resize", resizeCanvas);
+      }
+
+      function resizeCanvas() {
+        if (!gl) return;
+        const canvas = document.getElementById("panoCanvas");
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      }
+
+      function loadTextureFromSource(gl, texture, source) {
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      }
+
+      function openAlbum(albumKey) {
+        currentAlbumKey = albumKey;
+        const album = albums[albumKey];
+        if (!album) return;
+
+        // 切换视图
+        salonView.classList.add("view-hidden");
+        celestialView.classList.remove("view-hidden");
+        isViewerActive = true;
+
+        currentAlbumLabel.textContent = album.title;
+
+        // 渲染场景胶囊
+        sceneSelector.innerHTML = "";
+        album.scenes.forEach((scene, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "scene-pill-btn" + (idx === 0 ? " active" : "");
+          btn.setAttribute("role", "tab");
+          btn.setAttribute("aria-selected", idx === 0 ? "true" : "false");
+          btn.innerHTML = `<span class="scene-pill-dot"></span><span>${scene.title}</span>`;
+          btn.addEventListener("click", () => {
+            document.querySelectorAll(".scene-pill-btn").forEach(b => {
+              b.classList.remove("active");
+              b.setAttribute("aria-selected", "false");
+            });
+            btn.classList.add("active");
+            btn.setAttribute("aria-selected", "true");
+            switchToScene(scene);
+          });
+          sceneSelector.appendChild(btn);
+        });
+
+        if (!gl) {
+          initWebGL();
+        }
+        resizeCanvas();
+
+        // 载入首个场景
+        const firstScene = album.scenes[0];
+        switchToScene(firstScene, true);
+
+        // 启动渲染循环
+        if (!animFrameId) {
+          renderLoop();
+        }
+      }
+
+      function closeViewer() {
+        isViewerActive = false;
+        celestialView.classList.add("view-hidden");
+        salonView.classList.remove("view-hidden");
+        if (animFrameId) {
+          cancelAnimationFrame(animFrameId);
+          animFrameId = null;
+        }
+      }
+
+      function switchToScene(scene, isInitial = false) {
+        sceneTitleText.textContent = scene.title;
+        targetYaw = scene.initYaw;
+        targetPitch = scene.initPitch;
+
+        if (isInitial) {
+          currentYaw = targetYaw;
+          currentPitch = targetPitch;
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.src = scene.src;
+          img.onload = () => loadTextureFromSource(gl, currentTex, img);
+        } else {
+          const nextImg = new Image();
+          nextImg.crossOrigin = "anonymous";
+          nextImg.src = scene.src;
+          nextImg.onload = () => {
+            loadTextureFromSource(gl, nextTex, nextImg);
+            crossfade = 0.0;
+            isTransitioning = true;
+          };
+        }
+      }
+
+      // 控制与手势绑定
+      function setupControls(canvas) {
+        let isDragging = false;
+        let lastX = 0, lastY = 0;
+        const gestureHint = document.getElementById("gestureHint");
+
+        function dismissHint() {
+          if (gestureHint) gestureHint.classList.add("is-hidden");
+        }
+        setTimeout(dismissHint, 3200);
+
+        canvas.addEventListener("pointerdown", (e) => {
+          isDragging = true;
+          lastX = e.clientX;
+          lastY = e.clientY;
+          dismissHint();
+        });
+
+        window.addEventListener("pointermove", (e) => {
+          if (!isDragging || !isViewerActive) return;
+          const dx = e.clientX - lastX;
+          const dy = e.clientY - lastY;
+          lastX = e.clientX;
+          lastY = e.clientY;
+
+          targetYaw += dx * 0.0032;
+          targetPitch += dy * 0.0032;
+          const maxPitch = Math.PI * 0.44;
+          targetPitch = Math.max(-maxPitch, Math.min(maxPitch, targetPitch));
+        });
+
+        window.addEventListener("pointerup", () => { isDragging = false; });
+
+        canvas.addEventListener("wheel", (e) => {
+          e.preventDefault();
+          dismissHint();
+          targetFov += e.deltaY * 0.001;
+          const minFov = 35.0 * (Math.PI / 180.0);
+          const maxFov = 95.0 * (Math.PI / 180.0);
+          targetFov = Math.max(minFov, Math.min(maxFov, targetFov));
+        }, { passive: false });
+
+        // 陀螺仪
+        const gyroBtn = document.getElementById("gyroBtn");
+        let gyroEnabled = false;
+
+        function handleOrientation(event) {
+          if (!gyroEnabled || !isViewerActive) return;
+          if (event.gamma !== null && event.beta !== null) {
+            const gYaw = (event.alpha || 0) * (Math.PI / 180.0);
+            const gPitch = (event.beta - 90) * (Math.PI / 180.0);
+            targetPitch = Math.max(-Math.PI * 0.44, Math.min(Math.PI * 0.44, gPitch));
+            targetYaw = -gYaw;
+          }
+        }
+
+        gyroBtn.addEventListener("click", () => {
+          dismissHint();
+          if (typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function") {
+            DeviceOrientationEvent.requestPermission()
+              .then(res => {
+                if (res === "granted") toggleGyro();
+                else alert("需要陀螺仪权限以体验身体转动环视");
+              })
+              .catch(console.error);
+          } else {
+            toggleGyro();
+          }
+        });
+
+        function toggleGyro() {
+          gyroEnabled = !gyroEnabled;
+          if (gyroEnabled) {
+            window.addEventListener("deviceorientation", handleOrientation);
+            gyroBtn.classList.add("is-active");
+          } else {
+            window.removeEventListener("deviceorientation", handleOrientation);
+            gyroBtn.classList.remove("is-active");
+          }
+        }
+
+        // 全屏
+        const fullscreenBtn = document.getElementById("fullscreenBtn");
+        fullscreenBtn.addEventListener("click", () => {
+          if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            if (document.documentElement.requestFullscreen) {
+              document.documentElement.requestFullscreen().catch(() => {});
+            } else if (document.documentElement.webkitRequestFullscreen) {
+              document.documentElement.webkitRequestFullscreen();
+            }
+            fullscreenBtn.classList.add("is-active");
+          } else {
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+              document.webkitExitFullscreen();
+            }
+            fullscreenBtn.classList.remove("is-active");
+          }
+        });
+      }
+
+      // 渲染循环
+      const valYaw = document.getElementById("valYaw");
+      const valPitch = document.getElementById("valPitch");
+      const valFov = document.getElementById("valFov");
+
+      function renderLoop() {
+        if (!isViewerActive) return;
+
+        currentYaw += (targetYaw - currentYaw) * 0.12;
+        currentPitch += (targetPitch - currentPitch) * 0.12;
+        currentFov += (targetFov - currentFov) * 0.12;
+
+        if (valYaw) {
+          const degYaw = ((currentYaw * 180 / Math.PI) % 360 + 360) % 360;
+          const degPitch = currentPitch * 180 / Math.PI;
+          const degFov = currentFov * 180 / Math.PI;
+          valYaw.textContent = Math.round(degYaw) + "°";
+          valPitch.textContent = (degPitch >= 0 ? "+" : "") + Math.round(degPitch) + "°";
+          valFov.textContent = Math.round(degFov) + "°";
+        }
+
+        if (isTransitioning) {
+          crossfade += 0.045;
+          if (crossfade >= 1.0) {
+            crossfade = 1.0;
+            isTransitioning = false;
+            const temp = currentTex;
+            currentTex = nextTex;
+            nextTex = temp;
+            crossfade = 0.0;
+          }
+        }
+
+        gl.uniform2f(uResolutionLoc, gl.canvas.width, gl.canvas.height);
+        gl.uniform1f(uYawLoc, currentYaw);
+        gl.uniform1f(uPitchLoc, currentPitch);
+        gl.uniform1f(uFovLoc, currentFov);
+        gl.uniform1f(uCrossfadeLoc, crossfade);
+
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, currentTex);
+
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, nextTex);
+
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+        animFrameId = requestAnimationFrame(renderLoop);
+      }
+
+      // ==========================================================================
+      // 3D 环状天体转台旋转系统 (3D Orbital Celestial Carousel) - 6 节点天体仪
+      // ==========================================================================
+      const orbitStage = document.getElementById("orbitStage");
+      const orbitRotator = document.getElementById("orbitRotator");
+      const orbitCards = Array.from(document.querySelectorAll(".orbit-card"));
+
+      const totalCards = orbitCards.length; // 6 个天体节点 (3 个作品 + 3 个装置)
+      const angleStep = 360 / totalCards; // 60 度等分
+      let orbitRadius = window.innerWidth <= 768 ? 240 : 390;
+
+      let orbitRotation = 0;
+      let targetOrbitRotation = 0;
+      let isDraggingOrbit = false;
+      let dragStartX = 0;
+      let lastDragX = 0;
+      let hasDragged = false;
+      let isOrbitHovered = false;
+      const autoSpinVelocity = 0.07; // 极舒缓的恒速天体漫步
+
+      window.addEventListener("resize", () => {
+        orbitRadius = window.innerWidth <= 768 ? 240 : 390;
+      });
+
+      function snapToCardIndex(index) {
+        // 计算吸附到指定卡片所需的目标旋转角
+        const currentCycle = Math.round((-targetOrbitRotation - index * angleStep) / 360);
+        targetOrbitRotation = - (currentCycle * 360 + index * angleStep);
+      }
+
+      function getClosestCardIndex() {
+        const normalized = ((-orbitRotation % 360) + 360) % 360;
+        let closestIdx = 0;
+        let minDiff = 999;
+        orbitCards.forEach((_, idx) => {
+          const targetAngle = (idx * angleStep) % 360;
+          let diff = Math.abs(normalized - targetAngle);
+          if (diff > 180) diff = 360 - diff;
+          if (diff < minDiff) {
+            minDiff = diff;
+            closestIdx = idx;
+          }
+        });
+        return closestIdx;
+      }
+
+      // 指针拖拽与滑动交互
+      if (orbitStage) {
+        orbitStage.addEventListener("pointerdown", (e) => {
+          isDraggingOrbit = true;
+          hasDragged = false;
+          dragStartX = e.clientX;
+          lastDragX = e.clientX;
+        });
+
+        window.addEventListener("pointermove", (e) => {
+          if (!isDraggingOrbit) return;
+          const dx = e.clientX - lastDragX;
+          lastDragX = e.clientX;
+          if (Math.abs(e.clientX - dragStartX) > 6) {
+            hasDragged = true;
+          }
+          orbitRotation += dx * 0.42;
+          targetOrbitRotation = orbitRotation;
+        });
+
+        window.addEventListener("pointerup", () => {
+          if (!isDraggingOrbit) return;
+          isDraggingOrbit = false;
+          // 松手磁吸到最近卡片
+          const closestIndex = getClosestCardIndex();
+          snapToCardIndex(closestIndex);
+        });
+
+        // 滚轮微旋转天球环
+        orbitStage.addEventListener("wheel", (e) => {
+          e.preventDefault();
+          targetOrbitRotation += e.deltaY * 0.08;
+        }, { passive: false });
+
+        orbitStage.addEventListener("pointerenter", () => { isOrbitHovered = true; });
+        orbitStage.addEventListener("pointerleave", () => { isOrbitHovered = false; });
+      }
+
+      // 卡片点击与展开
+      orbitCards.forEach((card, idx) => {
+        card.addEventListener("click", () => {
+          if (hasDragged) {
+            hasDragged = false;
+            return;
+          }
+          const closest = getClosestCardIndex();
+          const cardType = card.getAttribute("data-type");
+
+          if (closest === idx) {
+            // 当前正对镜头的卡片
+            if (cardType === "album") {
+              const albumKey = card.getAttribute("data-album");
+              openAlbum(albumKey);
+            }
+          } else {
+            // 侧边卡片或装饰物，点击平滑旋至正中
+            snapToCardIndex(idx);
+          }
+        });
+      });
+
+      // 3D 转台每帧动画循环
+      function updateOrbitLoop() {
+        if (!isViewerActive) {
+          if (!isDraggingOrbit) {
+            if (!isOrbitHovered) {
+              // 自动微自转
+              targetOrbitRotation -= autoSpinVelocity;
+            }
+            // 物理弹性平滑插值
+            orbitRotation += (targetOrbitRotation - orbitRotation) * 0.085;
+          }
+
+          if (orbitRotator) {
+            orbitRotator.style.transform = `rotateX(-4deg) rotateY(${orbitRotation}deg)`;
+          }
+
+          const closestIdx = getClosestCardIndex();
+
+          // 更新每张卡片的景深、透明度与虚化
+          orbitCards.forEach((card, idx) => {
+            const baseAngle = idx * angleStep;
+            const currentAngle = (baseAngle + orbitRotation) % 360;
+            const normAngle = ((currentAngle % 360) + 540) % 360 - 180;
+            const rad = normAngle * (Math.PI / 180);
+            const depthCos = Math.cos(rad); // 1 = 正面, 0 = 侧面, -1 = 背面
+
+            const scale = 0.80 + 0.24 * Math.max(0, depthCos);
+            const opacity = 0.32 + 0.68 * Math.max(0, depthCos);
+            const blur = Math.max(0, (1 - depthCos) * 4.2);
+
+            card.style.transform = `rotateY(${baseAngle}deg) translateZ(${orbitRadius}px) scale(${scale})`;
+            card.style.opacity = opacity.toFixed(2);
+            card.style.filter = `blur(${blur.toFixed(1)}px)`;
+            card.style.zIndex = Math.round((depthCos + 1) * 100);
+
+            if (idx === closestIdx) {
+              card.classList.add("is-focused");
+            } else {
+              card.classList.remove("is-focused");
+            }
+          });
+        }
+
+        requestAnimationFrame(updateOrbitLoop);
+      }
+
+      // 启动 3D 转台循环
+      requestAnimationFrame(updateOrbitLoop);
+
+      btnBackToSalon.addEventListener("click", closeViewer);
+
+      // 接入 ChronoSoundscape 天体声景引擎
+      if (window.ChronoSoundscape) {
+        window.ChronoSoundscape.init({
+          mode: 'celestial',
+          btnId: 'btnCelestialSound',
+          dotId: 'soundDotCelestial'
+        });
+      }
+
+    })();
+  </script>
+</body>
+</html>

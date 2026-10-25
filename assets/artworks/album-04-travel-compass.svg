@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="100%" height="100%">
+  <defs>
+    <!-- 行者远方山川基底 -->
+    <linearGradient id="travelBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0c121e"/>
+      <stop offset="35%" stop-color="#142338"/>
+      <stop offset="70%" stop-color="#23425e"/>
+      <stop offset="100%" stop-color="#3c2f23"/>
+    </linearGradient>
+
+    <!-- 景泰蓝微光铜丝 -->
+    <linearGradient id="copperFiligree" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2a868"/>
+      <stop offset="50%" stop-color="#b87333"/>
+      <stop offset="100%" stop-color="#8c4e1f"/>
+    </linearGradient>
+
+    <!-- 指南针同心罗盘辉光 -->
+    <radialGradient id="compassGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffd585" stop-opacity="0.3"/>
+      <stop offset="60%" stop-color="#b87333" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#0c121e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#travelBg)"/>
+
+  <!-- 印象派青蓝厚涂远山层峦 (Impressionist Ridge Layers) -->
+  <g opacity="0.6">
+    <path d="M-50,460 L180,360 L360,420 L580,310 L750,390 L850,340 L850,900 L-50,900 Z" fill="#182c42"/>
+    <path d="M-50,560 L140,480 L320,530 L540,450 L720,510 L850,470 L850,950 L-50,950 Z" fill="#1d3752"/>
+    <path d="M-50,680 L220,590 L440,650 L680,570 L850,620 L850,1050 L-50,1050 Z" fill="#2d2b27"/>
+  </g>
+
+  <!-- 极简绘本风格行者指南针天体同心罗盘 (Abstract Astrolabe Compass) -->
+  <circle cx="400" cy="500" r="280" fill="url(#compassGlow)"/>
+  
+  <g fill="none" stroke="url(#copperFiligree)" stroke-linecap="round">
+    <circle cx="400" cy="500" r="240" stroke-width="1.8" opacity="0.85"/>
+    <circle cx="400" cy="500" r="200" stroke-width="1.0" stroke-dasharray="6,8" opacity="0.6"/>
+    <circle cx="400" cy="500" r="140" stroke-width="1.4" opacity="0.75"/>
+    <circle cx="400" cy="500" r="70" stroke-width="1.2" opacity="0.6"/>
+
+    <!-- 四向刻度十字线 -->
+    <line x1="400" y1="230" x2="400" y2="770" stroke-width="1.2" opacity="0.7"/>
+    <line x1="130" y1="500" x2="670" y2="500" stroke-width="1.2" opacity="0.7"/>
+
+    <!-- 指南针菱形指针剪影 -->
+    <polygon points="400,320 420,500 400,680 380,500" stroke-width="1.5" fill="rgba(184, 115, 51, 0.15)"/>
+  </g>
+
+  <!-- 边框装裱与暗记 -->
+  <rect x="24" y="24" width="752" height="952" fill="none" stroke="url(#copperFiligree)" stroke-width="1.2" opacity="0.5"/>
+  <rect x="32" y="32" width="736" height="936" fill="none" stroke="url(#copperFiligree)" stroke-width="0.6" stroke-dasharray="6,10" opacity="0.35"/>
+
+  <!-- 顶部题记 -->
+  <g transform="translate(400, 110)" text-anchor="middle">
+    <text font-family="'Cinzel', serif" font-size="13" fill="#ffd585" letter-spacing="0.32em" opacity="0.85">CONTINENTAL FOOTPRINTS</text>
+    <text font-family="'Noto Serif SC', serif" font-size="20" font-weight="300" fill="#ffffff" letter-spacing="0.22em" y="32" opacity="0.92">远方旅人 · 大陆漫游底片卷</text>
+  </g>
+</svg>
