@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- 先锋暗灰底衬 -->
+    <radialGradient id="studioGray" cx="50%" cy="65%" r="75%">
+      <stop offset="0%" stop-color="#181c24"/>
+      <stop offset="35%" stop-color="#10131a"/>
+      <stop offset="70%" stop-color="#0a0c10"/>
+      <stop offset="100%" stop-color="#050608"/>
+    </radialGradient>
+
+    <!-- 冷青赛博光谱渐变 -->
+    <linearGradient id="cyanSpectrum" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#70ffff"/>
+      <stop offset="50%" stop-color="#00c8e6"/>
+      <stop offset="100%" stop-color="#006b99"/>
+    </linearGradient>
+
+    <!-- 品红波普光谱渐变 -->
+    <linearGradient id="magentaSpectrum" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6699"/>
+      <stop offset="50%" stop-color="#e6005c"/>
+      <stop offset="100%" stop-color="#800033"/>
+    </linearGradient>
+
+    <!-- 冷钛镀铬线条渐变 -->
+    <linearGradient id="chromeLine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#a0a8b8"/>
+      <stop offset="100%" stop-color="#404654"/>
+    </linearGradient>
+
+    <filter id="neonSpill" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <linearGradient id="topFadeStudio" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.96"/>
+      <stop offset="45%" stop-color="#ffffff" stop-opacity="0.75"/>
+      <stop offset="80%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 1. 先锋暗灰实验底衬 -->
+  <rect width="800" height="600" fill="url(#studioGray)"/>
+
+  <!-- 2. 表现主义与波普艺术几何解构网格 (Mondrian & Pop Decollage) -->
+  <g transform="translate(400, 410)" filter="url(#neonSpill)">
+    <!-- 左侧品红光谱色块 (After特化意象) -->
+    <path d="M-220,-80 L-10,-80 L-10,120 L-220,120 Z" fill="url(#magentaSpectrum)" opacity="0.82"/>
+    <rect x="-240" y="-120" width="120" height="32" fill="#ff0055" opacity="0.6"/>
+    
+    <!-- 右侧冷青光谱色块 (Before母版解构意象) -->
+    <path d="M10,-120 L220,-120 L220,80 L10,80 Z" fill="url(#cyanSpectrum)" opacity="0.82"/>
+    <rect x="130" y="90" width="110" height="42" fill="#00d0ff" opacity="0.6"/>
+
+    <!-- 高温烧结冰裂纹开片珐琅几何折线 (Fused Fissures) -->
+    <g stroke="#ffffff" stroke-width="1.2" opacity="0.75" fill="none">
+      <path d="M-180,-60 L-140,-30 L-110,-50 L-70,0 L-40,-20 L-10,10"/>
+      <path d="M-160,20 L-120,40 L-90,10 L-60,50 L-30,30 L-10,70"/>
+      <path d="M30,-90 L70,-70 L90,-100 L140,-60 L180,-80"/>
+      <path d="M40,-30 L80,-10 L120,-40 L160,0 L190,-20"/>
+    </g>
+
+    <!-- 3. 中央双向无级擦除对比分割光标 (Interactive Split Cursor) -->
+    <line x1="0" y1="-140" x2="0" y2="140" stroke="url(#chromeLine)" stroke-width="2.5"/>
+    <!-- 镀铬微倒角双箭头手柄 -->
+    <circle cx="0" cy="0" r="18" fill="#141820" stroke="url(#chromeLine)" stroke-width="2"/>
+    <polygon points="-7,0 -3,-5 -3,5" fill="#00f0ff"/>
+    <polygon points="7,0 3,-5 3,5" fill="#ff0055"/>
+  </g>
+
+  <!-- 4. 极简现代艺术图符与参数刻度 (Graphic Precision Marks) -->
+  <g stroke="#8e9bb0" stroke-width="0.8" opacity="0.5" fill="none">
+    <line x1="120" y1="290" x2="680" y2="290"/>
+    <line x1="120" y1="535" x2="680" y2="535"/>
+    <circle cx="200" cy="290" r="3" fill="#8e9bb0"/>
+    <circle cx="400" cy="290" r="3" fill="#8e9bb0"/>
+    <circle cx="600" cy="290" r="3" fill="#8e9bb0"/>
+  </g>
+
+  <g transform="translate(400, 560)" fill="#a4b3cc" opacity="0.85" font-family="'Space Mono', monospace" font-size="9" letter-spacing="4" text-anchor="middle">
+    <text>AVANT-GARDE STUDIO · SPECTRAL RECONSTRUCTION</text>
+  </g>
+
+  <!-- 5. 顶层向暖素白渐变微漫射（与主页白色区域交融） -->
+  <rect width="800" height="240" fill="url(#topFadeStudio)"/>
+</svg>

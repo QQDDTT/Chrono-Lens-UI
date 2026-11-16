@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520">
+  <defs>
+    <!-- 暗金琥珀银盐底色 -->
+    <radialGradient id="patinaBg" cx="50%" cy="50%" r="72%">
+      <stop offset="0%" stop-color="#2e2116"/>
+      <stop offset="48%" stop-color="#19130e"/>
+      <stop offset="100%" stop-color="#090706"/>
+    </radialGradient>
+
+    <!-- 百年银盐成色暖光晕 -->
+    <radialGradient id="amberCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f5c97b" stop-opacity="0.72"/>
+      <stop offset="35%" stop-color="#c8823b" stop-opacity="0.34"/>
+      <stop offset="70%" stop-color="#6e3e19" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#120d0a" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 边缘老相纸漏光包浆 -->
+    <linearGradient id="edgeLeakLeft" x1="0%" y1="0%" x2="100%" y2="40%">
+      <stop offset="0%" stop-color="#d97724" stop-opacity="0.28"/>
+      <stop offset="42%" stop-color="#9a4e18" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="brassRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f2cf8d"/>
+      <stop offset="50%" stop-color="#b67d3b"/>
+      <stop offset="100%" stop-color="#613d18"/>
+    </linearGradient>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+  </defs>
+
+  <!-- 1. 基底与暖金漏光层 -->
+  <rect width="800" height="520" fill="url(#patinaBg)"/>
+  <rect width="800" height="520" fill="url(#edgeLeakLeft)"/>
+  <circle cx="400" cy="260" r="220" fill="url(#amberCore)" filter="url(#softGlow)"/>
+
+  <!-- 2. 大画幅暗箱折叠取景框刻度线 (居中纯净几何，零文字干扰) -->
+  <g stroke="#d4a056" fill="none">
+    <rect x="130" y="76" width="540" height="368" rx="6" stroke-opacity="0.16" stroke-width="1"/>
+    <rect x="148" y="92" width="504" height="336" rx="4" stroke-opacity="0.1" stroke-width="0.75" stroke-dasharray="4 6"/>
+    <!-- 四角大画幅对焦毛玻璃折角 -->
+    <path d="M130 108 V76 H162" stroke-opacity="0.55" stroke-width="2"/>
+    <path d="M638 76 H670 V108" stroke-opacity="0.55" stroke-width="2"/>
+    <path d="M130 412 V444 H162" stroke-opacity="0.55" stroke-width="2"/>
+    <path d="M638 444 H670 V412" stroke-opacity="0.55" stroke-width="2"/>
+  </g>
+
+  <!-- 3. 中央古董黄铜大画幅快门与银盐光圈叶片 -->
+  <g transform="translate(400, 260)">
+    <!-- 外层氧化黄铜精密齿环 -->
+    <circle r="146" fill="none" stroke="url(#brassRing)" stroke-width="1.4" stroke-opacity="0.5"/>
+    <circle r="136" fill="none" stroke="#e7bc74" stroke-width="2" stroke-opacity="0.32" stroke-dasharray="2 7"/>
+    <circle r="116" fill="#120d0a" fill-opacity="0.55" stroke="url(#brassRing)" stroke-width="1.8" stroke-opacity="0.72"/>
+
+    <!-- 八叶古典虹膜光圈弧线 -->
+    <g stroke="#e0ad63" stroke-width="1.1" stroke-opacity="0.42" fill="none">
+      <path d="M -82 -42 Q -18 -78 58 -48"/>
+      <path d="M -42 82 Q -78 18 -48 -58"/>
+      <path d="M 82 42 Q 18 78 -58 48"/>
+      <path d="M 42 -82 Q 78 -18 48 58"/>
+      <path d="M -92 16 Q -48 -62 32 -76"/>
+      <path d="M 92 -16 Q 48 62 -32 76"/>
+      <path d="M -16 -92 Q 62 -48 76 32"/>
+      <path d="M 16 92 Q -62 48 -76 -32"/>
+    </g>
+
+    <!-- 银盐显影内环与琥珀镀膜反光 -->
+    <circle r="76" fill="none" stroke="#f5d18c" stroke-width="1.2" stroke-opacity="0.55"/>
+    <circle r="52" fill="#21160e" fill-opacity="0.7" stroke="#c88d44" stroke-width="1" stroke-opacity="0.48"/>
+    <ellipse cx="-18" cy="-20" rx="22" ry="11" transform="rotate(-32 -18 -20)" fill="#ffe3a8" fill-opacity="0.22"/>
+    <circle cx="16" cy="18" r="6" fill="#f3b861" fill-opacity="0.28"/>
+
+    <!-- 中心十字微准星 -->
+    <line x1="-22" y1="0" x2="22" y2="0" stroke="#f5d18c" stroke-width="0.8" stroke-opacity="0.5"/>
+    <line x1="0" y1="-22" x2="0" y2="22" stroke="#f5d18c" stroke-width="0.8" stroke-opacity="0.5"/>
+    <circle r="3.5" fill="#ffd98e" fill-opacity="0.85"/>
+  </g>
+
+  <!-- 4. 胶片时代银盐颗粒微尘点缀 -->
+  <g fill="#f6d598" opacity="0.35">
+    <circle cx="218" cy="158" r="1.4"/>
+    <circle cx="586" cy="144" r="1.8"/>
+    <circle cx="612" cy="348" r="1.3"/>
+    <circle cx="204" cy="366" r="1.6"/>
+    <circle cx="312" cy="118" r="1.1"/>
+    <circle cx="496" cy="402" r="1.2"/>
+  </g>
+</svg>

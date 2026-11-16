@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 280" width="100%" height="100%">
+  <defs>
+    <linearGradient id="wf-bg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f8f7f3"/>
+      <stop offset="50%" stop-color="#f2efe8"/>
+      <stop offset="100%" stop-color="#ebe6da"/>
+    </linearGradient>
+    <linearGradient id="wf-gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a68238"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#8c6a24"/>
+    </linearGradient>
+    <style>
+      .flow-dash { stroke-dasharray: 8 6; animation: dashFlow 1.8s linear infinite; }
+      .node-card { transition: transform 0.3s ease; }
+      .pulse-dot { animation: dotPulse 2.4s ease-in-out infinite; }
+      @keyframes dashFlow { to { stroke-dashoffset: -28; } }
+      @keyframes dotPulse { 0%, 100% { r: 4px; opacity: 0.6; } 50% { r: 6.5px; opacity: 1; } }
+    </style>
+  </defs>
+
+  <!-- Warm Gallery Alabaster Canvas -->
+  <rect width="1200" height="280" rx="18" fill="url(#wf-bg)" stroke="#a68238" stroke-opacity="0.3" stroke-width="1.5"/>
+
+  <text x="600" y="36" text-anchor="middle" fill="#23272e" font-family="'Noto Serif SC', Georgia, serif" font-size="16" font-weight="600" letter-spacing="4">CHRONO-LENS 四阶暗房媒体金库流转与零泄密端到端加密架构</text>
+  <text x="600" y="56" text-anchor="middle" fill="#6e7686" font-family="monospace" font-size="11" letter-spacing="2">AIR-GAPPED VAULT PIPELINE · CLIENT-SIDE WEB CRYPTO (AES-256-GCM) · MOBILE-FIRST PWA</text>
+
+  <!-- Connecting Animated Flow Lines -->
+  <g stroke="url(#wf-gold)" stroke-width="2" fill="none" class="flow-dash">
+    <line x1="230" y1="148" x2="285" y2="148"/>
+    <line x1="465" y1="148" x2="520" y2="148"/>
+    <line x1="700" y1="148" x2="755" y2="148"/>
+    <line x1="935" y1="148" x2="985" y2="148"/>
+  </g>
+
+  <!-- Stage 1: 01_raw -->
+  <g transform="translate(50, 82)">
+    <rect width="180" height="132" rx="14" fill="#ffffff" stroke="#23272e" stroke-opacity="0.12" stroke-width="1.2"/>
+    <rect x="14" y="14" width="68" height="20" rx="10" fill="#faf5eb" stroke="#a68238" stroke-opacity="0.4"/>
+    <text x="48" y="28" text-anchor="middle" fill="#8f6d28" font-family="monospace" font-size="10" font-weight="bold">01_RAW</text>
+    <circle class="pulse-dot" cx="158" cy="24" r="5" fill="#a68238"/>
+    <text x="16" y="58" fill="#23272e" font-family="'Noto Serif SC', serif" font-size="14" font-weight="600">原始底片无损导入</text>
+    <text x="16" y="80" fill="#4c5361" font-family="sans-serif" font-size="11.5">DNG / 5.7K 360° 全景流</text>
+    <text x="16" y="98" fill="#6e7686" font-family="monospace" font-size="10.5">SHA-256 校验 · 物理隔离</text>
+  </g>
+
+  <!-- Stage 2: 02_base & 03_optimized -->
+  <g transform="translate(285, 82)">
+    <rect width="180" height="132" rx="14" fill="#ffffff" stroke="#23272e" stroke-opacity="0.12" stroke-width="1.2"/>
+    <rect x="14" y="14" width="96" height="20" rx="10" fill="#f0f9ff" stroke="#0284c7" stroke-opacity="0.4"/>
+    <text x="62" y="28" text-anchor="middle" fill="#0369a1" font-family="monospace" font-size="10" font-weight="bold">02_BASE / 03_OPT</text>
+    <circle class="pulse-dot" cx="158" cy="24" r="5" fill="#0284c7"/>
+    <text x="16" y="58" fill="#23272e" font-family="'Noto Serif SC', serif" font-size="14" font-weight="600">GCP Spot 弹性暗房</text>
+    <text x="16" y="80" fill="#4c5361" font-family="sans-serif" font-size="11.5">双鱼眼天球拼接与光流去噪</text>
+    <text x="16" y="98" fill="#6e7686" font-family="monospace" font-size="10.5">废片熵过滤 · 用完即毁</text>
+  </g>
+
+  <!-- Stage 3: 04_final & AES-256-GCM -->
+  <g transform="translate(520, 82)">
+    <rect width="180" height="132" rx="14" fill="#181c24" stroke="#a68238" stroke-opacity="0.7" stroke-width="1.5"/>
+    <rect x="14" y="14" width="106" height="20" rx="10" fill="#a68238" fill-opacity="0.25" stroke="#fce4a6" stroke-opacity="0.5"/>
+    <text x="67" y="28" text-anchor="middle" fill="#fce4a6" font-family="monospace" font-size="10" font-weight="bold">04_FINAL + CRYPTO</text>
+    <circle class="pulse-dot" cx="158" cy="24" r="5" fill="#fce4a6"/>
+    <text x="16" y="58" fill="#ffffff" font-family="'Noto Serif SC', serif" font-size="14" font-weight="600">零知识加密与装裱</text>
+    <text x="16" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="11.5">AES-256-GCM + PBKDF2</text>
+    <text x="16" y="98" fill="#fce4a6" font-family="monospace" font-size="10.5">密文分片 · 48kHz 实体声景</text>
+  </g>
+
+  <!-- Stage 4: Public Sub-Repo -->
+  <g transform="translate(755, 82)">
+    <rect width="180" height="132" rx="14" fill="#ffffff" stroke="#23272e" stroke-opacity="0.12" stroke-width="1.2"/>
+    <rect x="14" y="14" width="96" height="20" rx="10" fill="#ecfdf5" stroke="#059669" stroke-opacity="0.4"/>
+    <text x="62" y="28" text-anchor="middle" fill="#047857" font-family="monospace" font-size="10" font-weight="bold">CHRONO-LENS-UI</text>
+    <circle class="pulse-dot" cx="158" cy="24" r="5" fill="#10b981"/>
+    <text x="16" y="58" fill="#23272e" font-family="'Noto Serif SC', serif" font-size="14" font-weight="600">公开静态副仓镜像</text>
+    <text x="16" y="80" fill="#4c5361" font-family="sans-serif" font-size="11.5">脱敏前端资产 · MIT 协议</text>
+    <text x="16" y="98" fill="#6e7686" font-family="monospace" font-size="10.5">GitHub Pages + Cloudflare</text>
+  </g>
+
+  <!-- Stage 5: 5 Curatorial Domains -->
+  <g transform="translate(985, 82)">
+    <rect width="165" height="132" rx="14" fill="#ffffff" stroke="#a68238" stroke-opacity="0.45" stroke-width="1.5"/>
+    <rect x="14" y="14" width="84" height="20" rx="10" fill="#faf5eb" stroke="#a68238" stroke-opacity="0.4"/>
+    <text x="56" y="28" text-anchor="middle" fill="#8f6d28" font-family="monospace" font-size="10" font-weight="bold">PWA GALLERY</text>
+    <text x="16" y="58" fill="#23272e" font-family="'Noto Serif SC', serif" font-size="14" font-weight="600">五大理念场域展馆</text>
+    <text x="16" y="80" fill="#4c5361" font-family="sans-serif" font-size="11.5">陀螺仪天球 · 内存实时解密</text>
+    <text x="16" y="98" fill="#8f6d28" font-family="monospace" font-size="10.5">lens.evotensor.dev</text>
+  </g>
+
+  <!-- Footer Status Bar -->
+  <text x="600" y="252" text-anchor="middle" fill="#4c5361" font-family="'Noto Serif SC', sans-serif" font-size="12" letter-spacing="2">✦ 美术馆微暖素白 (#f5f4ef) · 3D 悬浮时空折叠转场 · iOS / Android 全屏 WebClip 离线渐进式体验 ✦</text>
+</svg>

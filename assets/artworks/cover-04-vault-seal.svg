@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- 地下恒温金库黑曜石与胡桃木深调 -->
+    <radialGradient id="vaultObsidian" cx="50%" cy="65%" r="75%">
+      <stop offset="0%" stop-color="#1d1618"/>
+      <stop offset="35%" stop-color="#120e10"/>
+      <stop offset="70%" stop-color="#0b080a"/>
+      <stop offset="100%" stop-color="#040305"/>
+    </radialGradient>
+
+    <!-- 古法掐丝古铜真金渐变 -->
+    <linearGradient id="bronzeGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5d898"/>
+      <stop offset="35%" stop-color="#bf8f47"/>
+      <stop offset="70%" stop-color="#7a5420"/>
+      <stop offset="100%" stop-color="#d6ab60"/>
+    </linearGradient>
+
+    <!-- 深朱砂矿物红釉彩渐变 -->
+    <radialGradient id="cinnabarEnamel" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#99231f"/>
+      <stop offset="65%" stop-color="#6e1310"/>
+      <stop offset="100%" stop-color="#3b0806"/>
+    </radialGradient>
+
+    <!-- 暗房安全红光滤镜 -->
+    <filter id="darkroomGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <linearGradient id="topFadeVault" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.96"/>
+      <stop offset="45%" stop-color="#ffffff" stop-opacity="0.75"/>
+      <stop offset="80%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 1. 暗调底衬 -->
+  <rect width="800" height="600" fill="url(#vaultObsidian)"/>
+
+  <!-- 2. 暗房微红安全光晕 (Atmospheric Red Safe-light Spill) -->
+  <ellipse cx="400" cy="410" rx="320" ry="160" fill="#a8231d" opacity="0.18" filter="blur(35px)"/>
+
+  <!-- 3. 拟真 35mm 胶卷抽象齿孔与曝光刻痕装饰 (两侧对称点缀) -->
+  <g fill="rgba(214, 171, 96, 0.25)" opacity="0.6">
+    <!-- 左齿孔列 -->
+    <rect x="75" y="320" width="14" height="22" rx="3"/>
+    <rect x="75" y="360" width="14" height="22" rx="3"/>
+    <rect x="75" y="400" width="14" height="22" rx="3"/>
+    <rect x="75" y="440" width="14" height="22" rx="3"/>
+    <rect x="75" y="480" width="14" height="22" rx="3"/>
+    <rect x="75" y="520" width="14" height="22" rx="3"/>
+    <!-- 右齿孔列 -->
+    <rect x="711" y="320" width="14" height="22" rx="3"/>
+    <rect x="711" y="360" width="14" height="22" rx="3"/>
+    <rect x="711" y="400" width="14" height="22" rx="3"/>
+    <rect x="711" y="440" width="14" height="22" rx="3"/>
+    <rect x="711" y="480" width="14" height="22" rx="3"/>
+    <rect x="711" y="520" width="14" height="22" rx="3"/>
+  </g>
+
+  <!-- 4. 景泰蓝掐丝古铜时光印章 (Cloisonné Time Seal) -->
+  <g transform="translate(400, 415)" filter="url(#darkroomGlow)">
+    <!-- 外层八角金铜护框 -->
+    <polygon points="-110,-110 -60,-130 60,-130 110,-110 130,-60 130,60 110,110 60,130 -60,130 -110,110 -130,60 -130,-60" fill="none" stroke="url(#bronzeGold)" stroke-width="2" opacity="0.85"/>
+    <circle cx="0" cy="0" r="105" fill="none" stroke="#d6ab60" stroke-width="0.8" stroke-dasharray="4 6" opacity="0.6"/>
+
+    <!-- 朱砂红矿物珐琅盘面 -->
+    <circle cx="0" cy="0" r="88" fill="url(#cinnabarEnamel)" stroke="url(#bronzeGold)" stroke-width="2.5"/>
+    <circle cx="0" cy="0" r="76" fill="none" stroke="#f5d898" stroke-width="0.75" opacity="0.5"/>
+
+    <!-- 时光年轮掐丝铜线 (Concentric Rings of Time) -->
+    <circle cx="0" cy="0" r="58" fill="none" stroke="url(#bronzeGold)" stroke-width="1.2" stroke-dasharray="8 4"/>
+    <circle cx="0" cy="0" r="42" fill="none" stroke="#f5d898" stroke-width="0.9" opacity="0.7"/>
+
+    <!-- 中央艺术抽象几何锁章图腾 (取代生硬的写实机械锁) -->
+    <!-- 锁梁与同心环 -->
+    <path d="M-18,-14 A18,18 0 0,1 18,-14 L18,2 L-18,2 Z" fill="none" stroke="url(#bronzeGold)" stroke-width="2.5"/>
+    <!-- 珐琅锁核 -->
+    <rect x="-24" y="0" width="48" height="34" rx="6" fill="#140b0d" stroke="url(#bronzeGold)" stroke-width="1.8"/>
+    <!-- 抽象激光光刻锁心孔 -->
+    <circle cx="0" cy="13" r="5" fill="#f5d898"/>
+    <polygon points="-2,16 2,16 3,24 -3,24" fill="#f5d898"/>
+  </g>
+
+  <!-- 5. 木刻版画风格的时光刻度与防伪微标 -->
+  <g transform="translate(400, 415)" fill="#d6ab60" opacity="0.75" font-family="'Cinzel', serif" font-size="9" letter-spacing="3" text-anchor="middle">
+    <text y="-95">· ERA 2024 — 2026 ·</text>
+    <text y="103">AUTHENTIC FILM VAULT</text>
+  </g>
+
+  <!-- 6. 顶层向暖素白渐变微漫射（与主页白色区域交融） -->
+  <rect width="800" height="240" fill="url(#topFadeVault)"/>
+</svg>

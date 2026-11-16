@@ -1,0 +1,479 @@
+[
+  {
+    "id": "hall_01_panoramic",
+    "moduleIndex": "01",
+    "moduleName": "穹·极",
+    "theme": "panoramic_cosmos",
+    "hallType": "panoramic_hall",
+    "titleZh": "无界之境",
+    "titleEn": "Boundless Horizon",
+    "tagline": "360° 原生全景天球 · 4K 母版展陈",
+    "curationNote": "站在山巅吹过身边的微风、秋林参天的树冠与浩瀚层云。转动视线，把那一天整片天空与山野细节完整重温。",
+    "status": "已入驻展出",
+    "coverStyle": "cloisonne_celestial_armillary",
+    "coverImage": "./assets/artworks/cover-01-panoramic-enamel.svg",
+    "targetUrl": "./panorama.html",
+    "soundscape": {
+      "trackTitleZh": "穹顶星轨 · 极巅之息",
+      "trackTitleEn": "Celestial Horizon Resonance",
+      "style": "ethereal_cosmic_ambient",
+      "audioUrl": "./assets/audio/celestial_cornfield_chase.wav",
+      "binaural": true,
+      "defaultVolume": 0.65
+    },
+    "albums": [
+      {
+        "albumId": "album_01_peaks",
+        "type": "panoramic_photo_album",
+        "titleZh": "极巅之境 · 高山全景集",
+        "titleEn": "Celestial Peaks",
+        "curation": "秋日正午开阔天穹，群山远眺与浩瀚云海原生天球母版。",
+        "coverStyle": "cloisonne_celestial_armillary",
+        "coverImage": "./assets/artworks/cover-01-panoramic-enamel.svg",
+        "worksCount": 2,
+        "works": [
+          {
+            "workId": "pano_03_mountain_cloudsea",
+            "titleZh": "高山观景长廊远眺",
+            "subtitleZh": "层峦叠翠与无际云海天穹",
+            "mediaUrl": "./data/media/mountain_lookout_seamless_4k.jpg",
+            "previewUrl": "./data/media/mountain_lookout_seamless_4k.jpg",
+            "initialYaw": 21,
+            "initialPitch": 9,
+            "defaultFov": 75,
+            "exif": {
+              "time": "2026-10-04 13:12:42",
+              "device": "Insta360 Dual-Fisheye Master",
+              "resolution": "4096x2048"
+            }
+          },
+          {
+            "workId": "pano_01_mountain_skyline",
+            "titleZh": "富士山巅浩瀚云海",
+            "subtitleZh": "河口湖畔秋林与鱼鳞云天幕",
+            "mediaUrl": "./data/media/fuji_cloudsea_seamless_4k.jpg",
+            "previewUrl": "./data/media/fuji_cloudsea_seamless_4k.jpg",
+            "initialYaw": 127,
+            "initialPitch": 14,
+            "defaultFov": 75,
+            "exif": {
+              "time": "2026-10-04 13:15:40",
+              "device": "Insta360 Dual-Fisheye Master",
+              "resolution": "4096x2048"
+            }
+          }
+        ]
+      },
+      {
+        "albumId": "album_02_forest",
+        "type": "panoramic_photo_album",
+        "titleZh": "深林秘境 · 古木天顶集",
+        "titleEn": "Ancient Canopy",
+        "curation": "参天古木树冠与阳光林海，身临其境感受树影婆娑与森林呼吸。",
+        "coverStyle": "impressionist_canopy_swirl",
+        "coverImage": "./assets/artworks/cover-01-panoramic-enamel.svg",
+        "worksCount": 1,
+        "works": [
+          {
+            "workId": "pano_02_forest_canopy",
+            "titleZh": "静谧原始森林古木",
+            "subtitleZh": "参天古木树冠与阳光林海",
+            "mediaUrl": "./data/media/ancient_forest_seamless_4k.jpg",
+            "previewUrl": "./data/media/ancient_forest_seamless_4k.jpg",
+            "initialYaw": 14,
+            "initialPitch": 21,
+            "defaultFov": 75,
+            "exif": {
+              "time": "2026-10-04 13:35:31",
+              "device": "Insta360 Dual-Fisheye Master",
+              "resolution": "4096x2048"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hall_02_daylight",
+    "moduleIndex": "02",
+    "moduleName": "晨·昏",
+    "theme": "minimal_light",
+    "hallType": "daylight_hall",
+    "titleZh": "晨光与暮色",
+    "titleEn": "Daylight & Dusk",
+    "tagline": "廿四时相展厅 · 实拍锚点光影推演",
+    "curationNote": "以正午实拍原片为空间几何锚点，静观同一片云海与参天林冠在晨曦、皓午、熔金与星汉间的色温演替。",
+    "status": "已入驻展出",
+    "coverStyle": "monet_impressionist_dawn_brush",
+    "coverImage": "./assets/artworks/cover-02-daylight-monet.svg",
+    "targetUrl": "./daylight-salon.html",
+    "soundscape": {
+      "trackTitleZh": "晨曦窗扉 · 印象光斑",
+      "trackTitleEn": "Dawn Rays & Impressionist Shimmers",
+      "style": "impressionist_acoustic_chamber",
+      "audioUrl": "./assets/audio/gallery_aqua.wav",
+      "binaural": false,
+      "defaultVolume": 0.60
+    },
+    "albums": [
+      {
+        "albumId": "fuji",
+        "type": "diurnal_relighting_album",
+        "titleZh": "富士云海 · 廿四霞光",
+        "titleEn": "Fuji Cloud Sea Diurnal Flow",
+        "curation": "以正午全景实拍原片为空间几何锚点，推演层积云海在破晓粉黛、正午皓光、日暮熔金与子夜星汉下的色温流转。",
+        "coverStyle": "cloisonne_enamel_dusk_gold",
+        "coverImage": "./assets/images/diurnal/fuji_noon.jpg",
+        "worksCount": 4,
+        "works": [
+          {
+            "workId": "fuji_dawn",
+            "titleZh": "云海朝霞",
+            "subtitleZh": "06:00 · 2800K 粉黛层云推演",
+            "mediaUrl": "./assets/images/diurnal/fuji_dawn.jpg",
+            "previewUrl": "./assets/images/diurnal/fuji_dawn.jpg"
+          },
+          {
+            "workId": "fuji_noon",
+            "titleZh": "正午皓光",
+            "subtitleZh": "12:00 · 6500K 实拍光学原片",
+            "mediaUrl": "./assets/images/diurnal/fuji_noon.jpg",
+            "previewUrl": "./assets/images/diurnal/fuji_noon.jpg"
+          },
+          {
+            "workId": "fuji_dusk",
+            "titleZh": "火烧层云",
+            "subtitleZh": "18:00 · 2400K 暮金余晖推演",
+            "mediaUrl": "./assets/images/diurnal/fuji_dusk.jpg",
+            "previewUrl": "./assets/images/diurnal/fuji_dusk.jpg"
+          },
+          {
+            "workId": "fuji_night",
+            "titleZh": "星夜湖山",
+            "subtitleZh": "24:00 · 8500K 蓝调星汉推演",
+            "mediaUrl": "./assets/images/diurnal/fuji_night.jpg",
+            "previewUrl": "./assets/images/diurnal/fuji_night.jpg"
+          }
+        ]
+      },
+      {
+        "albumId": "canopy",
+        "type": "diurnal_relighting_album",
+        "titleZh": "深林天顶 · 廿四林冠",
+        "titleEn": "Ancient Canopy Diurnal Flow",
+        "curation": "以仰望参天古木的实拍原片为锚点，推演林冠苍穹在晨曦丁达尔光束、午间斑驳透光与寒夜星辉下的光影呼吸。",
+        "coverStyle": "monet_impressionist_dawn_brush",
+        "coverImage": "./assets/images/diurnal/canopy_noon.jpg",
+        "worksCount": 4,
+        "works": [
+          {
+            "workId": "canopy_dawn",
+            "titleZh": "晨曦破空",
+            "subtitleZh": "06:00 · 2800K 穿林光束推演",
+            "mediaUrl": "./assets/images/diurnal/canopy_dawn.jpg",
+            "previewUrl": "./assets/images/diurnal/canopy_dawn.jpg"
+          },
+          {
+            "workId": "canopy_noon",
+            "titleZh": "正午林冠",
+            "subtitleZh": "12:00 · 6500K 实拍光学原片",
+            "mediaUrl": "./assets/images/diurnal/canopy_noon.jpg",
+            "previewUrl": "./assets/images/diurnal/canopy_noon.jpg"
+          },
+          {
+            "workId": "canopy_dusk",
+            "titleZh": "琥珀斜照",
+            "subtitleZh": "18:00 · 2400K 暮色树影推演",
+            "mediaUrl": "./assets/images/diurnal/canopy_dusk.jpg",
+            "previewUrl": "./assets/images/diurnal/canopy_dusk.jpg"
+          },
+          {
+            "workId": "canopy_night",
+            "titleZh": "古木寒星",
+            "subtitleZh": "24:00 · 8500K 冷夜星辉推演",
+            "mediaUrl": "./assets/images/diurnal/canopy_night.jpg",
+            "previewUrl": "./assets/images/diurnal/canopy_night.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hall_03_cinema",
+    "moduleIndex": "03",
+    "moduleName": "瞬·息",
+    "theme": "temporal_flow",
+    "hallType": "cinema_hall",
+    "titleZh": "慢速微影",
+    "titleEn": "Slow Motion Reel",
+    "tagline": "宽银幕放映厅 · 2.39:1 胶片切片",
+    "curationNote": "风雪山巅索道出发的踏雪滑降，覆雪白桦山谷间静谧流淌的翡翠深水。以 2.39:1 宽银幕胶片导轨定格冬日行旅切片。",
+    "status": "已入驻展出",
+    "coverStyle": "luminescent_cinema_ripple",
+    "coverImage": "./assets/artworks/cover-03-cinema-ripple.svg",
+    "targetUrl": "./cinema.html",
+    "soundscape": {
+      "trackTitleZh": "停留的微风 · 瞬息",
+      "trackTitleEn": "Gentle Moments Movement",
+      "style": "museum_grade_piano_movement",
+      "audioUrl": "./assets/audio/cinema_gentle_moments.wav",
+      "duration": 52.0,
+      "binaural": true,
+      "defaultVolume": 0.75
+    },
+    "albums": [
+      {
+        "albumId": "opus_03_01_alpine_snow",
+        "type": "concrete_bespoke_design",
+        "code": "OPUS 01",
+        "titleZh": "雪岭初滑 · 山巅索道纪实",
+        "shortTitle": "雪岭初滑",
+        "titleEn": "Alpine Summit Departure",
+        "curation": "漫天风雪的高山索道站台与雾凇坡道，真实记录雪场山巅踏板起滑的四格连续定格切片。",
+        "coverImage": "./assets/artworks/cover-03-cinema-ripple.svg",
+        "aspectRatio": "2.39:1",
+        "worksCount": 4,
+        "works": [
+          {
+            "workId": "cut_ski_01_glide",
+            "expNo": "EXP 01-1",
+            "titleZh": "序曲 · 山巅起滑",
+            "subtitleZh": "漫天风雪的高山索道站台旁，单板滑手踏雪切入雾凇坡道",
+            "mediaUrl": "./data/media/cut_ski_01_glide.jpg",
+            "previewUrl": "./data/media/cut_ski_01_glide.jpg",
+            "aspectRatio": "2.39:1"
+          },
+          {
+            "workId": "cut_ski_02_carve",
+            "expNo": "EXP 01-2",
+            "titleZh": "推进 · 重心压刃",
+            "subtitleZh": "滑手顺坡压刃平稳滑降，后方同伴相继切入开阔白雪滑道",
+            "mediaUrl": "./data/media/cut_ski_02_carve.jpg",
+            "previewUrl": "./data/media/cut_ski_02_carve.jpg",
+            "aspectRatio": "2.39:1"
+          },
+          {
+            "workId": "cut_ski_03_station",
+            "expNo": "EXP 01-3",
+            "titleZh": "驻望 · 云端吊椅",
+            "subtitleZh": "空中索道吊椅穿过雪雾，雪杖轻点坡顶静候出发时刻",
+            "mediaUrl": "./data/media/cut_ski_03_station.jpg",
+            "previewUrl": "./data/media/cut_ski_03_station.jpg",
+            "aspectRatio": "2.39:1"
+          },
+          {
+            "workId": "cut_ski_04_peak",
+            "expNo": "EXP 01-4",
+            "titleZh": "远山 · 雾凇林线",
+            "subtitleZh": "山脊雾凇白桦隐入铅灰雪云，留存冬日高山冷冽空气质感",
+            "mediaUrl": "./data/media/cut_ski_04_peak.jpg",
+            "previewUrl": "./data/media/cut_ski_04_peak.jpg",
+            "aspectRatio": "2.39:1"
+          }
+        ]
+      },
+      {
+        "albumId": "opus_03_02_alpine_fjord",
+        "type": "concrete_bespoke_design",
+        "code": "OPUS 02",
+        "titleZh": "雪谷碧渊 · 冰湖峡湾静帧",
+        "shortTitle": "雪谷碧渊",
+        "titleEn": "Alpine Birch Canyon & Emerald Cove",
+        "curation": "覆雪白桦山脊如水墨层叠，静谧环抱高山深谷中的翡翠色冰湖水湾。",
+        "coverImage": "./assets/artworks/cover-03-cinema-ripple.svg",
+        "aspectRatio": "2.39:1",
+        "worksCount": 2,
+        "works": [
+          {
+            "workId": "fjord_cut_02_ridge",
+            "expNo": "EXP 02-1",
+            "titleZh": "序曲 · 雪谷碧渊",
+            "subtitleZh": "覆雪白桦山脊如水墨层叠，静谧环抱高山深谷中的翡翠湖湾",
+            "mediaUrl": "./data/media/fjord_cut_02_ridge.jpg",
+            "previewUrl": "./data/media/fjord_cut_02_ridge.jpg",
+            "aspectRatio": "2.39:1"
+          },
+          {
+            "workId": "fjord_cut_01_cove",
+            "expNo": "EXP 02-2",
+            "titleZh": "凝望 · 银桦水岸",
+            "subtitleZh": "冬日斜阳勾勒细密林木肌理，雪线尽头与清冽碧水温柔相接",
+            "mediaUrl": "./data/media/fjord_cut_01_cove.jpg",
+            "previewUrl": "./data/media/fjord_cut_01_cove.jpg",
+            "aspectRatio": "2.39:1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hall_04_vault",
+    "moduleIndex": "04",
+    "moduleName": "重·温",
+    "theme": "obsidian_vault",
+    "hallType": "vault_hall",
+    "titleZh": "重温那一刻",
+    "titleEn": "True Footprints",
+    "tagline": "私人时光金库 · AES-256-GCM 端到端加密底片盒",
+    "curationNote": "每一次按下快门，都是对真实日常的一份郑重收藏。100% 拒绝 AI 虚构，服务端仅存不可逆密文，凭星盘口令于内存实时解密。",
+    "status": "已加密封存",
+    "coverStyle": "titanium_vault_mechanical_seal",
+    "coverImage": "./assets/artworks/cover-04-vault-seal.svg",
+    "targetUrl": "./vault.html",
+    "soundscape": {
+      "trackTitleZh": "时光暗房 · 暖木温存",
+      "trackTitleEn": "Warm Wood & Healing Memories",
+      "style": "vintage_nostalgic_ambient",
+      "audioUrl": "./assets/audio/vault_deep_memory.wav",
+      "binaural": false,
+      "defaultVolume": 0.55
+    },
+    "albums": [
+      {
+        "albumId": "box_04_courtyard",
+        "type": "encrypted_film_box",
+        "titleZh": "二〇二四 · 山野行纪与林冠原片",
+        "titleEn": "Mountain & Forest Optical Masters",
+        "curation": "100% 真实按下快门的纯光学原片密文封存，零 AI 合成，凭星盘口令于内存实时解密。",
+        "clueText": "『 ☉ 日曜凌空 · ◈ 晶核微聚 · ❖ 藻井凝尘 』",
+        "coverStyle": "titanium_vault_mechanical_seal",
+        "coverImage": "./assets/artworks/cover-04-vault-seal-dark.svg",
+        "worksCount": 2,
+        "isEncrypted": true,
+        "cipherSpec": "AES-256-GCM + PBKDF2-SHA256 (100,000 iter)",
+        "works": [
+          {
+            "workId": "vault_frame_01_fuji_optical",
+            "titleZh": "富士五湖 · 秋林层云实拍原片",
+            "frameNumber": "▶ 01A",
+            "filmStock": "KODAK PORTRA 400",
+            "filmFilter": "sepia(0.10) saturate(1.06) contrast(1.04)",
+            "mediaUrl": "./data/media/vault_01_fuji_optical.enc",
+            "hardwareAudit": "SHA256-17355944925B7C11"
+          },
+          {
+            "workId": "vault_frame_02_canopy_optical",
+            "titleZh": "深林参天 · 原始树冠实拍原片",
+            "frameNumber": "▶ 02A",
+            "filmStock": "FUJICOLOR PRO 400H",
+            "filmFilter": "saturate(0.94) contrast(1.04)",
+            "mediaUrl": "./data/media/vault_02_canopy_optical.enc",
+            "hardwareAudit": "SHA256-349C78E8AFFAE21C"
+          }
+        ]
+      },
+      {
+        "albumId": "box_04_travel",
+        "type": "encrypted_film_box",
+        "titleZh": "冬日远行 · 雪岭峡湾银盐卷",
+        "titleEn": "Alpine Silver Halide Roll",
+        "curation": "风雪山巅起滑与覆雪白桦深谷的真实光学足迹，伊尔福黑白卤化银显影密文封存。",
+        "clueText": "『 ☽ 弦月悬夜 · ⎈ 罗盘指北 · ♾ 行者无疆 』",
+        "coverStyle": "titanium_vault_mechanical_seal",
+        "coverImage": "./assets/artworks/cover-04-vault-seal-dark.svg",
+        "worksCount": 2,
+        "isEncrypted": true,
+        "cipherSpec": "AES-256-GCM + PBKDF2-SHA256 (100,000 iter)",
+        "works": [
+          {
+            "workId": "vault_frame_03_alpine_glide",
+            "titleZh": "风雪山巅 · 索道起滑纪实",
+            "frameNumber": "▶ 14A",
+            "filmStock": "ILFORD HP5 PLUS 400",
+            "filmFilter": "grayscale(1) contrast(1.18) brightness(0.98)",
+            "mediaUrl": "./data/media/vault_03_alpine_glide.enc",
+            "hardwareAudit": "SHA256-F89F454AE1FACD4E"
+          },
+          {
+            "workId": "vault_frame_04_snow_canyon",
+            "titleZh": "白桦覆雪 · 峡湾水岸银盐",
+            "frameNumber": "▶ 15A",
+            "filmStock": "ILFORD HP5 PLUS 400",
+            "filmFilter": "grayscale(1) contrast(1.16) sepia(0.05)",
+            "mediaUrl": "./data/media/vault_04_snow_canyon.enc",
+            "hardwareAudit": "SHA256-43DD62520256FA4D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hall_05_studio",
+    "moduleIndex": "05",
+    "moduleName": "重·构",
+    "theme": "avant_garde_studio",
+    "hallType": "studio_hall",
+    "titleZh": "重塑与先锋",
+    "titleEn": "Avant-Garde Studio",
+    "tagline": "先锋实验大厅 · 双向无级时空擦除",
+    "curationNote": "当真实记录被重新审视，艺术在重塑中诞生。从纯净母版迈入超现实的色彩解构与质感实验，让每一步探索都拥有回溯真实的刻度。",
+    "status": "已入驻展出",
+    "coverStyle": "fused_enamel_pop_spectrum",
+    "coverImage": "./assets/artworks/cover-05-avantgarde-pop.svg",
+    "targetUrl": "./studio.html",
+    "soundscape": {
+      "trackTitleZh": "光谱裂变 · 维度擦除",
+      "trackTitleEn": "Spectral Shift & Resynthesis",
+      "style": "avant_garde_minimalist_glitch",
+      "audioUrl": "./assets/audio/gallery_aqua.wav",
+      "binaural": false,
+      "defaultVolume": 0.50
+    },
+    "albums": [
+      {
+        "albumId": "project_05_cyber",
+        "type": "avant_garde_album",
+        "titleZh": "赛博解构 · 雪谷光谱与星汉裂变",
+        "titleEn": "Cyber Chromaticity",
+        "curation": "以正午高动态实拍母版为基准，在真实光学原片与超现实光谱重塑之间展开双向无级擦除对比。",
+        "coverStyle": "fused_enamel_pop_spectrum",
+        "coverImage": "./assets/artworks/cover-05-avantgarde-pop-dark.svg",
+        "worksCount": 2,
+        "works": [
+          {
+            "workId": "studio_01_neon_crossing",
+            "titleZh": "富士云海 · 赛博星汉裂变",
+            "subtitleZh": "冷青与品红双色域折射重塑",
+            "beforeMediaUrl": "./assets/images/diurnal/fuji_noon.jpg",
+            "afterMediaUrl": "./assets/images/diurnal/fuji_night.jpg",
+            "afterFilter": "contrast(1.22) saturate(1.65) hue-rotate(-24deg)",
+            "hasSplitSlider": true,
+            "technique": "Spectral Color Splitting & High-Dynamic Grain"
+          },
+          {
+            "workId": "studio_03_surreal_sky",
+            "titleZh": "雪谷峡湾 · 冷青品红矩阵",
+            "subtitleZh": "双色棱镜色散与高反差光谱矩阵",
+            "beforeMediaUrl": "./data/media/fjord_cut_02_ridge.jpg",
+            "afterMediaUrl": "./data/media/fjord_cut_02_ridge.jpg",
+            "afterFilter": "contrast(1.26) saturate(1.85) hue-rotate(-42deg)",
+            "hasSplitSlider": true,
+            "technique": "Bichromatic Prism Refraction & Chromatic Matrix"
+          }
+        ]
+      },
+      {
+        "albumId": "project_05_vintage",
+        "type": "avant_garde_album",
+        "titleZh": "复古重塑 · 百年银盐与暖金暗角",
+        "titleEn": "Vintage Resynthesis",
+        "curation": "模拟 20 世纪初大画幅柯达成色剂老化与光学暗角衰减，探索时光包浆质感。",
+        "coverStyle": "vintage_patina_oil_brush",
+        "coverImage": "./assets/artworks/album-05-vintage-patina.svg",
+        "worksCount": 1,
+        "works": [
+          {
+            "workId": "studio_02_patina_facade",
+            "titleZh": "古木林冠 · 百年银盐褪色",
+            "subtitleZh": "柯达成色剂老化与暖琥珀暗角特化",
+            "beforeMediaUrl": "./assets/images/diurnal/canopy_noon.jpg",
+            "afterMediaUrl": "./assets/images/diurnal/canopy_dusk.jpg",
+            "afterFilter": "sepia(0.68) contrast(1.14) brightness(0.92) saturate(0.84)",
+            "hasSplitSlider": true,
+            "technique": "Century-Old Dye Coupler Decay & Vignette Falloff"
+          }
+        ]
+      }
+    ]
+  }
+]

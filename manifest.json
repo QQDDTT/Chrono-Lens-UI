@@ -1,0 +1,19 @@
+{
+  "name": "Chrono-Lens | 时空之镜",
+  "short_name": "ChronoLens",
+  "description": "Chrono-Lens 沉浸式多维艺术视界 · 纯物理光学母版呈现平台",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "background_color": "#f5f4ef",
+  "theme_color": "#f5f4ef",
+  "orientation": "portrait-primary",
+  "categories": ["art", "photo", "entertainment"],
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "120x120 192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

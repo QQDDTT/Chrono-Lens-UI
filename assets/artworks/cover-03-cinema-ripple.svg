@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- 暗室电影深蓝虚空 -->
+    <radialGradient id="cinemaVoid" cx="50%" cy="65%" r="75%">
+      <stop offset="0%" stop-color="#141c2c"/>
+      <stop offset="35%" stop-color="#0b101a"/>
+      <stop offset="70%" stop-color="#07090f"/>
+      <stop offset="100%" stop-color="#040508"/>
+    </radialGradient>
+
+    <!-- 夜光珐琅冰蓝微光 -->
+    <linearGradient id="luminescentEnamel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8ce6ff"/>
+      <stop offset="40%" stop-color="#4ba3e3"/>
+      <stop offset="80%" stop-color="#1e5899"/>
+      <stop offset="100%" stop-color="#0b2447"/>
+    </linearGradient>
+
+    <!-- 电影纯金微轨渐变 -->
+    <linearGradient id="cinemaGold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f5d77f"/>
+      <stop offset="50%" stop-color="#c99f3b"/>
+      <stop offset="100%" stop-color="#faecc0"/>
+    </linearGradient>
+
+    <filter id="rippleGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <linearGradient id="topFadeCinema" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.96"/>
+      <stop offset="45%" stop-color="#ffffff" stop-opacity="0.75"/>
+      <stop offset="80%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 1. 暗室黑曜底色 -->
+  <rect width="800" height="600" fill="url(#cinemaVoid)"/>
+
+  <!-- 2. 2.39:1 经典变形宽银幕灯箱微框 (航空铝冷光边缘) -->
+  <rect x="70" y="275" width="660" height="276" rx="16" fill="#090d14" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1.2"/>
+  
+  <!-- 3. 修拉点彩微雨流光 (Impressionist Rain Shimmers) -->
+  <g opacity="0.45">
+    <line x1="200" y1="290" x2="170" y2="440" stroke="#7ecbf7" stroke-width="1.2" stroke-dasharray="14 18"/>
+    <line x1="260" y1="310" x2="230" y2="460" stroke="#f0d38d" stroke-width="1.4" stroke-dasharray="18 24"/>
+    <line x1="560" y1="290" x2="530" y2="430" stroke="#7ecbf7" stroke-width="1.2" stroke-dasharray="12 20"/>
+    <line x1="620" y1="320" x2="590" y2="470" stroke="#f0d38d" stroke-width="1.4" stroke-dasharray="16 22"/>
+  </g>
+
+  <!-- 4. 夜光珐琅烧结同心涟漪 (Concentric Ripples) -->
+  <g transform="translate(400, 410)" filter="url(#rippleGlow)">
+    <!-- 扩散涟漪环 -->
+    <ellipse cx="0" cy="0" rx="260" ry="65" fill="none" stroke="url(#luminescentEnamel)" stroke-width="0.8" opacity="0.3" stroke-dasharray="4 8"/>
+    <ellipse cx="0" cy="0" rx="200" ry="50" fill="none" stroke="url(#luminescentEnamel)" stroke-width="1.2" opacity="0.5"/>
+    <ellipse cx="0" cy="0" rx="140" ry="35" fill="none" stroke="url(#cinemaGold)" stroke-width="1.5" opacity="0.75"/>
+    <ellipse cx="0" cy="0" rx="80" ry="20" fill="none" stroke="#faecc0" stroke-width="1.8" opacity="0.9"/>
+    
+    <!-- 中央水滴触地微点与回弹小悬珠 -->
+    <ellipse cx="0" cy="0" rx="22" ry="7" fill="#75d6ff" opacity="0.8"/>
+    <!-- 水滴向上跃起瞬间 (0.3x慢速定格) -->
+    <circle cx="0" cy="-28" r="5" fill="#fdf0cd" stroke="url(#cinemaGold)" stroke-width="1"/>
+    <circle cx="0" cy="-52" r="3" fill="#8ce6ff"/>
+  </g>
+
+  <!-- 5. 极简艺术绘本风微风流线 (Gentle Breeze Swirls) -->
+  <g fill="none" stroke="#e8c776" stroke-width="1" opacity="0.5">
+    <path d="M120,490 Q220,450 340,490 T560,470 T700,500" stroke-dasharray="8 6"/>
+    <path d="M150,515 Q280,480 400,520 T650,510" stroke-dasharray="4 8" opacity="0.3"/>
+  </g>
+
+  <!-- 6. 宽银幕底部 2px 悬浮流光纯金微轨 (Timeline Rail) -->
+  <rect x="70" y="549" width="660" height="2" fill="url(#cinemaGold)" opacity="0.85"/>
+
+  <!-- 7. 顶层向暖素白渐变微漫射（与主页白色区域交融） -->
+  <rect width="800" height="240" fill="url(#topFadeCinema)"/>
+</svg>

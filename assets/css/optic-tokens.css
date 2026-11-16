@@ -1,0 +1,90 @@
+/**
+ * Optic-Resonance 设计令牌 (CSS Custom Properties)
+ * 跨项目直接引用基准：严格遵守视觉心理学与格式塔完形同构
+ */
+
+:root {
+  /* ================= 1. 色彩与光影 (Color & Light) ================= */
+  /* 美术馆微暖素白浅色态 (Warm Gallery) */
+  --optic-gallery-bg: #f6f5f1;
+  --optic-gallery-bg-gradient: radial-gradient(circle at 50% 20%, #faf9f6 0%, #f4f2ec 60%, #eae6dc 100%);
+  --optic-gallery-surface: rgba(255, 255, 255, 0.76);
+  --optic-gallery-border: rgba(21, 24, 30, 0.08);
+  --optic-gallery-text: #15181e;
+  --optic-gallery-text-muted: rgba(21, 24, 30, 0.38);
+
+  /* 黑曜深邃暗夜深色态 (Obsidian Dark) */
+  --optic-obsidian-bg: #0a0c10;
+  --optic-obsidian-bg-gradient: radial-gradient(circle at 50% 0%, #151a23 0%, #0d1015 70%, #08090c 100%);
+  --optic-obsidian-surface: rgba(21, 26, 35, 0.68);
+  --optic-obsidian-border: rgba(255, 255, 255, 0.08);
+  --optic-obsidian-text: #f3f4f6;
+  --optic-obsidian-text-muted: rgba(243, 244, 246, 0.38);
+
+  /* 基础点缀色 (Accent Base Colors) */
+  --optic-cyan: #38bdf8;
+  --optic-purple: #a855f7;
+  --optic-amber: #f59e0b;
+  --optic-emerald: #10b981;
+
+  /* 漫反射氛围微光 (Ambient Glow) */
+  --optic-glow-warm: 0 0 40px rgba(230, 215, 195, 0.28);
+  --optic-glow-cyan: 0 0 35px rgba(56, 189, 248, 0.22);
+  --optic-glow-purple: 0 0 45px rgba(168, 85, 247, 0.18);
+  --optic-glow-amber: 0 0 35px rgba(245, 158, 11, 0.20);
+  --optic-glow-emerald: 0 0 35px rgba(16, 185, 129, 0.20);
+
+  /* ================= 2. 空间骨骼间距 (4px/8px Grid) ================= */
+  --optic-space-1: 4px;
+  --optic-space-2: 8px;
+  --optic-space-3: 12px;
+  --optic-space-4: 16px;
+  --optic-space-5: 20px;
+  --optic-space-6: 24px;
+  --optic-space-8: 32px;
+  --optic-space-10: 40px;
+  --optic-space-12: 48px;
+  --optic-space-16: 64px;
+  --optic-space-24: 96px;
+
+  /* ================= 3. 空间景深阶梯 (Elevation & Shadows) ================= */
+  --optic-elevation-0: none;
+  --optic-elevation-1: 0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  --optic-elevation-2: 0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.08);
+  --optic-elevation-3: 0 35px 80px -15px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.08);
+
+  /* ================= 4. 毛玻璃与景深模糊 (Backdrop Blur) ================= */
+  --optic-blur-sm: blur(8px);
+  --optic-blur-md: blur(16px);
+  --optic-blur-lg: blur(24px);
+
+  /* ================= 5. 物理动效与缓动 (Physics Motion) ================= */
+  --optic-ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+  --optic-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --optic-ease-gentle: cubic-bezier(0.25, 0.8, 0.25, 1);
+  --optic-ease-breath: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --optic-dur-instant: 150ms;
+  --optic-dur-normal: 300ms;
+  --optic-dur-spacious: 600ms;
+  --optic-dur-breath: 4000ms;
+
+  /* ================= 6. 圆角秩序 (Border Radii) ================= */
+  --optic-radius-sm: 6px;
+  --optic-radius-md: 12px;
+  --optic-radius-lg: 20px;
+  --optic-radius-full: 9999px;
+
+  /* ================= 7. 移动端安全区与视口 (Mobile Safe Area) ================= */
+  --optic-sat: env(safe-area-inset-top, 0px);
+  --optic-sab: env(safe-area-inset-bottom, 0px);
+  --optic-sal: env(safe-area-inset-left, 0px);
+  --optic-sar: env(safe-area-inset-right, 0px);
+  --optic-viewport-height: 100dvh; /* 避免 iOS Safari 100vh 动态工具栏被遮挡 */
+
+  /* ================= 8. 自定义滚动条规范 (Custom Scrollbar) ================= */
+  --optic-scrollbar-width: 6px;
+  --optic-scrollbar-thumb: rgba(255, 255, 255, 0.16);
+  --optic-scrollbar-track: transparent;
+}
+

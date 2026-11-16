@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="100%" height="100%">
+  <defs>
+    <!-- 暮色青黛与熔金矿物釉基底 -->
+    <linearGradient id="duskSkyGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#141824"/>
+      <stop offset="35%" stop-color="#222738"/>
+      <stop offset="65%" stop-color="#5a2e22"/>
+      <stop offset="85%" stop-color="#b85d19"/>
+      <stop offset="100%" stop-color="#e89d2c"/>
+    </linearGradient>
+
+    <!-- 景泰蓝微光掐丝金线 -->
+    <linearGradient id="goldFiligree" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd585" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#d4af37" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#996515" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <!-- 落日熔金海平线辉光 -->
+    <radialGradient id="sunEmberGlow" cx="50%" cy="65%" r="45%">
+      <stop offset="0%" stop-color="#ffe8a3" stop-opacity="0.95"/>
+      <stop offset="25%" stop-color="#f59e0b" stop-opacity="0.6"/>
+      <stop offset="60%" stop-color="#d97706" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#11141c" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 珐琅冰裂纹结晶 -->
+    <pattern id="cracklePattern" width="120" height="120" patternUnits="userSpaceOnUse">
+      <path d="M0,40 L60,10 L120,50 L80,100 L20,90 Z" fill="none" stroke="rgba(255,215,130,0.12)" stroke-width="0.8"/>
+      <path d="M60,10 L80,60 L40,110" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.6"/>
+    </pattern>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- 艺术背景底板 -->
+  <rect width="800" height="1000" fill="url(#duskSkyGrad)"/>
+
+  <!-- 晚霞与青黛云层珐琅色块 (Cloisonné Enamel Clouds) -->
+  <g opacity="0.65">
+    <path d="M-50,220 C180,180 320,260 540,210 C680,180 760,240 850,220 L850,-50 L-50,-50 Z" fill="#1b1f2e"/>
+    <path d="M-50,340 C150,300 360,370 580,310 C720,280 810,330 850,320 L850,180 L-50,180 Z" fill="#2d2538" opacity="0.8"/>
+    <path d="M-50,480 C120,440 280,490 480,430 C640,390 750,450 850,420 L850,300 L-50,300 Z" fill="#6e2d1d" opacity="0.75"/>
+  </g>
+
+  <!-- 落日金色余晖核心光晕 -->
+  <circle cx="400" cy="620" r="280" fill="url(#sunEmberGlow)" filter="url(#softGlow)"/>
+
+  <!-- 海平线金色浪芒与流线微掐丝金线 -->
+  <g stroke="url(#goldFiligree)" fill="none" stroke-linecap="round">
+    <!-- 海平线基底金线 -->
+    <line x1="80" y1="630" x2="720" y2="630" stroke-width="1.8" opacity="0.85"/>
+
+    <!-- 浪芒流动掐丝折线 -->
+    <path d="M120,655 Q260,642 400,655 T680,655" stroke-width="1.2" opacity="0.75"/>
+    <path d="M90,685 Q240,670 400,685 T710,685" stroke-width="1.0" opacity="0.65"/>
+    <path d="M140,720 Q280,705 400,720 T660,720" stroke-width="1.4" opacity="0.8"/>
+    <path d="M100,760 Q250,740 400,760 T700,760" stroke-width="1.1" opacity="0.6"/>
+    <path d="M160,805 Q290,785 400,805 T640,805" stroke-width="1.3" opacity="0.75"/>
+    <path d="M110,855 Q260,830 400,855 T690,855" stroke-width="0.9" opacity="0.5"/>
+    <path d="M150,910 Q280,885 400,910 T650,910" stroke-width="1.2" opacity="0.65"/>
+  </g>
+
+  <!-- 抽象落日剪影孤峰与水波波光 -->
+  <path d="M340,630 L400,580 L460,630 Z" fill="#3b1d11" stroke="url(#goldFiligree)" stroke-width="1" opacity="0.85"/>
+
+  <!-- 冰裂纹结晶微覆层 -->
+  <rect width="800" height="1000" fill="url(#cracklePattern)" opacity="0.6"/>
+
+  <!-- 艺术古典边框与掐丝四角云纹 -->
+  <rect x="28" y="28" width="744" height="944" fill="none" stroke="url(#goldFiligree)" stroke-width="1.2" opacity="0.55"/>
+  <rect x="36" y="36" width="728" height="928" fill="none" stroke="url(#goldFiligree)" stroke-width="0.6" stroke-dasharray="4,6" opacity="0.4"/>
+
+  <!-- 顶部艺术印章与题记 -->
+  <g transform="translate(400, 100)" text-anchor="middle">
+    <text font-family="'Cinzel', 'Times New Roman', serif" font-size="14" fill="#ffd585" letter-spacing="0.32em" opacity="0.85">DUSK HORIZON &amp; WAVES</text>
+    <text font-family="'Noto Serif SC', serif" font-size="20" font-weight="300" fill="#ffffff" letter-spacing="0.22em" y="32" opacity="0.92">暮色余晖 · 海平线与金色浪芒</text>
+    <line x1="-80" y1="52" x2="80" y2="52" stroke="url(#goldFiligree)" stroke-width="0.8" opacity="0.6"/>
+  </g>
+</svg>

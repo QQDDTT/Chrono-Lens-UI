@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- 深邃矿物釉彩背景渐变 -->
+    <radialGradient id="enamelSky" cx="50%" cy="65%" r="75%">
+      <stop offset="0%" stop-color="#14223d"/>
+      <stop offset="35%" stop-color="#0a1224"/>
+      <stop offset="70%" stop-color="#060913"/>
+      <stop offset="100%" stop-color="#030408"/>
+    </radialGradient>
+    
+    <!-- 景泰蓝流金掐丝渐变 -->
+    <linearGradient id="goldFiligree" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fae29c"/>
+      <stop offset="35%" stop-color="#d4af37"/>
+      <stop offset="70%" stop-color="#aa8022"/>
+      <stop offset="100%" stop-color="#fdf3cd"/>
+    </linearGradient>
+
+    <!-- 印象派流云油彩渐变 -->
+    <linearGradient id="impressionCloud" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#243b68" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#7a5280" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#c9954c" stop-opacity="0.5"/>
+    </linearGradient>
+
+    <!-- 珐琅微光辉光滤镜 -->
+    <filter id="enamelGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- 1. 深邃景泰蓝矿物底釉 -->
+  <rect width="800" height="600" fill="url(#enamelSky)"/>
+
+  <!-- 2. 印象派透纳式流云油彩笔触 (抽象色块层叠) -->
+  <g opacity="0.65">
+    <ellipse cx="400" cy="420" rx="360" ry="120" fill="url(#impressionCloud)" filter="blur(24px)"/>
+    <ellipse cx="480" cy="380" rx="220" ry="80" fill="#314e7a" opacity="0.4" filter="blur(18px)"/>
+    <ellipse cx="320" cy="460" rx="260" ry="90" fill="#8c5835" opacity="0.3" filter="blur(20px)"/>
+    <!-- 点彩笔触微光痕 -->
+    <path d="M180,430 Q280,410 400,435 T620,420" stroke="#f0c878" stroke-width="2.5" opacity="0.35" fill="none" stroke-linecap="round" filter="blur(2px)"/>
+    <path d="M220,450 Q360,440 500,455 T680,440" stroke="#7bb0d6" stroke-width="2" opacity="0.3" fill="none" stroke-linecap="round" filter="blur(1.5px)"/>
+  </g>
+
+  <!-- 3. 景泰蓝掐丝天球仪 (Cloisonné Armillary Sphere) -->
+  <g transform="translate(400, 390)" filter="url(#enamelGlow)">
+    <!-- 天球外经纬金环 -->
+    <ellipse cx="0" cy="0" rx="210" ry="210" fill="none" stroke="url(#goldFiligree)" stroke-width="1.6" opacity="0.85"/>
+    <ellipse cx="0" cy="0" rx="210" ry="72" fill="none" stroke="url(#goldFiligree)" stroke-width="1.2" opacity="0.75" stroke-dasharray="8 4"/>
+    <ellipse cx="0" cy="0" rx="80" ry="210" fill="none" stroke="url(#goldFiligree)" stroke-width="1.2" opacity="0.65"/>
+    
+    <!-- 斜向黄道十二宫流金星轨 (倾角 23.5°) -->
+    <g transform="rotate(-24)">
+      <ellipse cx="0" cy="0" rx="230" ry="60" fill="none" stroke="url(#goldFiligree)" stroke-width="2.2" opacity="0.95"/>
+      <ellipse cx="0" cy="0" rx="245" ry="68" fill="none" stroke="#fae29c" stroke-width="0.8" opacity="0.5" stroke-dasharray="3 5"/>
+      
+      <!-- 星轨掐丝宝石节点 -->
+      <circle cx="-160" cy="-35" r="4.5" fill="#fce396" stroke="#946d1b" stroke-width="1"/>
+      <circle cx="0" cy="-60" r="5" fill="#75d1c9" stroke="#fae29c" stroke-width="1.2"/>
+      <circle cx="170" cy="30" r="4" fill="#e89872" stroke="#fae29c" stroke-width="1"/>
+    </g>
+
+    <!-- 天顶与极点视轴经纬光锥 -->
+    <line x1="0" y1="-235" x2="0" y2="235" stroke="url(#goldFiligree)" stroke-width="1.8" opacity="0.8"/>
+    <circle cx="0" cy="-235" r="5.5" fill="#fae29c" stroke="#68470a" stroke-width="1.5"/>
+    <circle cx="0" cy="235" r="5.5" fill="#fae29c" stroke="#68470a" stroke-width="1.5"/>
+
+    <!-- 中央天球微核 (深海青金石矿物釉) -->
+    <circle cx="0" cy="0" r="42" fill="#0d1b33" stroke="url(#goldFiligree)" stroke-width="2"/>
+    <ellipse cx="0" cy="0" rx="42" ry="14" fill="none" stroke="#fae29c" stroke-width="1" opacity="0.7"/>
+    <circle cx="0" cy="0" r="12" fill="#e8ba4f" opacity="0.8" filter="blur(4px)"/>
+  </g>
+
+  <!-- 4. 极简艺术绘本风天象星弧与罗盘刻度 -->
+  <g transform="translate(400, 390)" stroke="#fae29c" stroke-width="0.8" opacity="0.45" fill="none">
+    <circle cx="0" cy="0" r="280" stroke-dasharray="2 12"/>
+    <circle cx="0" cy="0" r="310" stroke-dasharray="1 18"/>
+    <!-- 四正方位极简菱形微标 -->
+    <polygon points="0,-295 -4,-287 0,-279 4,-287" fill="#fae29c"/>
+    <polygon points="0,295 -4,287 0,279 4,287" fill="#fae29c"/>
+    <polygon points="-295,0 -287,-4 -279,0 -287,4" fill="#fae29c"/>
+    <polygon points="295,0 287,-4 279,0 287,4" fill="#fae29c"/>
+  </g>
+
+  <!-- 5. 顶层向暖素白渐变微漫射（与第一级展台素白区域完美交融） -->
+  <rect width="800" height="240" fill="url(#topFadeWhite)"/>
+  <defs>
+    <linearGradient id="topFadeWhite" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="45%" stop-color="#ffffff" stop-opacity="0.75"/>
+      <stop offset="80%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
